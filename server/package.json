@@ -1,0 +1,49 @@
+{
+  "name": "lookup-service",
+  "version": "1.0.0",
+  "description": "Lookup service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec node_modules/.bin/babel-node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RahulNagaraj/lookup-service.git"
+  },
+  "keywords": [
+    "\"Docker",
+    "Node.js",
+    "GraphQL",
+    "Sequilize",
+    "Postgres",
+    "MongoDB\""
+  ],
+  "author": "Rahul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RahulNagaraj/lookup-service/issues"
+  },
+  "homepage": "https://github.com/RahulNagaraj/lookup-service#readme",
+  "devDependencies": {
+		"@babel/core": "^7.15.8",
+		"@babel/node": "^7.15.8",
+		"@babel/preset-env": "^7.15.8",
+		"nodemon": "^2.0.14"
+	},
+  "dependencies": {
+		"apollo-server": "^2.1.0",
+		"apollo-server-express": "^2.1.0",
+		"bcrypt": "^3.0.2",
+		"cors": "^2.8.4",
+		"dotenv": "^6.1.0",
+		"express": "^4.16.4",
+		"graphql": "^14.0.2",
+		"graphql-iso-date": "^3.6.1",
+		"graphql-resolvers": "^0.2.2",
+		"jsonwebtoken": "^8.3.0",
+		"pg": "^7.5.0",
+		"sequelize": "^4.41.0",
+		"uuid": "^3.3.2"
+	}
+}

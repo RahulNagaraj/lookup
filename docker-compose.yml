@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+    postgres:
+        container_name: 'lookup-postgres'
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: lookup
+        ports: 
+            - '5432:5432'
+        volumes:
+            - ./server/pgdata:/var/lib/postgresql/data
+    
+    server:
+        container_name: 'lookup-server'
+        depends_on: 
+            - postgres
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        ports:
+            - '8000:8000'
+        container_name: server
+        volumes:
+            - /usr/app/lookup_service/node_modules
+        environment:
+            PORT: 8000
+            DB_SCHEMA: postgres
+            DB_USER: postgres
+            DB_PASSWORD: postgres
+            DB_HOST: postgres
+            DB_NAME: postgres
