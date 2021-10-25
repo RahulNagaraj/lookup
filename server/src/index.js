@@ -67,14 +67,14 @@ server.installSubscriptionHandlers(httpServer);
 
 const eraseDatabaseOnSync = true;
 
+console.log("hello world");
+
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
     if (eraseDatabaseOnSync) {
         createUsersWithMessages();
     }
     httpServer.listen(process.env.PORT, () => {
-        console.log(
-            `Apollo Server on http://localhost:${process.env.PORT}/api`
-        );
+        console.log(`Apollo Server on http://localhost:${process.env.PORT}`);
     });
 });
 

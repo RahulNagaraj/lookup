@@ -23,8 +23,10 @@ services:
         ports:
             - '8000:8000'
         container_name: server
+        restart: always
         volumes:
-            - /usr/app/lookup_service/node_modules
+            - ./server:/usr/app/lookup_service/server
+            - /usr/app/lookup_service/server/node_modules
         environment:
             PORT: 8000
             DB_SCHEMA: postgres
