@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
     Box,
-    Button,
     DialogContent,
     FormControl,
     Grid,
@@ -12,11 +11,12 @@ import {
     TextField,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import PropTypes from "prop-types";
 
 import BootstrapDialog, {
     BootstrapDialogTitle,
 } from "../../common/BootstrapDialog";
-import PropTypes from "prop-types";
+import SignUpButton from "./SignUpButton";
 
 const SignupModal = (props) => {
     const [signUpDetails, setSignUpDetails] = React.useState({
@@ -160,14 +160,14 @@ const SignupModal = (props) => {
                     </Box>
 
                     <Box sx={{ textAlign: "center", m: 1 }}>
-                        <Button
+                        <SignUpButton
                             sx={{ mt: 1 }}
                             variant="outlined"
                             color="secondary"
                             onClick={handleSignupClick}
                         >
                             Sign Up
-                        </Button>
+                        </SignUpButton>
                     </Box>
                 </Box>
             </DialogContent>

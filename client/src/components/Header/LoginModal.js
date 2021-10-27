@@ -1,7 +1,6 @@
 import * as React from "react";
 import {
     Box,
-    Button,
     DialogContent,
     FormControl,
     IconButton,
@@ -12,21 +11,13 @@ import {
     Typography,
 } from "@mui/material";
 import * as PropTypes from "prop-types";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 import BootstrapDialog, {
     BootstrapDialogTitle,
 } from "../../common/BootstrapDialog";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
-import { grey } from "@mui/material/colors";
-
-const LoginButton = styled(Button)(() => ({
-    color: "#FFF",
-    backgroundColor: grey[900],
-    "&:hover": {
-        backgroundColor: grey[400],
-        color: "#000",
-    },
-}));
+import LoginButton from "./LoginButton";
+import SignUpButton from "./SignUpButton";
 
 const LoginModal = (props) => {
     const [signInDetails, setSignInDetails] = React.useState({
@@ -112,7 +103,7 @@ const LoginModal = (props) => {
                                             onClick={handleShowPassword}
                                             onMouseDown={handleShowPassword}
                                         >
-                                            {true ? (
+                                            {showPassword ? (
                                                 <VisibilityOff />
                                             ) : (
                                                 <Visibility />
@@ -130,14 +121,14 @@ const LoginModal = (props) => {
                     </Box>
                     <Box sx={{ textAlign: "center", mt: 4 }}>
                         <Typography>Not a customer?</Typography>
-                        <Button
+                        <SignUpButton
                             sx={{ mt: 1 }}
                             variant="outlined"
                             color="secondary"
                             onClick={props.handleOpenSignup}
                         >
                             Sign Up
-                        </Button>
+                        </SignUpButton>
                     </Box>
                 </Box>
             </DialogContent>

@@ -321,12 +321,9 @@ export default function Header() {
                             </div>
                         )}
                         {!isLoggedIn && (
-                            <LoginButton
-                                color="inherit"
-                                onClick={handleOpenLogin}
-                            >
+                            <Button color="inherit" onClick={handleOpenLogin}>
                                 Login
-                            </LoginButton>
+                            </Button>
                         )}
                     </Toolbar>
                 </AppBar>

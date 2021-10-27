@@ -27,7 +27,7 @@ FROM node:10
 
 WORKDIR /usr/app/lookup/server
 
-COPY package.json ./
+COPY package*.json ./
 
 RUN npm install nodemon -g
 
