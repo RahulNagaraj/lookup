@@ -17,7 +17,7 @@ const getMe = async (req) => {
 
     if (token) {
         try {
-            return await jwt.verify(token, process.env.SECRET);
+            return await jwt.verify(token, process.env.MY_SECRET);
         } catch (e) {
             throw new AuthenticationError(
                 "Your session expired. Sign in again."
@@ -54,7 +54,7 @@ const server = new ApolloServer({
             return {
                 models,
                 me,
-                secret: process.env.SECRET,
+                secret: process.env.MY_SECRET,
             };
         }
     },
@@ -66,8 +66,6 @@ const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
 const eraseDatabaseOnSync = true;
-
-console.log("hello world");
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
     if (eraseDatabaseOnSync) {

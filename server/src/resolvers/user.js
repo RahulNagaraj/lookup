@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
-import { combineResolvers } from 'graphql-resolvers';
-import { AuthenticationError, UserInputError } from 'apollo-server';
+import jwt from "jsonwebtoken";
+import { combineResolvers } from "graphql-resolvers";
+import { AuthenticationError, UserInputError } from "apollo-server";
 
-import { isAdmin } from './authorization';
+import { isAdmin } from "./authorization";
 
 const createToken = async (user, secret, expiresIn) => {
     const { id, email, username, role } = user;
@@ -31,35 +31,36 @@ export default {
     Mutation: {
         signUp: async (
             parent,
-            { username, email, password, role = 'USER' },
+            { firstName, lastName, email, password, role = "USER" },
             { models, secret }
         ) => {
             const user = await models.User.create({
-                username,
+                firstName,
+                lastName,
                 email,
                 password,
-                role
+                role,
             });
 
-            return { token: createToken(user, secret, '30m') };
+            return { token: createToken(user, secret, "30m") };
         },
 
-        signIn: async (parent, { login, password }, { models, secret }) => {
-            const user = await models.User.findByLogin(login);
+        signIn: async (parent, { email, password }, { models, secret }) => {
+            const user = await models.User.findByLogin(email);
 
             if (!user) {
                 throw new UserInputError(
-                    'No user found with this login credentials.'
+                    "No user found with this login credentials."
                 );
             }
 
             const isValid = await user.validatePassword(password);
 
             if (!isValid) {
-                throw new AuthenticationError('Invalid password.');
+                throw new AuthenticationError("Invalid password.");
             }
 
-            return { token: createToken(user, secret, '30m') };
+            return { token: createToken(user, secret, "30m") };
         },
 
         deleteUser: combineResolvers(
