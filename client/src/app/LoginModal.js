@@ -1,31 +1,62 @@
 import * as React from "react";
 import {
     Box,
-    Button, DialogContent,
+    Button,
+    DialogContent,
     FormControl,
     IconButton,
     Input,
     InputAdornment,
     InputLabel,
     TextField,
-    Typography
+    Typography,
 } from "@mui/material";
 import * as PropTypes from "prop-types";
-import BootstrapDialog, {BootstrapDialogTitle} from "../common/BootstrapDialog";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {styled} from "@mui/material/styles";
-import {grey} from "@mui/material/colors";
+import BootstrapDialog, {
+    BootstrapDialogTitle,
+} from "../common/BootstrapDialog";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
 
 const LoginButton = styled(Button)(() => ({
     color: "#FFF",
     backgroundColor: grey[900],
-    '&:hover': {
+    "&:hover": {
         backgroundColor: grey[400],
-        color: "#000"
+        color: "#000",
     },
 }));
 
 const LoginModal = (props) => {
+    const [signInDetails, setSignInDetails] = React.useState({
+        email: "",
+        password: "",
+    });
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleEmail = (event) => {
+        setSignInDetails({
+            ...signInDetails,
+            email: event.target.value,
+        });
+    };
+
+    const handlePassword = (event) => {
+        setSignInDetails({
+            ...signInDetails,
+            password: event.target.value,
+        });
+    };
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleSignIn = () => {
+        props.handleLogin(signInDetails);
+    };
+
     return (
         <BootstrapDialog
             onClose={props.handleCloseLogin}
@@ -36,14 +67,15 @@ const LoginModal = (props) => {
         >
             <BootstrapDialogTitle
                 id="customized-dialog-title"
-                onClose={props.handleCloseLogin}>
+                onClose={props.handleCloseLogin}
+            >
                 Login
             </BootstrapDialogTitle>
             <DialogContent dividers>
                 <Box
                     component="form"
                     sx={{
-                        '& .MuiTextField-root': { m: 1, width: '25ch' },
+                        "& .MuiTextField-root": { m: 1, width: "25ch" },
                     }}
                     noValidate
                     autoComplete="off"
@@ -52,48 +84,57 @@ const LoginModal = (props) => {
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="name"
+                            id="email"
                             label="Email Address"
                             type="email"
                             variant="standard"
-                            sx={{ minWidth: '95%' }}
+                            sx={{ minWidth: "95%" }}
+                            onChange={(e) => handleEmail(e)}
                         />
                     </Box>
                     <Box>
-                        <FormControl sx={{ m: 1, minWidth: '95%' }} variant="standard">
-                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                        <FormControl
+                            sx={{ m: 1, minWidth: "95%" }}
+                            variant="standard"
+                        >
+                            <InputLabel htmlFor="standard-adornment-password">
+                                Password
+                            </InputLabel>
                             <Input
                                 id="standard-adornment-password"
-                                type={'password'}
-                                onChange={() => { }}
+                                type={showPassword ? "text" : "password"}
+                                onChange={(e) => handlePassword(e)}
                                 fullWidth={true}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
                                             aria-label="toggle password visibility"
-                                            onClick={() => { }}
-                                            onMouseDown={() => { }}
+                                            onClick={handleShowPassword}
+                                            onMouseDown={handleShowPassword}
                                         >
-                                            {true ? <VisibilityOff /> : <Visibility />}
+                                            {true ? (
+                                                <VisibilityOff />
+                                            ) : (
+                                                <Visibility />
+                                            )}
                                         </IconButton>
                                     </InputAdornment>
                                 }
                             />
                         </FormControl>
                     </Box>
-                    <Box sx={{ mt: 2, textAlign: 'center' }}>
-                        <LoginButton variant="outlined"
-                                     onClick={props.handleLogin}
-                        >
+                    <Box sx={{ mt: 2, textAlign: "center" }}>
+                        <LoginButton variant="outlined" onClick={handleSignIn}>
                             Login
                         </LoginButton>
                     </Box>
-                    <Box sx={{ textAlign: 'center', mt: 4 }}>
+                    <Box sx={{ textAlign: "center", mt: 4 }}>
                         <Typography>Not a customer?</Typography>
-                        <Button sx={{ mt: 1 }}
-                                variant="outlined"
-                                color="secondary"
-                                onClick={props.handleOpenSignup}
+                        <Button
+                            sx={{ mt: 1 }}
+                            variant="outlined"
+                            color="secondary"
+                            onClick={props.handleOpenSignup}
                         >
                             Sign Up
                         </Button>
@@ -102,13 +143,13 @@ const LoginModal = (props) => {
             </DialogContent>
         </BootstrapDialog>
     );
-}
+};
 
 LoginModal.propTypes = {
     openLogin: PropTypes.bool.isRequired,
     handleLogin: PropTypes.func.isRequired,
     handleCloseLogin: PropTypes.func.isRequired,
-    handleOpenSignup: PropTypes.func.isRequired
-}
+    handleOpenSignup: PropTypes.func.isRequired,
+};
 
 export default LoginModal;

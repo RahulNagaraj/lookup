@@ -24,14 +24,11 @@ const SignupModal = (props) => {
         firstName: "",
         lastName: "",
         password: "",
-        showPassword: false,
     });
+    const [showPassword, setShowPassword] = React.useState(false);
 
     const handleShowPassword = () => {
-        setSignUpDetails({
-            ...signUpDetails,
-            showPassword: !signUpDetails.showPassword,
-        });
+        setShowPassword(!showPassword);
     };
 
     const handleFirstName = (event) => {
@@ -140,7 +137,7 @@ const SignupModal = (props) => {
                             </InputLabel>
                             <Input
                                 id="standard-adornment-password"
-                                type={"password"}
+                                type={showPassword ? "text" : "password"}
                                 onChange={(e) => handlePassword(e)}
                                 fullWidth={true}
                                 endAdornment={
@@ -150,7 +147,7 @@ const SignupModal = (props) => {
                                             onChange={handleShowPassword}
                                             onMouseDown={handleShowPassword}
                                         >
-                                            {signUpDetails.showPassword ? (
+                                            {showPassword ? (
                                                 <VisibilityOff />
                                             ) : (
                                                 <Visibility />

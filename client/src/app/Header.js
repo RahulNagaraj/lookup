@@ -5,6 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link, Button } from "@mui/material";
@@ -53,6 +54,28 @@ const SIGN_UP = gql`
             email: $email
             password: $password
         ) {
+            user {
+                id
+                firstName
+                lastName
+                email
+                role
+            }
+            token
+        }
+    }
+`;
+
+const SIGN_IN = gql`
+    mutation signIn($email: String!, $password: String!) {
+        signIn(email: $email, password: $password) {
+            user {
+                id
+                firstName
+                lastName
+                email
+                role
+            }
             token
         }
     }
@@ -66,13 +89,16 @@ export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [isSigningUp, setIsSigningUp] = React.useState(false);
-    const [signUp, { data, loading, error }] = useMutation(SIGN_UP);
-
-    // if (!loading) {
-    //     const { token } = data;
-    //     localStorage.setItem("token", token);
-    //     handleCloseSignup();
-    // }
+    const [isSigningIn, setIsSigningIn] = React.useState(false);
+    const [userDetails, setUserDetails] = React.useState({});
+    const [
+        signUp,
+        { data: signUpData, loading: signUpLoading, error: signUpError },
+    ] = useMutation(SIGN_UP);
+    const [
+        signIn,
+        { data: signInData, loading: signInLoading, error: signInError },
+    ] = useMutation(SIGN_IN);
 
     const handleOpenLogin = () => setOpenLogin(true);
     const handleCloseLogin = () => setOpenLogin(false);
@@ -96,9 +122,9 @@ export default function Header() {
 
     const handleCloseSignup = () => setOpenSignup(false);
 
-    const handleLogin = () => {
-        handleCloseLogin();
-        setIsLoggedIn(true);
+    const handleLogin = ({ email, password }) => {
+        signIn({ variables: { email, password } });
+        setIsSigningIn(true);
     };
 
     const handleSignup = ({ firstName, lastName, email, password }) => {
@@ -106,25 +132,65 @@ export default function Header() {
         setIsSigningUp(true);
     };
 
-    const nofunc = () => {};
-
     if (isSigningUp) {
-        if (error) {
-            console.error(error);
-        } else if (loading) {
+        if (signUpError) {
+            console.error(signUpError);
+        } else if (signUpLoading) {
             // do nothing
         } else {
             const {
-                signUp: { token },
-            } = data;
-            localStorage.setItem("token", token);
+                signUp: {
+                    user: { id, firstName, lastName, email, role },
+                    token,
+                },
+            } = signUpData;
+            setUserDetails({
+                id,
+                firstName,
+                lastName,
+                email,
+                role,
+            });
+            localStorage.setItem("token", JSON.stringify(token));
             handleCloseSignup();
             setIsSigningUp(false);
+            setIsLoggedIn(true);
         }
     }
 
-    const isSignedIn = () => {
-        return !!localStorage.getItem("token");
+    if (isSigningIn) {
+        if (signInError) {
+            console.error(signInError);
+        } else if (signInLoading) {
+            // do nothing
+        } else {
+            const {
+                signIn: {
+                    user: { id, firstName, lastName, email, role },
+                    token,
+                },
+            } = signInData;
+            setUserDetails({
+                id,
+                firstName,
+                lastName,
+                email,
+                role,
+            });
+            localStorage.setItem("token", JSON.stringify(token));
+            handleCloseLogin();
+            setIsSigningIn(false);
+            setIsLoggedIn(true);
+        }
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+    };
+
+    const getName = () => {
+        return `${userDetails.firstName[0].toUpperCase()}${userDetails.lastName[0].toUpperCase()}`;
     };
 
     return (
@@ -215,7 +281,7 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
-                        {isSignedIn() && (
+                        {isLoggedIn && (
                             <div>
                                 <IconButton
                                     size="large"
@@ -225,7 +291,9 @@ export default function Header() {
                                     onClick={handleMenu}
                                     color="inherit"
                                 >
-                                    <AccountCircle />
+                                    <Avatar sx={{ bgcolor: red["A700"] }}>
+                                        {getName()}
+                                    </Avatar>
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
@@ -243,15 +311,17 @@ export default function Header() {
                                     onClose={handleClose}
                                 >
                                     <MenuItem onClick={handleClose}>
-                                        Profile
+                                        {isLoggedIn
+                                            ? `${userDetails.firstName}, ${userDetails.lastName}`
+                                            : `Profile`}
                                     </MenuItem>
-                                    <MenuItem onClick={handleClose}>
-                                        My account
+                                    <MenuItem onClick={handleLogout}>
+                                        Logout
                                     </MenuItem>
                                 </Menu>
                             </div>
                         )}
-                        {!isSignedIn() && (
+                        {!isLoggedIn && (
                             <Button color="inherit" onClick={handleOpenLogin}>
                                 Login
                             </Button>

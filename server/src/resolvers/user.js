@@ -42,7 +42,19 @@ export default {
                 role,
             });
 
-            return { token: createToken(user, secret, "30m") };
+            const { id } = user;
+            const token = createToken(user, secret, "1h");
+
+            return {
+                user: {
+                    id,
+                    firstName,
+                    lastName,
+                    email,
+                    role,
+                },
+                token,
+            };
         },
 
         signIn: async (parent, { email, password }, { models, secret }) => {
@@ -60,7 +72,19 @@ export default {
                 throw new AuthenticationError("Invalid password.");
             }
 
-            return { token: createToken(user, secret, "30m") };
+            const { id, firstName, lastName, role } = user;
+            const token = createToken(user, secret, "1h");
+
+            return {
+                user: {
+                    id,
+                    firstName,
+                    lastName,
+                    email,
+                    role,
+                },
+                token,
+            };
         },
 
         deleteUser: combineResolvers(
