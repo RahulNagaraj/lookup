@@ -5,27 +5,28 @@ const sequelize = new Sequelize(
     process.env.DB_USER,
     process.env.DB_PASSWORD,
     {
-      host: process.env.DB_HOST,
-      dialect: 'postgres'
+        host: process.env.DB_HOST,
+        dialect: "postgres",
+        logging: true,
     }
 );
 
 sequelize
     .authenticate()
     .then(() => {
-        console.log('Successfully connected to Postgres!');
+        console.log("Successfully connected to Postgres!");
     })
     .catch((err) => {
-        console.log('Error authenticating with Postgres: ', err);
+        console.log("Error authenticating with Postgres: ", err);
         return;
     });
 
 const models = {
-    User: sequelize.import('./user'),
+    User: sequelize.import("./user"),
 };
 
-Object.keys(models).forEach(key => {
-    if ('associate' in models[key]) {
+Object.keys(models).forEach((key) => {
+    if ("associate" in models[key]) {
         models[key].associate(models);
     }
 });

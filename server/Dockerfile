@@ -25,7 +25,7 @@ FROM node:10
 #       DEBIAN_FRONTEND=noninteractive apt-get clean && \
 #       rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc
 
-WORKDIR /usr/app/lookup_service/server
+WORKDIR /usr/app/lookup/server
 
 COPY package.json ./
 
@@ -37,4 +37,5 @@ RUN npm install
 
 # Default command
 EXPOSE 8000
+
 CMD ["npm", "start"]

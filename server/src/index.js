@@ -71,7 +71,7 @@ console.log("hello world");
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
     if (eraseDatabaseOnSync) {
-        createUsersWithMessages();
+        // createUsersWithMessages();
     }
     httpServer.listen(process.env.PORT, () => {
         console.log(`Apollo Server on http://localhost:${process.env.PORT}`);
