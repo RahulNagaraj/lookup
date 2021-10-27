@@ -2,10 +2,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { blueGrey } from "@mui/material/colors";
 
-import Header from "./Header";
-import Home from "./Home";
-import Details from "./Details";
-import Footer from "./Footer";
+import Header from "../Header/Header";
+import Home from "../Home/Home";
+import Details from "../../app/Details";
+import Footer from "../Footer/Footer";
 
 const theme = createTheme({
     palette: {

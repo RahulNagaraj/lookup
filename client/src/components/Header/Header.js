@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -322,9 +321,12 @@ export default function Header() {
                             </div>
                         )}
                         {!isLoggedIn && (
-                            <Button color="inherit" onClick={handleOpenLogin}>
+                            <LoginButton
+                                color="inherit"
+                                onClick={handleOpenLogin}
+                            >
                                 Login
-                            </Button>
+                            </LoginButton>
                         )}
                     </Toolbar>
                 </AppBar>

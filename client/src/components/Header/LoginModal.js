@@ -14,7 +14,7 @@ import {
 import * as PropTypes from "prop-types";
 import BootstrapDialog, {
     BootstrapDialogTitle,
-} from "../common/BootstrapDialog";
+} from "../../common/BootstrapDialog";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";

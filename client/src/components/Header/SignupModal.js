@@ -15,7 +15,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import BootstrapDialog, {
     BootstrapDialogTitle,
-} from "../common/BootstrapDialog";
+} from "../../common/BootstrapDialog";
 import PropTypes from "prop-types";
 
 const SignupModal = (props) => {
