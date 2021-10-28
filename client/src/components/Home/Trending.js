@@ -35,8 +35,12 @@ const Trending = (props) => {
                                         component="img"
                                         height="200"
                                         width="250"
-                                        image={`/static/images/${trend.imagePath}`}
-                                        alt={""}
+                                        image={
+                                            trend.photos.length > 0
+                                                ? trend.photos[0]
+                                                : ""
+                                        }
+                                        alt={trend.name}
                                     />
                                     <CardContent>
                                         <Box
@@ -51,20 +55,18 @@ const Trending = (props) => {
                                             >
                                                 {trend.name}
                                             </Typography>
-                                            {trend.recent === "new" && (
-                                                <CardActions
-                                                    disableSpacing
-                                                    sx={{
-                                                        p: 0,
-                                                        mt: -2,
-                                                    }}
-                                                >
-                                                    <FiberNewOutlinedIcon
-                                                        fontSize="large"
-                                                        color={"error"}
-                                                    />
-                                                </CardActions>
-                                            )}
+                                            <CardActions
+                                                disableSpacing
+                                                sx={{
+                                                    p: 0,
+                                                    mt: -2,
+                                                }}
+                                            >
+                                                <FiberNewOutlinedIcon
+                                                    fontSize="large"
+                                                    color={"error"}
+                                                />
+                                            </CardActions>
                                         </Box>
                                     </CardContent>
                                 </CardActionArea>

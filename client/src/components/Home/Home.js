@@ -21,8 +21,8 @@ import Offers from "./Offers";
 import TitleHeader from "./TitleHeader";
 
 const httpLink = new HttpLink({
-    uri: "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/graphql",
-    // uri: "https://api.yelp.com/v3/graphql",
+    // uri: "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/graphql",
+    uri: "https://api.yelp.com/v3/graphql",
     credentials: "include",
 });
 
@@ -60,10 +60,9 @@ const client = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
-const CATEGORIES = gql`
-    {
+const GET_ALL = gql`
+    query getAll {
         categories {
-            total
             category {
                 title
                 alias
@@ -72,8 +71,74 @@ const CATEGORIES = gql`
                 }
             }
         }
+        trending: search(
+            term: "Home Services"
+            location: "san fransicso"
+            attributes: ["hot_and_new"]
+        ) {
+            business {
+                name
+                price
+                photos
+                categories {
+                    title
+                    parent_categories {
+                        title
+                    }
+                }
+            }
+        }
+        deals: search(
+            term: "Home Services"
+            location: "san fransicso"
+            attributes: ["deals"]
+        ) {
+            business {
+                name
+                price
+                photos
+                categories {
+                    title
+                    parent_categories {
+                        title
+                    }
+                }
+            }
+        }
     }
 `;
+
+// const CATEGORIES = gql`
+//     {
+//         categories {
+//             category {
+//                 title
+//                 alias
+//                 parent_categories {
+//                     title
+//                 }
+//             }
+//         }
+//     }
+// `;
+
+// const TRENDING = gql`
+//     {
+//         search(
+//             term: "home services"
+//             location: "san fransicso"
+//             attributes: ["hot_and_new"]
+//         ) {
+//             business {
+//                 name
+//                 photos
+//                 categories {
+//                     title
+//                 }
+//             }
+//         }
+//     }
+// `;
 
 const locations = [
     {
@@ -128,42 +193,42 @@ const services = [
     },
 ];
 
-const offers = [
-    {
-        title: "Kitchen Cleaning",
-        offer: "Upto $50 off",
-        imagePath: "Kitchen cleaning.jpg",
-    },
-    {
-        title: "Pest Control",
-        offer: "Flat $50 off",
-        imagePath: "pest control.jpg",
-    },
-    {
-        title: "Appliance Repair",
-        offer: "Starts at $99",
-        imagePath: "appliance repair.jpg",
-    },
-];
+// const offers = [
+//     {
+//         title: "Kitchen Cleaning",
+//         offer: "Upto $50 off",
+//         imagePath: "Kitchen cleaning.jpg",
+//     },
+//     {
+//         title: "Pest Control",
+//         offer: "Flat $50 off",
+//         imagePath: "pest control.jpg",
+//     },
+//     {
+//         title: "Appliance Repair",
+//         offer: "Starts at $99",
+//         imagePath: "appliance repair.jpg",
+//     },
+// ];
 
-const trending = [
-    {
-        name: "Air Conditioner",
-        type: "product",
-        recent: "new",
-        imagePath: "ac repair.jpg",
-    },
-    {
-        name: "Plumbing",
-        type: "services",
-        imagePath: "plumber service.jpg",
-    },
-    {
-        name: "Electrical",
-        type: "services",
-        imagePath: "elecrical service.jpg",
-    },
-];
+// const trending = [
+//     {
+//         name: "Air Conditioner",
+//         type: "product",
+//         recent: "new",
+//         imagePath: "ac repair.jpg",
+//     },
+//     {
+//         name: "Plumbing",
+//         type: "services",
+//         imagePath: "plumber service.jpg",
+//     },
+//     {
+//         name: "Electrical",
+//         type: "services",
+//         imagePath: "elecrical service.jpg",
+//     },
+// ];
 
 const recommendedEvents = [
     {
@@ -265,9 +330,11 @@ const Home = () => {
     //     error = true,
     //     data = {};
 
-    const { loading, error, data } = useQuery(CATEGORIES, {
+    const { loading, error, data } = useQuery(GET_ALL, {
         client: client,
     });
+
+    console.log(data);
 
     if (loading) {
         return (
@@ -300,7 +367,9 @@ const Home = () => {
             </Container>
         );
     } else {
-        const category = data?.categories?.category;
+        const categories = data?.categories?.category;
+        const trending = data?.trending?.business;
+        const deals = data?.deals?.business;
         const aliasFilters = [
             "carpenters",
             "electricians",
@@ -311,7 +380,7 @@ const Home = () => {
             "waterheaterinstallrepair",
             "blinds",
         ];
-        const homeServices = category.filter((cat) =>
+        const homeServices = categories.filter((cat) =>
             aliasFilters.includes(cat.alias)
         );
 
@@ -331,7 +400,7 @@ const Home = () => {
 
                 <Trending trending={trending} />
 
-                <Offers offers={offers} />
+                <Offers offers={deals} />
 
                 <RecommendedEvents recommendedEvents={recommendedEvents} />
             </Container>

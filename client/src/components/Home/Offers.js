@@ -9,8 +9,44 @@ import {
     CardActionArea,
     CardMedia,
     CardContent,
+    Paper,
+    Button,
 } from "@mui/material";
+import Carousel from "react-material-ui-carousel";
 import { blue } from "@mui/material/colors";
+
+const CustomCard = (props) => {
+    return (
+        <Card>
+            <CardActionArea>
+                <CardMedia
+                    component="img"
+                    height="450"
+                    image={
+                        props.offer.photos.length > 0
+                            ? props.offer.photos[0]
+                            : ""
+                    }
+                    alt={props.offer.name}
+                />
+                <CardContent>
+                    <Typography gutterBottom variant="body1" component="div">
+                        {props.offer.name}
+                    </Typography>
+                    <Typography
+                        variant="caption"
+                        display="block"
+                        sx={{
+                            color: blue["A200"],
+                        }}
+                    >
+                        $50 OFF
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    );
+};
 
 const Offers = (props) => {
     return (
@@ -22,43 +58,13 @@ const Offers = (props) => {
                     variant="h4"
                     component="div"
                 >
-                    Best Offers
+                    Best Deals
                 </Typography>
-                <Grid container spacing={2}>
-                    {props.offers.map((offer) => (
-                        <Grid item md={4} key={offer.title}>
-                            <Card>
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        width="250"
-                                        image={`/static/images/${offer.imagePath}`}
-                                        alt={""}
-                                    />
-                                    <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="body1"
-                                            component="div"
-                                        >
-                                            {offer.title}
-                                        </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            display="block"
-                                            sx={{
-                                                color: blue["A200"],
-                                            }}
-                                        >
-                                            {offer.offer}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
+                <Carousel>
+                    {props.offers.map((offer, i) => (
+                        <CustomCard key={i} offer={offer} />
                     ))}
-                </Grid>
+                </Carousel>
             </Container>
         </Box>
     );
