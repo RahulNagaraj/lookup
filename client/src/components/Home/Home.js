@@ -322,19 +322,17 @@ const Home = () => {
 
     const [location, setLocation] = React.useState("");
 
-    const handleCardClick = () => history.push("/detail");
+    const handleCardClick = () => history.push("/service-detail");
 
     const handleLocation = (name) => setLocation(name);
 
-    // const loading = false,
-    //     error = true,
-    //     data = {};
+    const loading = false,
+        error = true,
+        data = {};
 
-    const { loading, error, data } = useQuery(GET_ALL, {
+    /* const { loading, error, data } = useQuery(GET_ALL, {
         client: client,
-    });
-
-    console.log(data);
+    }); */
 
     if (loading) {
         return (
