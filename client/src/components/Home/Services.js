@@ -27,7 +27,11 @@ const Services = (props) => {
                 <Grid container spacing={2}>
                     {props.homeServices.map((service) => (
                         <Grid item md={3} key={service.title}>
-                            <Card onClick={props.handleCardClick}>
+                            <Card
+                                onClick={() =>
+                                    props.handleCardClick(service.alias)
+                                }
+                            >
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"

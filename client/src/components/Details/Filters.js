@@ -32,7 +32,6 @@ const COST_TYPE_FILTER = [
     { key: "$", label: "$" },
     { key: "$$", label: "$$" },
     { key: "$$$", label: "$$$" },
-    { key: "$$$$", label: "$$$$" },
 ];
 const DISTANCE_FILTER = [
     { key: "driving", label: "Driving" },
@@ -43,20 +42,20 @@ const DISTANCE_FILTER = [
 const useStyles = makeStyles({
     selected: {
         "&:focus": {
-            background: `${blueGrey[300]} !important`,
+            background: `${red[500]} !important`,
             color: "#000 !important",
         },
         "&:active": {
-            background: `${blueGrey[300]} !important`,
+            background: `${red[500]} !important`,
             color: "#000 !important",
         },
         "&:hover": {
-            background: `${red[300]} !important`,
+            background: `${blueGrey[300]} !important`,
             color: "#000 !important",
         },
     },
     filled: {
-        background: `${blueGrey[300]} !important`,
+        background: `${red[500]} !important`,
         color: "#000 !important",
     },
 });
