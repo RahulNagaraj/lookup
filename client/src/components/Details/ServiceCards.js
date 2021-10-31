@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
     Box,
     Container,
@@ -16,19 +17,34 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 
+const itemsPerPage = 5;
+
 const ServiceCards = (props) => {
     const [pagination, setPagination] = React.useState({
         totalItems: props.businesses.length,
-        numberOfPages: props.businesses.length / 5,
+        numberOfPages: props.businesses.length / itemsPerPage,
         page: 1,
-        items: props.businesses.slice((1 - 1) * 5, (1 - 1) * 5 + 5),
+        items: props.businesses.slice(0, itemsPerPage),
     });
+
+    React.useEffect(() => {
+        const numPages = props.businesses.length / itemsPerPage;
+        setPagination({
+            totalItems: props.businesses.length,
+            numberOfPages: numPages < 1 ? 1 : numPages,
+            page: 1,
+            items: props.businesses.slice(0, itemsPerPage),
+        });
+    }, [props.businesses]);
 
     const updatePage = (event, value) => {
         setPagination({
             ...pagination,
             page: value,
-            items: props.businesses.slice((value - 1) * 5, (value - 1) * 5 + 5),
+            items: props.businesses.slice(
+                (value - 1) * itemsPerPage,
+                (value - 1) * itemsPerPage + itemsPerPage
+            ),
         });
     };
 
@@ -41,7 +57,10 @@ const ServiceCards = (props) => {
         >
             <Container>
                 {pagination.items.map((business) => (
-                    <Card sx={{ minWidth: 350, minHeight: 200 }} sx={{ mt: 2 }}>
+                    <Card
+                        key={business.name}
+                        sx={{ mt: 2, minWidth: 350, minHeight: 200 }}
+                    >
                         <CardHeader
                             avatar={
                                 <Avatar
@@ -96,6 +115,10 @@ const ServiceCards = (props) => {
             </Container>
         </Box>
     );
+};
+
+ServiceCards.propTypes = {
+    businesses: PropTypes.array.isRequired, 
 };
 
 export default ServiceCards;

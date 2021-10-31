@@ -56,6 +56,7 @@ export const SEARCH_SERVICE = gql`
                 price
                 rating
                 photos
+                distance
                 categories {
                     title
                 }

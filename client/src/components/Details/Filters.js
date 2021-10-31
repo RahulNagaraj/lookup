@@ -14,6 +14,9 @@ import {
     FormControlLabel,
     RadioGroup,
     Radio,
+    InputLabel,
+    Select,
+    MenuItem,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { blueGrey, red } from "@mui/material/colors";
@@ -26,12 +29,12 @@ const JOB_TYPE_FILTER = [
 const SORT_TYPE_FILTER = [
     { key: "recommended", label: "Recommended" },
     { key: "highest", label: "Highest Rated" },
-    { key: "lowest", label: "Lowest Ratedd" },
+    { key: "lowest", label: "Lowest Rated" },
 ];
 const COST_TYPE_FILTER = [
-    { key: "$", label: "$" },
-    { key: "$$", label: "$$" },
-    { key: "$$$", label: "$$$" },
+    { key: "$", label: "Low" },
+    { key: "$$", label: "Medium" },
+    { key: "$$$", label: "High" },
 ];
 const DISTANCE_FILTER = [
     { key: "driving", label: "Driving" },
@@ -66,7 +69,50 @@ const Filters = (props) => {
         <Grid item sm={2}>
             <Container>
                 <Box sx={{ mt: 2, mb: 1 }}>
-                    <Typography varaiant="h4">Job Type</Typography>
+                    <Typography variant="h5">Filters</Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            minWidth: 150,
+                        }}
+                    >
+                        <Button size="small" onClick={props.handleReset}>
+                            Reset
+                        </Button>
+                    </Box>
+                    <FormControl
+                        variant="standard"
+                        sx={{
+                            mt: 0,
+                            display: "flex",
+                            justifyContent: "flex-end",
+                        }}
+                    >
+                        <InputLabel id="jobType">Job Type</InputLabel>
+                        <Select
+                            labelId="jobType"
+                            id="jobType-select"
+                            value={props.filters.jobType}
+                            label="Job Type"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {JOB_TYPE_FILTER.map((data) => (
+                                <MenuItem
+                                    key={data.key}
+                                    value={data.key}
+                                    onClick={() =>
+                                        props.updateFilter("jobType", data.key)
+                                    }
+                                >
+                                    {data.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    {/* <Typography varaiant="h4">Job Type</Typography>
                     <Paper
                         sx={{
                             display: "flex",
@@ -107,11 +153,38 @@ const Filters = (props) => {
                                 </ListItem>
                             );
                         })}
-                    </Paper>
+                    </Paper> */}
                 </Box>
 
                 <Box sx={{ mt: 1 }}>
-                    <Typography varaiant="h4">Sort</Typography>
+                    <FormControl
+                        variant="standard"
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                        <InputLabel id="sortType">Rating</InputLabel>
+                        <Select
+                            labelId="sortType"
+                            id="sortType-select"
+                            value={props.filters.sortType}
+                            label="Sort"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {SORT_TYPE_FILTER.map((data) => (
+                                <MenuItem
+                                    key={data.key}
+                                    value={data.key}
+                                    onClick={() =>
+                                        props.updateFilter("sortType", data.key)
+                                    }
+                                >
+                                    {data.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    {/* <Typography varaiant="h4">Sort</Typography>
                     <Paper
                         sx={{
                             display: "flex",
@@ -152,11 +225,38 @@ const Filters = (props) => {
                                 </ListItem>
                             );
                         })}
-                    </Paper>
+                    </Paper> */}
                 </Box>
 
                 <Box sx={{ mt: 1 }}>
-                    <Typography varaiant="h4">Cost</Typography>
+                    <FormControl
+                        variant="standard"
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                        <InputLabel id="costType">Cost</InputLabel>
+                        <Select
+                            labelId="costType"
+                            id="costType-select"
+                            value={props.filters.costType}
+                            label="Cost"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {COST_TYPE_FILTER.map((data) => (
+                                <MenuItem
+                                    key={data.key}
+                                    value={data.key}
+                                    onClick={() =>
+                                        props.updateFilter("costType", data.key)
+                                    }
+                                >
+                                    {data.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    {/*  <Typography varaiant="h4">Cost</Typography>
                     <Paper
                         sx={{
                             display: "flex",
@@ -194,29 +294,36 @@ const Filters = (props) => {
                                 </Button>
                             ))}
                         </ButtonGroup>
-                    </Paper>
+                    </Paper> */}
                 </Box>
 
                 <Box sx={{ mt: 1.5, mb: 2 }}>
-                    <Typography varaiant="h4">Distance</Typography>
-                    <FormControl component="fieldset">
-                        <RadioGroup
-                            aria-label="distance"
-                            defaultValue={props.filters.distance}
-                            name="radio-buttons-group"
+                    <FormControl
+                        variant="standard"
+                        sx={{ display: "flex", justifyContent: "flex-end" }}
+                    >
+                        <InputLabel id="distance">Distance</InputLabel>
+                        <Select
+                            labelId="distance"
+                            id="distance-select"
+                            value={props.filters.distance}
+                            label="Distance"
                         >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
                             {DISTANCE_FILTER.map((data) => (
-                                <FormControlLabel
-                                    sx={{ p: 0 }}
+                                <MenuItem
+                                    key={data.key}
                                     value={data.key}
-                                    control={<Radio />}
-                                    label={data.label}
-                                    onChange={() =>
+                                    onClick={() =>
                                         props.updateFilter("distance", data.key)
                                     }
-                                />
+                                >
+                                    {data.label}
+                                </MenuItem>
                             ))}
-                        </RadioGroup>
+                        </Select>
                     </FormControl>
                 </Box>
             </Container>
@@ -227,6 +334,7 @@ const Filters = (props) => {
 Filters.propTypes = {
     updateFilter: PropTypes.func.isRequired,
     filters: PropTypes.object.isRequired,
+    handleReset: PropTypes.func.isRequired,
 };
 
 export default Filters;
