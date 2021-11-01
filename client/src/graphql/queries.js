@@ -57,8 +57,22 @@ export const SEARCH_SERVICE = gql`
                 rating
                 photos
                 distance
+                price
+                hours {
+                    is_open_now
+                }
                 categories {
                     title
+                }
+                coordinates {
+                    latitude
+                    longitude
+                }
+                location {
+                    address1
+                    city
+                    state
+                    country
                 }
             }
         }

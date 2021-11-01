@@ -104,21 +104,27 @@ const ServiceCards = (props) => {
                     </Card>
                 ))}
 
-                <Box sx={{ mt: 2 }} display="flex" justifyContent="flex-end">
-                    <Pagination
-                        count={pagination.numberOfPages}
-                        page={pagination.page}
-                        onChange={updatePage}
-                        color="secondary"
-                    />
-                </Box>
+                {props.businesses.length > 0 && (
+                    <Box
+                        sx={{ mt: 2 }}
+                        display="flex"
+                        justifyContent="flex-end"
+                    >
+                        <Pagination
+                            count={pagination.numberOfPages}
+                            page={pagination.page}
+                            onChange={updatePage}
+                            color="secondary"
+                        />
+                    </Box>
+                )}
             </Container>
         </Box>
     );
 };
 
 ServiceCards.propTypes = {
-    businesses: PropTypes.array.isRequired, 
+    businesses: PropTypes.array.isRequired,
 };
 
 export default ServiceCards;

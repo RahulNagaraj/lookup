@@ -7,10 +7,17 @@ import Filters from "./Filters";
 import { SEARCH_SERVICE } from "../../graphql/queries";
 import yelpClient from "../../services/yelp";
 import ServiceCards from "./ServiceCards";
+import Maps from "./Maps";
 
 const covertToMiles = (meters) => {
     if (meters) return meters * 0.000621371;
     else return 0;
+};
+
+const location = {
+    address: "Chicago",
+    lat: 41.881832,
+    lng: -87.623177,
 };
 
 const ServiceDetails = (props) => {
@@ -124,6 +131,36 @@ const ServiceDetails = (props) => {
             </Container>
         );
     } else {
+        const places = [];
+
+        filteredBusinesses.forEach((business) => {
+            const newObj = {
+                name: "",
+                rating: "",
+                address1: "",
+                city: "",
+                state: "",
+                country: "",
+                price: "",
+                isOpenNow: false,
+                categories: "",
+                coordinates: [],
+            };
+            newObj.name = business.name;
+            newObj.rating = business.rating;
+            newObj.address1 = business?.location?.address1;
+            newObj.city = business?.location?.city;
+            newObj.state = business?.location?.state;
+            newObj.country = business?.location?.country;
+            newObj.country = business.price || "";
+            newObj.isOpenNow = business?.hours?.isOpenNow;
+            newObj.coordinates = business.coordinates;
+            newObj.categories = business.categories
+                .map((c) => c.title)
+                .join(", ");
+
+            places.push(newObj);
+        });
         return (
             <Box>
                 <Grid container spacing={1}>
@@ -135,7 +172,13 @@ const ServiceDetails = (props) => {
                     <Grid item sm={6}>
                         <ServiceCards businesses={filteredBusinesses} />
                     </Grid>
-                    <Grid item sm={4}></Grid>
+                    <Grid item sm={4}>
+                        <Maps
+                            location={location}
+                            zoomLevel={11}
+                            places={places}
+                        />
+                    </Grid>
                 </Grid>
             </Box>
         );
