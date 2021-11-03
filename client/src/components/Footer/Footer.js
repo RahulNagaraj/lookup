@@ -2,6 +2,9 @@ import React from "react";
 import { BottomNavigation, Container, Paper, Typography } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 
+const vi = "Vidhi Kakani";
+const ra = "Rahul Muddebihal";
+
 const Footer = () => {
     return (
         <Container sx={{ mt: 5 }}>
@@ -17,7 +20,7 @@ const Footer = () => {
                     onChange={() => {}}
                 >
                     <Typography sx={{ m: 2 }} variant="body1" component="div">
-                        Made with ❤ using React
+                        {`Developed by ${ra} & ${vi}`}
                     </Typography>
                 </BottomNavigation>
             </Paper>

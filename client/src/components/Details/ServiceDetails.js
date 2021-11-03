@@ -14,6 +14,7 @@ import { SEARCH_SERVICE } from "../../graphql/queries";
 import yelpClient from "../../services/yelp";
 import ServiceCards from "./ServiceCards";
 import Maps from "./Maps";
+import { constructPlacesObject } from "../../common/util";
 
 const covertToMiles = (meters) => {
     if (meters) return meters * 0.000621371;
@@ -29,6 +30,7 @@ const location = {
 const ServiceDetails = (props) => {
     const history = useHistory();
     const { businessTitle, alias, searchLocation } = history?.location?.state;
+    console.log(searchLocation);
     const [filters, updateFilters] = React.useState({
         jobType: "",
         sortType: "",
@@ -44,7 +46,7 @@ const ServiceDetails = (props) => {
 
     const { loading, error, data } = useQuery(SEARCH_SERVICE, {
         client: yelpClient,
-        variables: { term: alias, location: searchLocation },
+        variables: { term: alias, location: searchLocation.value },
     });
 
     useEffect(() => {
@@ -77,8 +79,6 @@ const ServiceDetails = (props) => {
             else if (value === "driving" && distanceMiles > 4) return true;
             return false;
         });
-
-        console.log("newBusinesses distance: ", newBusinesses);
 
         setFilteredBusinesses(() => newBusinesses);
     };
@@ -144,36 +144,8 @@ const ServiceDetails = (props) => {
             </Container>
         );
     } else {
-        const places = [];
+        const places = constructPlacesObject(filteredBusinesses);
 
-        filteredBusinesses.forEach((business) => {
-            const newObj = {
-                name: "",
-                rating: "",
-                address1: "",
-                city: "",
-                state: "",
-                country: "",
-                price: "",
-                isOpenNow: false,
-                categories: "",
-                coordinates: [],
-            };
-            newObj.name = business.name;
-            newObj.rating = business.rating;
-            newObj.address1 = business?.location?.address1;
-            newObj.city = business?.location?.city;
-            newObj.state = business?.location?.state;
-            newObj.country = business?.location?.country;
-            newObj.country = business.price || "";
-            newObj.isOpenNow = business?.hours?.isOpenNow;
-            newObj.coordinates = business.coordinates;
-            newObj.categories = business.categories
-                .map((c) => c.title)
-                .join(", ");
-
-            places.push(newObj);
-        });
         return (
             <Box>
                 <Grid container spacing={1}>
@@ -185,7 +157,7 @@ const ServiceDetails = (props) => {
                     <Grid item sm={6}>
                         <Container sx={{ my: 1 }}>
                             <Typography variant="h5" textAlign="center">
-                                {`${businessTitle} in ${searchLocation}`}
+                                {`${businessTitle} in ${searchLocation.value}`}
                             </Typography>
                         </Container>
 
@@ -196,7 +168,7 @@ const ServiceDetails = (props) => {
                     </Grid>
                     <Grid item sm={4}>
                         <Maps
-                            location={location}
+                            location={searchLocation.coordinates}
                             zoomLevel={11}
                             places={places}
                         />

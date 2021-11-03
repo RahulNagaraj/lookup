@@ -28,6 +28,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 
 import Maps from "./Maps";
+import { constructPlacesObject } from "../../common/util";
 
 const parseOpenHours = (openHours) => {
     if (openHours && openHours.length > 0) {
@@ -60,6 +61,7 @@ const OpenHours = ({ business }) => {
         "Thursday",
         "Friday",
         "Saturday",
+        "Sunday",
     ];
     Object.keys(openHours).map((key) => console.log(key));
     return (
@@ -126,7 +128,7 @@ const Review = ({ key, review }) => {
 const BusinessDetails = () => {
     const history = useHistory();
     const business = history?.location?.state;
-    console.log(business);
+
     return (
         <Box sx={{ mb: 8 }}>
             <Grid container spacing={2}>
@@ -203,13 +205,10 @@ const BusinessDetails = () => {
                                                     lng: business.coordinates
                                                         .longitude,
                                                 }}
-                                                zoomLevel={12}
-                                                places={[
-                                                    {
-                                                        coordinates:
-                                                            business.coordinates,
-                                                    },
-                                                ]}
+                                                zoomLevel={15}
+                                                places={constructPlacesObject([
+                                                    business,
+                                                ])}
                                             />
                                         </CardContent>
                                     </Card>

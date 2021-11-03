@@ -13,16 +13,36 @@ import { GET_ALL } from "../../graphql/queries";
 
 const locations = [
     {
+        key: "chicago",
         value: "Chicago",
+        coordinates: {
+            lat: 41.881832,
+            lng: -87.623177,
+        },
     },
     {
+        key: "new_york",
         value: "New York",
+        coordinates: {
+            lat: 40.73061,
+            lng: -73.935242,
+        },
     },
     {
+        key: "san_fransisco",
         value: "San Fransisco",
+        coordinates: {
+            lat: 37.773972,
+            lng: -122.431297,
+        },
     },
     {
+        key: "seattle",
         value: "Seattle",
+        coordinates: {
+            lat: 47.608013,
+            lng: -122.335167,
+        },
     },
 ];
 
@@ -56,7 +76,7 @@ const recommendedEvents = [
 const Home = () => {
     let history = useHistory();
 
-    const [location, setLocation] = React.useState("Chicago");
+    const [location, setLocation] = React.useState({ value: "" });
 
     const handleCardClick = (title, alias) =>
         history.push({
@@ -74,7 +94,7 @@ const Home = () => {
             state: business,
         });
 
-    const handleLocation = (name) => setLocation(name);
+    const handleLocation = (loc) => setLocation(loc);
 
     // const loading = false,
     //     error = true,

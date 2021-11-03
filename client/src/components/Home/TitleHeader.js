@@ -40,15 +40,16 @@ const TitleHeader = (props) => {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={props.location}
+                        value={props.location.value}
                         label="Location"
-                        onChange={(event) =>
-                            props.handleLocation(event.target.value)
-                        }
                         variant="filled"
                     >
                         {props.locations.map((loc) => (
-                            <MenuItem key={loc.value} value={loc.value}>
+                            <MenuItem
+                                key={loc.key}
+                                value={loc.value}
+                                onClick={() => props.handleLocation(loc)}
+                            >
                                 {loc.value}
                             </MenuItem>
                         ))}
@@ -81,7 +82,7 @@ const TitleHeader = (props) => {
 };
 
 TitleHeader.propTypes = {
-    location: PropTypes.string.isRequired,
+    location: PropTypes.object.isRequired,
     handleLocation: PropTypes.func.isRequired,
     locations: PropTypes.array.isRequired,
     services: PropTypes.array.isRequired,
