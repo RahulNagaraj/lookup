@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Box, Container, Grid, CircularProgress } from "@mui/material";
+import {
+    Box,
+    Container,
+    Grid,
+    CircularProgress,
+    Typography,
+} from "@mui/material";
 import { useQuery } from "@apollo/client";
 
 import Filters from "./Filters";
@@ -22,7 +28,7 @@ const location = {
 
 const ServiceDetails = (props) => {
     const history = useHistory();
-    const businessType = history?.location?.state;
+    const { businessTitle, alias, searchLocation } = history?.location?.state;
     const [filters, updateFilters] = React.useState({
         jobType: "",
         sortType: "",
@@ -38,7 +44,7 @@ const ServiceDetails = (props) => {
 
     const { loading, error, data } = useQuery(SEARCH_SERVICE, {
         client: yelpClient,
-        variables: { term: businessType, location: "chicago" },
+        variables: { term: alias, location: searchLocation },
     });
 
     useEffect(() => {
@@ -177,6 +183,12 @@ const ServiceDetails = (props) => {
                         handleReset={handleReset}
                     />
                     <Grid item sm={6}>
+                        <Container sx={{ my: 1 }}>
+                            <Typography variant="h5" textAlign="center">
+                                {`${businessTitle} in ${searchLocation}`}
+                            </Typography>
+                        </Container>
+
                         <ServiceCards
                             businesses={filteredBusinesses}
                             handleBusinesCardClick={handleBusinesCardClick}

@@ -218,20 +218,6 @@ export default function Header() {
                             <Link
                                 className={classes.link}
                                 underline="none"
-                                href={"/#products"}
-                                rel={"noopener"}
-                            >
-                                Products
-                            </Link>
-                        </Typography>
-                        <Typography
-                            variant="subtitle2"
-                            component="span"
-                            sx={{ marginRight: 5 }}
-                        >
-                            <Link
-                                className={classes.link}
-                                underline="none"
                                 href={"/#services"}
                                 rel={"noopener"}
                             >

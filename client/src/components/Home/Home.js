@@ -56,12 +56,16 @@ const recommendedEvents = [
 const Home = () => {
     let history = useHistory();
 
-    const [location, setLocation] = React.useState("");
+    const [location, setLocation] = React.useState("Chicago");
 
-    const handleCardClick = (type) =>
+    const handleCardClick = (title, alias) =>
         history.push({
             pathname: "/service-detail",
-            state: type,
+            state: {
+                businessTitle: title,
+                alias,
+                searchLocation: location,
+            },
         });
 
     const businessCardClick = (business) =>

@@ -53,7 +53,7 @@ const ServiceCards = (props) => {
             component="main"
             display="flex"
             justifyContent="center"
-            sx={{ mt: 1, mb: 5 }}
+            sx={{ mb: 5 }}
         >
             <Container>
                 {pagination.items.map((business) => (
@@ -88,10 +88,7 @@ const ServiceCards = (props) => {
                         />
                         <CardContent>
                             <Typography variant="body2" color="text.secondary">
-                                This impressive paella is a perfect party dish
-                                and a fun meal to cook together with your
-                                guests. Add 1 cup of frozen peas along with the
-                                mussels, if you like.
+                                {business.reviews[0].text}
                             </Typography>
                         </CardContent>
                         <CardActions disableSpacing>

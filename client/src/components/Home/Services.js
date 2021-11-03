@@ -29,7 +29,10 @@ const Services = (props) => {
                         <Grid item md={3} key={service.title}>
                             <Card
                                 onClick={() =>
-                                    props.handleCardClick(service.alias)
+                                    props.handleCardClick(
+                                        service.title,
+                                        service.alias
+                                    )
                                 }
                             >
                                 <CardActionArea>
