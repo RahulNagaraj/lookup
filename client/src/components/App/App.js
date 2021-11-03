@@ -7,6 +7,7 @@ import Home from "../Home/Home";
 import Details from "../../app/Details";
 import Footer from "../Footer/Footer";
 import ServiceDetails from "../Details/ServiceDetails";
+import BusinessDetails from "../Details/BusinessDetails";
 
 const theme = createTheme({
     palette: {
@@ -40,6 +41,9 @@ function App() {
                         </Route>
                         <Route path="/service-detail">
                             <ServiceDetails />
+                        </Route>
+                        <Route path="/business-detail">
+                            <BusinessDetails />
                         </Route>
                     </Switch>
 

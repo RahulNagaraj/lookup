@@ -33,7 +33,6 @@ const getInfoWindowString = (place) => `
 `;
 
 const handleApiLoaded = (map, maps, places) => {
-    console.log(places);
     const markers = [];
     const infowindows = [];
 
@@ -63,24 +62,17 @@ const handleApiLoaded = (map, maps, places) => {
 };
 
 const Map = ({ location, zoomLevel, places }) => {
-    if (places.length > 0) {
-        return (
-            <Box sx={{ mt: 2, width: "100%", height: "80vh" }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: config.GOOGLE_MAPS_API_KEY }}
-                    defaultCenter={location}
-                    defaultZoom={zoomLevel}
-                    yesIWantToUseGoogleMapApiInternals
-                    onGoogleApiLoaded={({ map, maps }) =>
-                        handleApiLoaded(map, maps, places)
-                    }
-                />
-            </Box>
-        );
-    }
     return (
-        <Box>
-            <Typography>No Data available</Typography>
+        <Box sx={{ mt: 2, width: "100%", height: "80vh" }}>
+            <GoogleMapReact
+                bootstrapURLKeys={{ key: config.GOOGLE_MAPS_API_KEY }}
+                defaultCenter={location}
+                defaultZoom={zoomLevel}
+                yesIWantToUseGoogleMapApiInternals
+                onGoogleApiLoaded={({ map, maps }) =>
+                    handleApiLoaded(map, maps, places)
+                }
+            />
         </Box>
     );
 };

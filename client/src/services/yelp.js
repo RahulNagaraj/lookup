@@ -20,8 +20,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-console.log("env: ", process.env);
-
 const authLink = setContext((_, { headers }) => {
     const token = config.YELP_API_KEY;
     // const token =
@@ -31,10 +29,14 @@ const authLink = setContext((_, { headers }) => {
             ...headers,
             authorization: `Bearer ${token}`,
             "accept-language": "en_US",
+            Origin: "http://localhost:3000",
             "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "*",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "http://localhost:3000",
             "Access-Control-Allow-Credentials": "true",
             "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
+            "x-requested-with": "xmlhttprequest",
         },
     };
 });

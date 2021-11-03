@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Box, Container, Grid, CircularProgress } from "@mui/material";
 import { useQuery } from "@apollo/client";
@@ -100,6 +100,13 @@ const ServiceDetails = (props) => {
         });
     };
 
+    const handleBusinesCardClick = (business) => {
+        history.push({
+            pathname: "/business-detail",
+            state: business,
+        });
+    };
+
     if (loading) {
         return (
             <Container maxWidth="sm">
@@ -170,7 +177,10 @@ const ServiceDetails = (props) => {
                         handleReset={handleReset}
                     />
                     <Grid item sm={6}>
-                        <ServiceCards businesses={filteredBusinesses} />
+                        <ServiceCards
+                            businesses={filteredBusinesses}
+                            handleBusinesCardClick={handleBusinesCardClick}
+                        />
                     </Grid>
                     <Grid item sm={4}>
                         <Maps

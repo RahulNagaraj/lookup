@@ -1,5 +1,57 @@
 import { gql } from "@apollo/client";
 
+const BUSINESS_FRAGMENT = gql`
+    fragment businessFragment on Business {
+        id
+        name
+        price
+        rating
+        photos
+        distance
+        price
+        phone
+        display_phone
+        hours {
+            is_open_now
+            open {
+                end
+                start
+                day
+            }
+        }
+        categories {
+            title
+            parent_categories {
+                title
+            }
+        }
+        coordinates {
+            latitude
+            longitude
+        }
+        location {
+            address1
+            city
+            state
+            country
+        }
+        review_count
+        reviews {
+            text
+            rating
+            time_created
+            user {
+                name
+                image_url
+            }
+        }
+        messaging {
+            url
+            use_case_text
+        }
+    }
+`;
+
 export const GET_ALL = gql`
     query getAll {
         categories {
@@ -17,6 +69,7 @@ export const GET_ALL = gql`
             attributes: ["hot_and_new"]
         ) {
             business {
+                id
                 name
                 price
                 photos
@@ -34,6 +87,7 @@ export const GET_ALL = gql`
             attributes: ["deals"]
         ) {
             business {
+                id
                 name
                 price
                 photos
@@ -49,31 +103,11 @@ export const GET_ALL = gql`
 `;
 
 export const SEARCH_SERVICE = gql`
+    ${BUSINESS_FRAGMENT}
     query search_service($term: String!, $location: String!) {
         search(term: $term, location: $location) {
             business {
-                name
-                price
-                rating
-                photos
-                distance
-                price
-                hours {
-                    is_open_now
-                }
-                categories {
-                    title
-                }
-                coordinates {
-                    latitude
-                    longitude
-                }
-                location {
-                    address1
-                    city
-                    state
-                    country
-                }
+                ...businessFragment
             }
         }
     }

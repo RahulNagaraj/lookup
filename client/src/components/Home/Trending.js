@@ -29,7 +29,11 @@ const Trending = (props) => {
                 <Grid container spacing={2}>
                     {props.trending.map((trend, index) => (
                         <Grid item md={4} key={index}>
-                            <Card>
+                            <Card
+                                onClick={() =>
+                                    props.handleBusinessCardClick(trend)
+                                }
+                            >
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
@@ -81,6 +85,7 @@ const Trending = (props) => {
 
 Trending.propTypes = {
     trending: PropTypes.array.isRequired,
+    handleBusinessCardClick: PropTypes.func.isRequired,
 };
 
 export default Trending;

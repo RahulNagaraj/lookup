@@ -60,6 +60,7 @@ const ServiceCards = (props) => {
                     <Card
                         key={business.name}
                         sx={{ mt: 2, minWidth: 350, minHeight: 200 }}
+                        onClick={() => props.handleBusinesCardClick(business)}
                     >
                         <CardHeader
                             avatar={
@@ -125,6 +126,7 @@ const ServiceCards = (props) => {
 
 ServiceCards.propTypes = {
     businesses: PropTypes.array.isRequired,
+    handleBusinesCardClick: PropTypes.func.isRequired,
 };
 
 export default ServiceCards;

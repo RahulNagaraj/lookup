@@ -64,6 +64,12 @@ const Home = () => {
             state: type,
         });
 
+    const businessCardClick = (business) =>
+        history.push({
+            pathname: "/business-detail",
+            state: business,
+        });
+
     const handleLocation = (name) => setLocation(name);
 
     // const loading = false,
@@ -136,7 +142,10 @@ const Home = () => {
                     handleCardClick={handleCardClick}
                 />
 
-                <Trending trending={trending} />
+                <Trending
+                    trending={trending}
+                    handleBusinessCardClick={businessCardClick}
+                />
 
                 <Offers offers={deals} />
 
