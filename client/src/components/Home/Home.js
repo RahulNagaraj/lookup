@@ -10,6 +10,7 @@ import Offers from "./Offers";
 import TitleHeader from "./TitleHeader";
 import yelpClient from "../../services/yelp";
 import { YelpQuery } from "../../graphql";
+import Loader from "../../common/Loader";
 
 const locations = [
     {
@@ -112,20 +113,7 @@ const Home = () => {
     });
 
     if (loading) {
-        return (
-            <Container maxWidth="sm">
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "85vh",
-                    }}
-                >
-                    <CircularProgress />
-                </Box>
-            </Container>
-        );
+        return <Loader />;
     } else if (error) {
         return (
             <Container maxWidth="sm">

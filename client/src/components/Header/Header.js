@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +12,6 @@ import { Link, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { blueGrey, grey, purple, red } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
-
 import { useMutation } from "@apollo/client";
 
 import LoginModal from "./LoginModal";
@@ -43,6 +43,7 @@ const LoginButton = styled(Button)(() => ({
 
 export default function Header() {
     const classes = useStyles();
+    let history = useHistory();
 
     const [openLogin, setOpenLogin] = React.useState(false);
     const [openSignup, setOpenSignup] = React.useState(false);
@@ -90,6 +91,11 @@ export default function Header() {
     const handleSignup = ({ firstName, lastName, email, password }) => {
         signUp({ variables: { firstName, lastName, email, password } });
         setIsSigningUp(true);
+    };
+
+    const handleViewOrder = () => {
+        handleClose();
+        history.push("/view-order");
     };
 
     if (isSigningUp) {
@@ -262,7 +268,7 @@ export default function Header() {
                                             ? `${userDetails.firstName}, ${userDetails.lastName}`
                                             : `Profile`}
                                     </MenuItem>
-                                    <MenuItem onClick={() => {}}>
+                                    <MenuItem onClick={handleViewOrder}>
                                         View Order
                                     </MenuItem>
                                     <MenuItem onClick={handleLogout}>
