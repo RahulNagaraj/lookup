@@ -1,6 +1,8 @@
 import { gql } from "apollo-server-express";
+const { GraphQLDateTime } = require("graphql-iso-date");
 
 import userSchema from "./user";
+import orderSchema from "./order";
 
 const linkSchema = gql`
     scalar Date
@@ -15,4 +17,4 @@ const linkSchema = gql`
     }
 `;
 
-export default [linkSchema, userSchema];
+export default [linkSchema, userSchema, orderSchema];

@@ -65,9 +65,8 @@ server.applyMiddleware({ app, path: "/api" });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
+// const eraseDatabaseOnSync = true;
 const eraseDatabaseOnSync = false;
-
-console.log(process.env);
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
     if (eraseDatabaseOnSync) {

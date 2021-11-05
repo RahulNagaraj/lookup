@@ -52,7 +52,7 @@ const BUSINESS_FRAGMENT = gql`
     }
 `;
 
-export const GET_ALL = gql`
+const GET_ALL = gql`
     query getAll {
         categories {
             category {
@@ -102,7 +102,7 @@ export const GET_ALL = gql`
     }
 `;
 
-export const SEARCH_SERVICE = gql`
+const SEARCH_SERVICE = gql`
     ${BUSINESS_FRAGMENT}
     query search_service($term: String!, $location: String!) {
         search(term: $term, location: $location) {
@@ -112,3 +112,8 @@ export const SEARCH_SERVICE = gql`
         }
     }
 `;
+
+export default {
+    GET_ALL,
+    SEARCH_SERVICE,
+};

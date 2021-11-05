@@ -12,12 +12,9 @@ import {
     CardContent,
     Avatar,
     CardHeader,
-    Paper,
-    Button,
     List,
     ListItem,
     ListItemText,
-    ListItemAvatar,
     ListItemButton,
     ListItemIcon,
     CardActions,
@@ -26,9 +23,13 @@ import { red } from "@mui/material/colors";
 import PhoneIcon from "@mui/icons-material/Phone";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RateReviewIcon from "@mui/icons-material/RateReview";
+import { useMutation } from "@apollo/client";
 
 import Maps from "./Maps";
+import BookNowModal from "./BookNowModal";
+import OrderConfirmationModal from "./OrderConfirmationModal";
 import { constructPlacesObject } from "../../common/util";
+import { BookNowQuery } from "../../graphql";
 
 const parseOpenHours = (openHours) => {
     if (openHours && openHours.length > 0) {
@@ -63,7 +64,7 @@ const OpenHours = ({ business }) => {
         "Saturday",
         "Sunday",
     ];
-    Object.keys(openHours).map((key) => console.log(key));
+
     return (
         <Grid item sm={6} textAlign="center">
             <Typography variant="h6">Open Hours</Typography>
@@ -84,7 +85,7 @@ const OpenHours = ({ business }) => {
     );
 };
 
-const Review = ({ key, review }) => {
+const Review = ({ k, review }) => {
     const date = new Date(review.time_created);
     const options = {
         weekday: "long",
@@ -94,7 +95,7 @@ const Review = ({ key, review }) => {
     };
     const formatedDate = date.toLocaleDateString("en-US", options);
     return (
-        <Card key={key} sx={{ my: 1 }}>
+        <Card key={k} sx={{ my: 1 }}>
             <CardHeader
                 avatar={
                     <Avatar
@@ -128,6 +129,100 @@ const Review = ({ key, review }) => {
 const BusinessDetails = () => {
     const history = useHistory();
     const business = history?.location?.state;
+    const [bookNowClicked, setBookNow] = React.useState(false);
+    const [openBookNowModal, setOpenBookNowModal] = React.useState(false);
+    const [showOrderConfirmationModal, setOrderConfirmationModal] =
+        React.useState(false);
+    const [orderConfirmationModalOpen, setOrderConfirmationModalOpen] =
+        React.useState(false);
+    const [customerDetails, setCustomerDetails] = React.useState({
+        serviceDate: new Date(),
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        address: "",
+        city: "",
+        state: "",
+        zipCode: "",
+    });
+    const [createOrder, { data, loading, error }] = useMutation(
+        BookNowQuery.CREATE_ORDER
+    );
+
+    const handleCreateOrder = () => {
+        const {
+            serviceDate,
+            firstName,
+            lastName,
+            address,
+            phone,
+            email,
+            city,
+            state,
+            zipCode,
+        } = customerDetails;
+        const orderDate = new Date();
+        const customerName = `${firstName}, ${lastName}`;
+        const customerAddress = `${address}, ${city}, ${state} - ${zipCode}`;
+        const { id: businessId, name: businessName, categories } = business;
+        const userId = localStorage.getItem("userId");
+        createOrder({
+            variables: {
+                businessId,
+                businessName,
+                serviceType: categories.length > 0 ? categories[0].title : "",
+                orderDate,
+                serviceDate,
+                userId,
+                customerName,
+                email,
+                phone,
+                address: customerAddress,
+            },
+        });
+        setOpenBookNowModal(false);
+    };
+
+    if (!loading && !error && data && data.createOrder && data.createOrder.id) {
+        if (!showOrderConfirmationModal) {
+            setOrderConfirmationModal(true);
+            setOrderConfirmationModalOpen(true);
+        }
+    }
+
+    const handleBookNowModalClick = () => {
+        setBookNow(!bookNowClicked);
+        setOpenBookNowModal(true);
+    };
+
+    const handleCloseBookNowModal = () => {
+        setOpenBookNowModal(false);
+    };
+
+    const handleBookNowButtonClick = (e) => {
+        setCustomerDetails(() => {
+            return {
+                ...customerDetails,
+                [e.target.name]: e.target.value,
+            };
+        });
+    };
+
+    const handleServiceDate = (serviceDate) => {
+        setCustomerDetails(() => {
+            return {
+                ...customerDetails,
+                serviceDate: new Date(serviceDate),
+            };
+        });
+    };
+
+    const handleOrderConfirmationModal = () => {
+        setOrderConfirmationModal(false);
+        setOrderConfirmationModalOpen(false);
+        history.push("/");
+    };
 
     return (
         <Box sx={{ mb: 8 }}>
@@ -183,7 +278,7 @@ const BusinessDetails = () => {
                         <Box>
                             <Typography variant="h6">Top Reviews</Typography>
                             {business.reviews.map((review, i) => (
-                                <Review key={i} review={review} />
+                                <Review k={i} review={review} />
                             ))}
                         </Box>
                         <Divider sx={{ my: 2 }} />
@@ -229,19 +324,17 @@ const BusinessDetails = () => {
                             }}
                         >
                             <List>
-                                <ListItem disablePadding>
-                                    <ListItemButton>
-                                        <ListItemIcon>
-                                            <PhoneIcon />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={business.display_phone}
-                                        />
-                                    </ListItemButton>
+                                <ListItem>
+                                    <ListItemIcon>
+                                        <PhoneIcon />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={business.display_phone}
+                                    />
                                 </ListItem>
                                 {/* <Divider /> */}
                                 <ListItem disablePadding>
-                                    <ListItemButton>
+                                    <ListItemButton disabled={true}>
                                         <ListItemIcon>
                                             <RateReviewIcon />
                                         </ListItemIcon>
@@ -250,7 +343,9 @@ const BusinessDetails = () => {
                                 </ListItem>
                                 <Divider />
                                 <ListItem disablePadding>
-                                    <ListItemButton>
+                                    <ListItemButton
+                                        onClick={handleBookNowModalClick}
+                                    >
                                         <ListItemIcon>
                                             <AddShoppingCartIcon />
                                         </ListItemIcon>
@@ -262,6 +357,28 @@ const BusinessDetails = () => {
                     </Container>
                 </Grid>
             </Grid>
+            {bookNowClicked && (
+                <BookNowModal
+                    openBookNowModal={openBookNowModal}
+                    handleCloseBookNowModal={handleCloseBookNowModal}
+                    handleBookNowButtonClick={handleBookNowButtonClick}
+                    handleServiceDate={handleServiceDate}
+                    customerDetails={customerDetails}
+                    handleCreateOrder={handleCreateOrder}
+                />
+            )}
+
+            {showOrderConfirmationModal && (
+                <OrderConfirmationModal
+                    orderConfirmationModalOpen={orderConfirmationModalOpen}
+                    handleOrderConfirmationModal={handleOrderConfirmationModal}
+                    orderDetails={{
+                        ...customerDetails,
+                        orderId: data?.createOrder.id,
+                        address: `${customerDetails.address}, ${customerDetails.city}, ${customerDetails.state} - ${customerDetails.zipCode}`,
+                    }}
+                />
+            )}
         </Box>
     );
 };

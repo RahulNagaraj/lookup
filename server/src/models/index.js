@@ -23,6 +23,8 @@ sequelize
 
 const models = {
     User: sequelize.import("./user"),
+    Customer: sequelize.import("./customer"),
+    Order: sequelize.import("./order"),
 };
 
 Object.keys(models).forEach((key) => {

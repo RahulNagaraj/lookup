@@ -12,10 +12,11 @@ import { makeStyles } from "@mui/styles";
 import { blueGrey, grey, purple, red } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
+import { LoginQuery } from "../../graphql";
 
 const useStyles = makeStyles({
     link: {
@@ -40,46 +41,6 @@ const LoginButton = styled(Button)(() => ({
     },
 }));
 
-const SIGN_UP = gql`
-    mutation signUp(
-        $firstName: String!
-        $lastName: String!
-        $email: String!
-        $password: String!
-    ) {
-        signUp(
-            firstName: $firstName
-            lastName: $lastName
-            email: $email
-            password: $password
-        ) {
-            user {
-                id
-                firstName
-                lastName
-                email
-                role
-            }
-            token
-        }
-    }
-`;
-
-const SIGN_IN = gql`
-    mutation signIn($email: String!, $password: String!) {
-        signIn(email: $email, password: $password) {
-            user {
-                id
-                firstName
-                lastName
-                email
-                role
-            }
-            token
-        }
-    }
-`;
-
 export default function Header() {
     const classes = useStyles();
 
@@ -93,11 +54,11 @@ export default function Header() {
     const [
         signUp,
         { data: signUpData, loading: signUpLoading, error: signUpError },
-    ] = useMutation(SIGN_UP);
+    ] = useMutation(LoginQuery.SIGN_UP);
     const [
         signIn,
         { data: signInData, loading: signInLoading, error: signInError },
-    ] = useMutation(SIGN_IN);
+    ] = useMutation(LoginQuery.SIGN_IN);
 
     const handleOpenLogin = () => setOpenLogin(true);
     const handleCloseLogin = () => setOpenLogin(false);
@@ -177,6 +138,7 @@ export default function Header() {
                 role,
             });
             localStorage.setItem("token", JSON.stringify(token));
+            localStorage.setItem("userId", id); // TODO: Fix this later,
             handleCloseLogin();
             setIsSigningIn(false);
             setIsLoggedIn(true);
@@ -299,6 +261,9 @@ export default function Header() {
                                         {isLoggedIn
                                             ? `${userDetails.firstName}, ${userDetails.lastName}`
                                             : `Profile`}
+                                    </MenuItem>
+                                    <MenuItem onClick={() => {}}>
+                                        View Order
                                     </MenuItem>
                                     <MenuItem onClick={handleLogout}>
                                         Logout

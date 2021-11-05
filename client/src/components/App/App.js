@@ -4,7 +4,6 @@ import { blueGrey } from "@mui/material/colors";
 
 import Header from "../Header/Header";
 import Home from "../Home/Home";
-import Details from "../../app/Details";
 import Footer from "../Footer/Footer";
 import ServiceDetails from "../Details/ServiceDetails";
 import BusinessDetails from "../Details/BusinessDetails";

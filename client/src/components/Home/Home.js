@@ -9,7 +9,7 @@ import Trending from "./Trending";
 import Offers from "./Offers";
 import TitleHeader from "./TitleHeader";
 import yelpClient from "../../services/yelp";
-import { GET_ALL } from "../../graphql/queries";
+import { YelpQuery } from "../../graphql";
 
 const locations = [
     {
@@ -100,7 +100,7 @@ const Home = () => {
     //     error = true,
     //     data = {};
 
-    const { loading, error, data } = useQuery(GET_ALL, {
+    const { loading, error, data } = useQuery(YelpQuery.GET_ALL, {
         client: yelpClient,
     });
 

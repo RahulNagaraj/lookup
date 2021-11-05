@@ -10,11 +10,11 @@ import {
 import { useQuery } from "@apollo/client";
 
 import Filters from "./Filters";
-import { SEARCH_SERVICE } from "../../graphql/queries";
 import yelpClient from "../../services/yelp";
 import ServiceCards from "./ServiceCards";
 import Maps from "./Maps";
 import { constructPlacesObject } from "../../common/util";
+import { YelpQuery } from "../../graphql";
 
 const covertToMiles = (meters) => {
     if (meters) return meters * 0.000621371;
@@ -30,7 +30,6 @@ const location = {
 const ServiceDetails = (props) => {
     const history = useHistory();
     const { businessTitle, alias, searchLocation } = history?.location?.state;
-    console.log(searchLocation);
     const [filters, updateFilters] = React.useState({
         jobType: "",
         sortType: "",
@@ -44,7 +43,7 @@ const ServiceDetails = (props) => {
     // error = true,
     // data = { search: { business: [] } };
 
-    const { loading, error, data } = useQuery(SEARCH_SERVICE, {
+    const { loading, error, data } = useQuery(YelpQuery.SEARCH_SERVICE, {
         client: yelpClient,
         variables: { term: alias, location: searchLocation.value },
     });

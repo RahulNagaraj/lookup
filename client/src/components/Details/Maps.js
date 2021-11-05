@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import GoogleMapReact from "google-map-react";
 import config from "../../common/config";
 

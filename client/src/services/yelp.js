@@ -33,7 +33,6 @@ const authLink = setContext((_, { headers }) => {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
             Accept: "application/json",
-            "Access-Control-Allow-Origin": "http://localhost:3000",
             "Access-Control-Allow-Credentials": "true",
             "Content-Type": "application/json",
             "x-requested-with": "xmlhttprequest",

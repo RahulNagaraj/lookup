@@ -4,13 +4,10 @@ import {
     Box,
     Container,
     Typography,
-    Grid,
     Card,
     CardActionArea,
     CardMedia,
     CardContent,
-    Paper,
-    Button,
 } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import { blue } from "@mui/material/colors";
