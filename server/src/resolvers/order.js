@@ -47,7 +47,6 @@ export default {
             });
 
             const { id } = order;
-            console.log(order);
 
             return {
                 id,

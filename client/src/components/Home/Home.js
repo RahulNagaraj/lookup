@@ -76,7 +76,14 @@ const recommendedEvents = [
 const Home = () => {
     let history = useHistory();
 
-    const [location, setLocation] = React.useState({ value: "" });
+    const [location, setLocation] = React.useState({
+        key: "chicago",
+        value: "Chicago",
+        coordinates: {
+            lat: 41.881832,
+            lng: -87.623177,
+        },
+    });
 
     const handleCardClick = (title, alias) =>
         history.push({

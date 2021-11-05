@@ -4,7 +4,7 @@ export default gql`
     extend type Query {
         orders: [Order!]
         order(id: ID!): Order
-        viewOrderByUserId(userId: ID!): Order
+        viewOrderByUserId(userId: ID!): [Order]!
     }
     extend type Mutation {
         createOrder(
