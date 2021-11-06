@@ -38,9 +38,9 @@ const Services = (props) => {
                                 <CardActionArea>
                                     <CardMedia
                                         component="img"
-                                        height="150"
+                                        height="200"
                                         width="200"
-                                        // image={`/static/images/${service.imagePath}`}
+                                        image={`/static/images/${service.alias}.jpg`}
                                         alt={service.title}
                                     />
                                     <CardContent>

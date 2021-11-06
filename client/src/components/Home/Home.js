@@ -149,6 +149,8 @@ const Home = () => {
             aliasFilters.includes(cat.alias)
         );
 
+        console.log(homeServices);
+
         return (
             <Container id="home" maxWidth="xl" disableGutters>
                 <TitleHeader

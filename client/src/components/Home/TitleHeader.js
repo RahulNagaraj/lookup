@@ -58,9 +58,13 @@ const TitleHeader = (props) => {
                 <Typography variant="h1" component="div" gutterBottom>
                     Lookup
                 </Typography>
-                <Typography variant="body1" component="div" gutterBottom>
-                    body1. Lorem ipsum dolor sit amet, consectetur adipisicing
-                    elit. Quos blanditiis tenetur unde suscipit
+                <Typography
+                    variant="body1"
+                    component="div"
+                    gutterBottom
+                    sx={{ fontSize: "22px" }}
+                >
+                    A one-stop shop for all your home services.
                 </Typography>
             </Box>
             <Box display="flex" justifyContent="center">
