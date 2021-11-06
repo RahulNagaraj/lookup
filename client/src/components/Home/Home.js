@@ -108,6 +108,8 @@ const Home = () => {
     //     error = true,
     //     data = {};
 
+    // autocompleteService("paint", locations[0].coordinates);
+
     const { loading, error, data } = useQuery(YelpQuery.GET_ALL, {
         client: yelpClient,
     });

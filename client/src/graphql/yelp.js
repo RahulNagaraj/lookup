@@ -104,8 +104,18 @@ const GET_ALL = gql`
 
 const SEARCH_SERVICE = gql`
     ${BUSINESS_FRAGMENT}
-    query search_service($term: String!, $location: String!) {
-        search(term: $term, location: $location) {
+    query search_service(
+        $term: String!
+        $location: String!
+        $categories: String
+        $limit: Int
+    ) {
+        search(
+            term: $term
+            location: $location
+            categories: $categories
+            limit: $limit
+        ) {
             business {
                 ...businessFragment
             }
