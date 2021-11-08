@@ -5,18 +5,52 @@ services:
         image: postgres
         restart: always
         environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: lookup
+            POSTGRES_PASSWORD: lookup
             POSTGRES_DB: lookup
         ports:
             - "5432:5432"
         volumes:
             - ./server/pgdata:/var/lib/postgresql/data
 
+    mongodb:
+        container_name: "lookup-mongodb"
+        image: mongo
+        restart: always
+        environment:
+            - MONGO_INITDB_DATABASE=lookup
+            - MONGO_INITDB_ROOT_USERNAME=lookup
+            - MONGO_INITDB_ROOT_PASSWORD=lookup
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./server/mongodata:/data/db
+
+    mongo_admin:
+        image: mongo-express
+        container_name: "mongoadmin"
+        depends_on:
+            - mongodb
+        links:
+            - mongodb
+        ports:
+            - "8081:8081"
+
+    jupyter:
+        build: ./jupyter
+        container_name: "jupyter"
+        depends_on:
+            - mongodb
+        links:
+            - mongodb
+        ports:
+            - "9999:8888"
+
     server:
         container_name: "lookup-server"
         depends_on:
             - postgres
+            - mongodb
         build:
             context: ./server
             dockerfile: Dockerfile
@@ -28,11 +62,11 @@ services:
             - /usr/app/lookup/server/node_modules
         environment:
             PORT: 8000
-            DB_SCHEMA: postgres
-            DB_USER: postgres
-            DB_PASSWORD: postgres
+            DB_SCHEMA: lookup
+            DB_USER: lookup
+            DB_PASSWORD: lookup
             DB_HOST: postgres
-            DB_NAME: postgres
+            DB_NAME: lookup
 
     client:
         container_name: "lookup-ui"
