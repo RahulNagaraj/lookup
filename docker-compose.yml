@@ -28,23 +28,32 @@ services:
 
     mongo_admin:
         image: mongo-express
-        container_name: "mongoadmin"
+        container_name: "lookup-mongo-admin"
+        environment:
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=lookup
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=lookup
+            - ME_CONFIG_MONGODB_SERVER=lookup-mongodb
+            - ME_CONFIG_BASICAUTH_USERNAME=lookup
+            - ME_CONFIG_BASICAUTH_PASSWORD=lookup
         depends_on:
             - mongodb
         links:
             - mongodb
         ports:
             - "8081:8081"
+        restart: always
 
     jupyter:
-        build: ./jupyter
-        container_name: "jupyter"
+        image: jupyter/datascience-notebook
+        volumes:
+            - ./jupyter:/usr/app/lookup/jupyter
+        ports:
+            - 9999:8888
+        container_name: lookup-jupyter
         depends_on:
             - mongodb
         links:
             - mongodb
-        ports:
-            - "9999:8888"
 
     server:
         container_name: "lookup-server"
