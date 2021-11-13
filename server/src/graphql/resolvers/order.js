@@ -1,8 +1,3 @@
-import { combineResolvers } from "graphql-resolvers";
-import { UserInputError } from "apollo-server";
-
-import { isAdmin } from "./authorization";
-
 export default {
     Query: {
         orders: async (parent, args, { models }) => {

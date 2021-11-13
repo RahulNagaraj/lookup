@@ -4,9 +4,9 @@ import http from "http";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 
-import schema from "./schema";
-import resolvers from "./resolvers";
-import models, { sequelize } from "./models";
+import schema from "./graphql/schema";
+import resolvers from "./graphql/resolvers";
+import models, { sequelize } from "./db/pg";
 
 const app = express();
 
@@ -69,25 +69,7 @@ server.installSubscriptionHandlers(httpServer);
 const eraseDatabaseOnSync = false;
 
 sequelize.sync({ force: eraseDatabaseOnSync }).then(async () => {
-    if (eraseDatabaseOnSync) {
-        // createUsersWithMessages();
-    }
     httpServer.listen(process.env.PORT, () => {
         console.log(`Apollo Server on http://localhost:${process.env.PORT}`);
     });
 });
-
-const createUsersWithMessages = async () => {
-    await models.User.create({
-        username: "rwieruch",
-        email: "hello@robin.com",
-        password: "rwieruch",
-        role: "ADMIN",
-    });
-
-    await models.User.create({
-        username: "ddavids",
-        email: "hello@david.com",
-        password: "ddavids",
-    });
-};
