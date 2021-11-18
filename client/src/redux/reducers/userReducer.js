@@ -4,6 +4,7 @@ export const initialState = {
     isFetching: false,
     userDetails: {},
     error: "",
+    isLoggedIn: false,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -11,26 +12,39 @@ export const userReducer = (state = initialState, action) => {
         case types.SIGNUP_REQUEST:
         case types.SIGNIN_REQUEST:
             return {
-                ...state,
+                ...initialState,
                 isFetching: true,
             };
 
         case types.SIGNUP_REQUEST_SUCCESS:
         case types.SIGNIN_REQUEST_SUCCESS:
-            const token = action.user.token;
-            const user = action.user.user;
-            localStorage.setItem("token", token);
             return {
                 ...state,
                 isFetching: false,
                 error: "",
-                userDetails: user,
+                userDetails: action.user.user,
+                isLoggedIn: true,
             };
         case types.SIGNUP_REQUEST_FAILURE:
         case types.SIGNIN_REQUEST_FAILURE:
-            localStorage.setItem("token", "");
             return {
                 ...initialState,
+                error: action.error,
+            };
+        case types.LOGOUT_REQUEST:
+            return {
+                ...state,
+            };
+
+        case types.LOGOUT_REQUEST_SUCCESS:
+            return {
+                ...initialState,
+                isLoggedIn: false,
+            };
+        case types.LOGOUT_REQUEST_FAILURE:
+            return {
+                ...initialState,
+                isLoggedIn: false,
                 error: action.error,
             };
 

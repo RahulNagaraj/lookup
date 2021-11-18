@@ -17,9 +17,12 @@ import { useMutation } from "@apollo/client";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import { LoginQuery } from "../../graphql";
-import Head from "./Head";
 import { useDispatch, useSelector } from "react-redux";
-import { signInRequest } from "../../redux/actions/userActions";
+import {
+    logoutRequest,
+    signInRequest,
+    signUpRequest,
+} from "../../redux/actions/userActions";
 
 const useStyles = makeStyles({
     link: {
@@ -53,21 +56,9 @@ export default function Header() {
     const [openSignup, setOpenSignup] = React.useState(false);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [isSigningUp, setIsSigningUp] = React.useState(false);
-    const [isSigningIn, setIsSigningIn] = React.useState(false);
-    const [userDetails, setUserDetails] = React.useState({});
 
     const user = useSelector((state) => state.user);
     console.log(user);
-
-    const [
-        signUp,
-        { data: signUpData, loading: signUpLoading, error: signUpError },
-    ] = useMutation(LoginQuery.SIGN_UP);
-    const [
-        signIn,
-        { data: signInData, loading: signInLoading, error: signInError },
-    ] = useMutation(LoginQuery.SIGN_IN);
 
     const handleOpenLogin = () => setOpenLogin(true);
     const handleCloseLogin = () => setOpenLogin(false);
@@ -93,13 +84,10 @@ export default function Header() {
 
     const handleLogin = ({ email, password }) => {
         dispatch(signInRequest({ email, password }));
-        // signIn({ variables: { email, password } });
-        setIsSigningIn(true);
     };
 
     const handleSignup = ({ firstName, lastName, email, password }) => {
-        signUp({ variables: { firstName, lastName, email, password } });
-        setIsSigningUp(true);
+        dispatch(signUpRequest({ firstName, lastName, email, password }));
     };
 
     const handleViewOrder = () => {
@@ -107,46 +95,27 @@ export default function Header() {
         history.push("/view-order");
     };
 
-    if (isSigningUp) {
-        if (signUpError) {
-            console.error(signUpError);
-        } else if (signUpLoading) {
-            // do nothing
-        } else {
-            const {
-                signUp: {
-                    user: { id, firstName, lastName, email, role },
-                    token,
-                },
-            } = signUpData;
-            setUserDetails({
-                id,
-                firstName,
-                lastName,
-                email,
-                role,
-            });
-            localStorage.setItem("token", JSON.stringify(token));
-            handleCloseSignup();
-            setIsSigningUp(false);
-            setIsLoggedIn(true);
-        }
-    }
-
-    if (isSigningIn) {
-        if (user && !user.isFetching) {
-            setIsSigningIn(false);
+    React.useEffect(() => {
+        if (user && !user.isFetching && user.isLoggedIn && openLogin) {
             handleCloseLogin();
         }
-    }
+    }, [handleCloseLogin, openLogin]);
+
+    React.useEffect(() => {
+        if (user && !user.isFetching && user.isLoggedIn && openSignup) {
+            handleCloseSignup();
+        }
+    }, [handleCloseSignup, openSignup]);
 
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
+        dispatch(logoutRequest());
+        // localStorage.removeItem("token");
+        // setIsLoggedIn(false);
     };
 
     const getName = () => {
         const { userDetails } = user;
+
         return `${userDetails.firstName[0].toUpperCase()}${userDetails.lastName[0].toUpperCase()}`;
     };
 
@@ -224,7 +193,7 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
-                        {Object.keys(user.userDetails).length > 0 && (
+                        {user.isLoggedIn && (
                             <div>
                                 <IconButton
                                     size="large"
@@ -254,8 +223,7 @@ export default function Header() {
                                     onClose={handleClose}
                                 >
                                     <MenuItem onClick={handleClose}>
-                                        {Object.keys(user.userDetails).length >
-                                        0
+                                        {user.isLoggedIn
                                             ? `${user.userDetails.firstName}, ${user.userDetails.lastName}`
                                             : `Profile`}
                                     </MenuItem>
@@ -268,7 +236,7 @@ export default function Header() {
                                 </Menu>
                             </div>
                         )}
-                        {Object.keys(user.userDetails).length === 0 && (
+                        {!user.isLoggedIn && (
                             <Button color="inherit" onClick={handleOpenLogin}>
                                 Login
                             </Button>

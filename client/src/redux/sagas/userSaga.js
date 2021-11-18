@@ -7,8 +7,9 @@ import * as actions from "../actions/userActions";
 function* signUp({ creds }) {
     try {
         const user = yield call(service.signUp, creds);
-        yield put(actions.signUpSuccess(user.data.signUp));
+        yield put(actions.signUpSuccess(user));
     } catch (e) {
+        yield call(service.logout);
         yield put(actions.signUpFailure("Error Signing Up!"));
     }
 }
@@ -16,13 +17,21 @@ function* signUp({ creds }) {
 function* signIn({ creds }) {
     try {
         const user = yield call(service.signIn, creds);
-        yield put(actions.signInSuccess(user.data.signIn));
+        yield put(actions.signInSuccess(user));
     } catch (e) {
+        yield call(service.logout);
         yield put(actions.signInFailure("Error Signing In!"));
     }
 }
 
-function* logout() {}
+function* logout() {
+    try {
+        yield call(service.logout);
+        yield put(actions.logoutSuccess());
+    } catch (e) {
+        yield put(actions.logoutFailure("Error Logging out!"));
+    }
+}
 
 function* watchSignIn() {
     yield takeEvery(types.SIGNIN_REQUEST, signIn);
@@ -37,5 +46,5 @@ function* watchLogoutUser() {
 }
 
 export function* userSaga() {
-    yield all([watchSignIn(), watchSignUp(), watchLogoutUser]);
+    yield all([watchSignIn(), watchSignUp(), watchLogoutUser()]);
 }

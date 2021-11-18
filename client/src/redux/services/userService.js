@@ -2,7 +2,7 @@ import client from "../../graphql/client";
 import { LoginQuery } from "../../graphql";
 
 export const signUp = async ({ firstName, lastName, email, password }) => {
-    return await client.mutate({
+    const user = await client.mutate({
         mutation: LoginQuery.SIGN_UP,
         variables: {
             firstName,
@@ -11,14 +11,33 @@ export const signUp = async ({ firstName, lastName, email, password }) => {
             password,
         },
     });
+
+    const userDetails = user.data.signUp;
+    localStorage.setItem("user", JSON.stringify(userDetails));
+    return userDetails;
 };
 
 export const signIn = async ({ email, password }) => {
-    return await client.mutate({
+    const userLocalStorage = JSON.parse(localStorage.getItem("user"));
+    if (userLocalStorage && userLocalStorage.token) {
+        return userLocalStorage;
+    }
+
+    const user = await client.mutate({
         mutation: LoginQuery.SIGN_IN,
         variables: {
             email,
             password,
         },
     });
+
+    const userDetails = user.data.signIn;
+    localStorage.setItem("user", JSON.stringify(userDetails));
+    return userDetails;
+};
+
+export const logout = () => {
+    console.log("logout service");
+    localStorage.removeItem("user");
+    return;
 };

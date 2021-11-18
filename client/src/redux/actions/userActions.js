@@ -22,7 +22,6 @@ export const signUpFailure = (error) => {
 };
 
 export const signInRequest = (creds) => {
-    console.log("signInRequest: ", creds);
     return {
         type: types.SIGNIN_REQUEST,
         creds,
@@ -39,6 +38,25 @@ export const signInSuccess = (user) => {
 export const signInFailure = (error) => {
     return {
         type: types.SIGNIN_REQUEST_FAILURE,
+        error,
+    };
+};
+
+export const logoutRequest = () => {
+    return {
+        type: types.LOGOUT_REQUEST,
+    };
+};
+
+export const logoutSuccess = () => {
+    return {
+        type: types.LOGOUT_REQUEST_SUCCESS,
+    };
+};
+
+export const logoutFailure = (error) => {
+    return {
+        type: types.LOGOUT_REQUEST_FAILURE,
         error,
     };
 };
