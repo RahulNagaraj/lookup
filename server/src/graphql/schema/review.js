@@ -2,7 +2,11 @@ import { gql } from "apollo-server-express";
 
 export default gql`
     extend type Query {
-        getReviews(business_id: ID!): [Review]!
+        getYelpReviews(business_id: ID!): [Review]!
+        getLookupReviews(business_id: ID!): [Review]!
+        addLookupReview(review: Review!): [Review!]!
+        updateLookupReview(review: Review!): [Review!]!
+        deleteLookupReview(id: ID!): Boolean!
     }
 
     type Review {
