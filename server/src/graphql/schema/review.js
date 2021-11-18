@@ -4,8 +4,8 @@ export default gql`
     extend type Query {
         getYelpReviews(business_id: ID!): [Review]!
         getLookupReviews(business_id: ID!): [Review]!
-        addLookupReview(review: Review!): [Review!]!
-        updateLookupReview(review: Review!): [Review!]!
+        addLookupReview(review: ID!): [Review!]!
+        updateLookupReview(review: ID!): [Review!]!
         deleteLookupReview(id: ID!): Boolean!
     }
 

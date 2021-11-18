@@ -3,10 +3,13 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import "./static/styles/index.css";
 import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+
+import store from "./store";
 
 const client = new ApolloClient({
     uri: "http://localhost:8000/api",
@@ -16,9 +19,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <React.StrictMode>
-        <ApolloProvider client={client}>
-            <App />
-        </ApolloProvider>
+        <Provider store={store}>
+            <ApolloProvider client={client}>
+                <App />
+            </ApolloProvider>
+        </Provider>
     </React.StrictMode>,
     document.getElementById("root")
 );

@@ -8,7 +8,7 @@ import RecommendedEvents from "./Recommended";
 import Trending from "./Trending";
 import Offers from "./Offers";
 import TitleHeader from "./TitleHeader";
-import yelpClient from "../../services/yelp";
+import yelpClient from "../../redux/services/yelp";
 import { YelpQuery } from "../../graphql";
 import Loader from "../../common/Loader";
 

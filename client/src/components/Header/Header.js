@@ -17,6 +17,9 @@ import { useMutation } from "@apollo/client";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import { LoginQuery } from "../../graphql";
+import Head from "./Head";
+import { useDispatch, useSelector } from "react-redux";
+import { signInRequest } from "../../redux/actions/userActions";
 
 const useStyles = makeStyles({
     link: {
@@ -43,7 +46,8 @@ const LoginButton = styled(Button)(() => ({
 
 export default function Header() {
     const classes = useStyles();
-    let history = useHistory();
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     const [openLogin, setOpenLogin] = React.useState(false);
     const [openSignup, setOpenSignup] = React.useState(false);
@@ -52,6 +56,10 @@ export default function Header() {
     const [isSigningUp, setIsSigningUp] = React.useState(false);
     const [isSigningIn, setIsSigningIn] = React.useState(false);
     const [userDetails, setUserDetails] = React.useState({});
+
+    const user = useSelector((state) => state.user);
+    console.log(user);
+
     const [
         signUp,
         { data: signUpData, loading: signUpLoading, error: signUpError },
@@ -84,7 +92,8 @@ export default function Header() {
     const handleCloseSignup = () => setOpenSignup(false);
 
     const handleLogin = ({ email, password }) => {
-        signIn({ variables: { email, password } });
+        dispatch(signInRequest({ email, password }));
+        // signIn({ variables: { email, password } });
         setIsSigningIn(true);
     };
 
@@ -125,29 +134,9 @@ export default function Header() {
     }
 
     if (isSigningIn) {
-        if (signInError) {
-            console.error(signInError);
-        } else if (signInLoading) {
-            // do nothing
-        } else {
-            const {
-                signIn: {
-                    user: { id, firstName, lastName, email, role },
-                    token,
-                },
-            } = signInData;
-            setUserDetails({
-                id,
-                firstName,
-                lastName,
-                email,
-                role,
-            });
-            localStorage.setItem("token", JSON.stringify(token));
-            localStorage.setItem("userId", id); // TODO: Fix this later,
-            handleCloseLogin();
+        if (user && !user.isFetching) {
             setIsSigningIn(false);
-            setIsLoggedIn(true);
+            handleCloseLogin();
         }
     }
 
@@ -157,6 +146,7 @@ export default function Header() {
     };
 
     const getName = () => {
+        const { userDetails } = user;
         return `${userDetails.firstName[0].toUpperCase()}${userDetails.lastName[0].toUpperCase()}`;
     };
 
@@ -234,7 +224,7 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
-                        {isLoggedIn && (
+                        {Object.keys(user.userDetails).length > 0 && (
                             <div>
                                 <IconButton
                                     size="large"
@@ -264,8 +254,9 @@ export default function Header() {
                                     onClose={handleClose}
                                 >
                                     <MenuItem onClick={handleClose}>
-                                        {isLoggedIn
-                                            ? `${userDetails.firstName}, ${userDetails.lastName}`
+                                        {Object.keys(user.userDetails).length >
+                                        0
+                                            ? `${user.userDetails.firstName}, ${user.userDetails.lastName}`
                                             : `Profile`}
                                     </MenuItem>
                                     <MenuItem onClick={handleViewOrder}>
@@ -277,7 +268,7 @@ export default function Header() {
                                 </Menu>
                             </div>
                         )}
-                        {!isLoggedIn && (
+                        {Object.keys(user.userDetails).length === 0 && (
                             <Button color="inherit" onClick={handleOpenLogin}>
                                 Login
                             </Button>

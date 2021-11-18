@@ -9,10 +9,10 @@ export default {
             return await LookupReviews.find({ business_id });
         },
         addLookupReview: async (parent, review) => {
-            return await LookupReviews.insertOne(review);
+            return await LookupReviews.find({ id: review });
         },
         updateLookupReview: async (parent, review) => {
-            const doc = LookupReviews.find({ id: review.id });
+            const doc = LookupReviews.find({ id: review });
             return await LookupReviews.updateOne({ _id: doc._id, review });
         },
         deleteLookupReview: async (parent, { id }, { models }) => {

@@ -15,7 +15,7 @@ import {
 import { blueGrey } from "@mui/material/colors";
 import { useQuery } from "@apollo/client";
 import { YelpQuery } from "../../graphql";
-import yelpClient from "../../services/yelp";
+import yelpClient from "../../redux/services/yelp";
 
 const TitleHeader = (props) => {
     const history = useHistory();

@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
-import config from "../common/config";
+import config from "../../common/config";
 
 const httpLink = new HttpLink({
     // uri: "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/graphql",
@@ -29,7 +29,6 @@ const authLink = setContext((_, { headers }) => {
             ...headers,
             authorization: `Bearer ${token}`,
             "accept-language": "en_US",
-            Origin: "http://localhost:3000",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
             Accept: "application/json",

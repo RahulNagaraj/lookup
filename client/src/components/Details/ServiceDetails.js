@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@apollo/client";
 
 import Filters from "./Filters";
-import yelpClient from "../../services/yelp";
+import yelpClient from "../../redux/services/yelp";
 import ServiceCards from "./ServiceCards";
 import Maps from "./Maps";
 import { constructPlacesObject } from "../../common/util";

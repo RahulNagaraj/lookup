@@ -21,8 +21,8 @@ import SignUpButton from "./SignUpButton";
 
 const LoginModal = (props) => {
     const [signInDetails, setSignInDetails] = React.useState({
-        email: "",
-        password: "",
+        email: "rvimud@g.com",
+        password: "1234567890abcd",
     });
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -80,6 +80,7 @@ const LoginModal = (props) => {
                             type="email"
                             variant="standard"
                             sx={{ minWidth: "95%" }}
+                            value={signInDetails.email}
                             onChange={(e) => handleEmail(e)}
                         />
                     </Box>
@@ -95,6 +96,7 @@ const LoginModal = (props) => {
                                 id="standard-adornment-password"
                                 type={showPassword ? "text" : "password"}
                                 onChange={(e) => handlePassword(e)}
+                                value={signInDetails.password}
                                 fullWidth={true}
                                 endAdornment={
                                     <InputAdornment position="end">
