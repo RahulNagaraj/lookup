@@ -52,6 +52,15 @@ const BUSINESS_FRAGMENT = gql`
     }
 `;
 
+const GET_SERVICES = gql`
+    query services {
+        services: getServices {
+            alias
+            title
+        }
+    }
+`;
+
 const GET_ALL = gql`
     query getAll {
         categories {
@@ -126,4 +135,5 @@ const SEARCH_SERVICE = gql`
 export default {
     GET_ALL,
     SEARCH_SERVICE,
+    GET_SERVICES,
 };

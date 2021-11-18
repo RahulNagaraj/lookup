@@ -3,6 +3,7 @@ import { businessSchema } from "./schema/business";
 import { reviewsSchema } from "./schema/review";
 import { eventsSchema } from "./schema/event";
 import { lookupReviewsSchema } from "./schema/lookup_review";
+import { servicesSchema } from "./schema/service";
 
 // docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" lookup-mongodb
 const mongoDBURI =
@@ -23,6 +24,7 @@ db.once("open", async function () {
 const Businesses = mongoose.model("Businesses", businessSchema);
 const Reviews = mongoose.model("Reviews", reviewsSchema);
 const Events = mongoose.model("Events", eventsSchema);
+const Services = mongoose.model("Services", servicesSchema);
 const LookupReviews = mongoose.model("LookupReviews", lookupReviewsSchema);
 
-export { Businesses, Reviews, Events, LookupReviews };
+export { Businesses, Reviews, Events, Services, LookupReviews };

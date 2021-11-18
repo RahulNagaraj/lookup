@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, CircularProgress } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
+import { useDispatch, useSelector } from "react-redux";
 
 import Services from "./Services";
 import RecommendedEvents from "./Recommended";
@@ -11,6 +12,7 @@ import TitleHeader from "./TitleHeader";
 import yelpClient from "../../redux/services/yelp";
 import { YelpQuery } from "../../graphql";
 import Loader from "../../common/Loader";
+import { servicesRequest } from "../../redux/actions/servicesActions";
 
 const locations = [
     {
@@ -75,7 +77,16 @@ const recommendedEvents = [
 ];
 
 const Home = () => {
-    let history = useHistory();
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    const state = useSelector((state) => state.services);
+
+    React.useEffect(() => {
+        if (!state.isFetching && state.services.length === 0) {
+            dispatch(servicesRequest());
+        }
+    }, [state]);
 
     const [location, setLocation] = React.useState({
         key: "chicago",
@@ -104,19 +115,9 @@ const Home = () => {
 
     const handleLocation = (loc) => setLocation(loc);
 
-    // const loading = false,
-    //     error = true,
-    //     data = {};
-
-    // autocompleteService("paint", locations[0].coordinates);
-
-    const { loading, error, data } = useQuery(YelpQuery.GET_ALL, {
-        client: yelpClient,
-    });
-
-    if (loading) {
+    if (state.isFetching) {
         return <Loader />;
-    } else if (error) {
+    } else if (state.error != "") {
         return (
             <Container maxWidth="sm">
                 <Box
@@ -132,45 +133,29 @@ const Home = () => {
             </Container>
         );
     } else {
-        const categories = data?.categories?.category;
-        const trending = data?.trending?.business;
-        const deals = data?.deals?.business;
-        const aliasFilters = [
-            "carpenters",
-            "electricians",
-            "homecleaning",
-            "painters",
-            "plumbing",
-            "hvac",
-            "waterheaterinstallrepair",
-            "blinds",
-        ];
-        const homeServices = categories.filter((cat) =>
-            aliasFilters.includes(cat.alias)
-        );
-
-        console.log(homeServices);
+        // const trending = data?.trending?.business;
+        // const deals = data?.deals?.business;
 
         return (
             <Container id="home" maxWidth="xl" disableGutters>
                 <TitleHeader
                     locations={locations}
-                    services={homeServices}
+                    services={state.services}
                     handleLocation={handleLocation}
                     location={location}
                 />
 
                 <Services
-                    homeServices={homeServices}
+                    homeServices={state.services}
                     handleCardClick={handleCardClick}
                 />
 
-                <Trending
+                {/* <Trending
                     trending={trending}
                     handleBusinessCardClick={businessCardClick}
                 />
 
-                <Offers offers={deals} />
+                <Offers offers={deals} /> */}
 
                 <RecommendedEvents recommendedEvents={recommendedEvents} />
             </Container>

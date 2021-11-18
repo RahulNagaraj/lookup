@@ -5,6 +5,7 @@ import orderResolvers from "./order";
 import businessResolvers from "./business";
 import reviewResolvers from "./review";
 import eventResolvers from "./event";
+import serviceResolvers from "./service";
 
 const customScalarResolver = {
     Date: GraphQLDateTime,
@@ -17,4 +18,5 @@ export default [
     businessResolvers,
     reviewResolvers,
     eventResolvers,
+    serviceResolvers,
 ];

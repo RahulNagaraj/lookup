@@ -58,7 +58,6 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const user = useSelector((state) => state.user);
-    console.log(user);
 
     const handleOpenLogin = () => setOpenLogin(true);
     const handleCloseLogin = () => setOpenLogin(false);
@@ -109,8 +108,6 @@ export default function Header() {
 
     const handleLogout = () => {
         dispatch(logoutRequest());
-        // localStorage.removeItem("token");
-        // setIsLoggedIn(false);
     };
 
     const getName = () => {
