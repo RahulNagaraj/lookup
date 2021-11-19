@@ -4,6 +4,7 @@ export default gql`
     extend type Query {
         getAllBusiness: [Business]!
         getBusiness(id: ID!): Business
+        getBusinessDeals: [Business]!
     }
 
     type Business {
@@ -11,16 +12,20 @@ export default gql`
         alias: String
         name: String
         image_url: String
+        is_claimed: Boolean
         is_closed: Boolean
         url: String
-        review_count: Int
-        categories: [Categories]
-        rating: Int
-        coordinates: Coordinates
-        location: Location
         phone: String
         display_phone: String
-        distance: Float
+        review_count: Int
+        categories: [Categories]
+        rating: Float
+        location: Location
+        coordinates: Coordinates
+        photos: [String]
+        hours: [Hours]
+        transactions: [String]
+        messaging: Messaging
     }
 
     type Categories {
@@ -42,5 +47,24 @@ export default gql`
         country: String
         state: String
         display_address: [String]
+        cross_streets: String
+    }
+
+    type Hours {
+        hours_type: String
+        is_open_now: Boolean
+        open: [OpenHours]
+    }
+
+    type OpenHours {
+        is_overnight: Boolean
+        start: String
+        end: String
+        day: Int
+    }
+
+    type Messaging {
+        url: String
+        use_case_text: String
     }
 `;

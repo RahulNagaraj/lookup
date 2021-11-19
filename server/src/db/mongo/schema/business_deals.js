@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-export const businessSchema = new Schema(
+export const businessDealsSchema = new Schema(
     {
         id: String,
         alias: String,
@@ -38,5 +38,5 @@ export const businessSchema = new Schema(
             use_case_text: String,
         },
     },
-    { collection: "yelp_businesses" }
+    { collection: "yelp_deals" }
 );

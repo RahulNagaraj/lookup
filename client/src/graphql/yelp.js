@@ -4,11 +4,8 @@ const BUSINESS_FRAGMENT = gql`
     fragment businessFragment on Business {
         id
         name
-        price
         rating
         photos
-        distance
-        price
         phone
         display_phone
         hours {
@@ -21,9 +18,7 @@ const BUSINESS_FRAGMENT = gql`
         }
         categories {
             title
-            parent_categories {
-                title
-            }
+            alias
         }
         coordinates {
             latitude
@@ -36,15 +31,6 @@ const BUSINESS_FRAGMENT = gql`
             country
         }
         review_count
-        reviews {
-            text
-            rating
-            time_created
-            user {
-                name
-                image_url
-            }
-        }
         messaging {
             url
             use_case_text
@@ -57,6 +43,15 @@ const GET_SERVICES = gql`
         services: getServices {
             alias
             title
+        }
+    }
+`;
+
+const GET_BUSINESS_DEALS = gql`
+    ${BUSINESS_FRAGMENT}
+    query services {
+        deals: getBusinessDeals {
+            ...businessFragment
         }
     }
 `;
@@ -136,4 +131,5 @@ export default {
     GET_ALL,
     SEARCH_SERVICE,
     GET_SERVICES,
+    GET_BUSINESS_DEALS,
 };

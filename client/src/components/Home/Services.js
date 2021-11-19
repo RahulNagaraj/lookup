@@ -10,10 +10,11 @@ import {
     CardMedia,
     CardContent,
 } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 
 const Services = (props) => {
     return (
-        <Box sx={{ p: 5 }} id="services">
+        <Box sx={{ backgroundColor: blueGrey[200], p: 5 }} id="services">
             <Container sx={{ marginTop: 5, marginBottom: 5 }}>
                 <Typography
                     textAlign={"center"}

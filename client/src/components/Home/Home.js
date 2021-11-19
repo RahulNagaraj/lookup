@@ -13,6 +13,7 @@ import yelpClient from "../../redux/services/yelp";
 import { YelpQuery } from "../../graphql";
 import Loader from "../../common/Loader";
 import { servicesRequest } from "../../redux/actions/servicesActions";
+import { businessDealsRequest } from "../../redux/actions/businessActions";
 
 const locations = [
     {
@@ -80,13 +81,20 @@ const Home = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const state = useSelector((state) => state.services);
+    const servicesState = useSelector((state) => state.services);
+    const businessesState = useSelector((state) => state.businesses);
 
     React.useEffect(() => {
-        if (!state.isFetching && state.services.length === 0) {
+        if (!servicesState.isFetching && servicesState.services.length === 0) {
             dispatch(servicesRequest());
         }
-    }, [state]);
+    }, [servicesState]);
+
+    React.useEffect(() => {
+        if (!businessesState.isFetching && businessesState.deals.length === 0) {
+            dispatch(businessDealsRequest());
+        }
+    }, [businessesState]);
 
     const [location, setLocation] = React.useState({
         key: "chicago",
@@ -115,9 +123,9 @@ const Home = () => {
 
     const handleLocation = (loc) => setLocation(loc);
 
-    if (state.isFetching) {
+    if (servicesState.isFetching) {
         return <Loader />;
-    } else if (state.error != "") {
+    } else if (servicesState.error != "") {
         return (
             <Container maxWidth="sm">
                 <Box
@@ -133,29 +141,26 @@ const Home = () => {
             </Container>
         );
     } else {
-        // const trending = data?.trending?.business;
-        // const deals = data?.deals?.business;
-
         return (
             <Container id="home" maxWidth="xl" disableGutters>
                 <TitleHeader
                     locations={locations}
-                    services={state.services}
+                    services={servicesState.services}
                     handleLocation={handleLocation}
                     location={location}
                 />
 
                 <Services
-                    homeServices={state.services}
+                    homeServices={servicesState.services}
                     handleCardClick={handleCardClick}
                 />
 
                 {/* <Trending
                     trending={trending}
                     handleBusinessCardClick={businessCardClick}
-                />
+                /> */}
 
-                <Offers offers={deals} /> */}
+                <Offers offers={businessesState.deals} />
 
                 <RecommendedEvents recommendedEvents={recommendedEvents} />
             </Container>

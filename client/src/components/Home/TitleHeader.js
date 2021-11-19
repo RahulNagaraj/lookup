@@ -21,15 +21,19 @@ const TitleHeader = (props) => {
     const history = useHistory();
     const [searchText, setSearchText] = React.useState("");
 
-    const { loading, error, data } = useQuery(YelpQuery.SEARCH_SERVICE, {
-        client: yelpClient,
-        variables: {
-            term: searchText,
-            location: props.location.value,
-            categories: "homeservices",
-            limit: 50,
-        },
-    });
+    // const { loading, error, data } = useQuery(YelpQuery.SEARCH_SERVICE, {
+    //     client: yelpClient,
+    //     variables: {
+    //         term: searchText,
+    //         location: props.location.value,
+    //         categories: "homeservices",
+    //         limit: 50,
+    //     },
+    // });
+
+    const loading = false,
+        error = false,
+        data = [];
 
     const handleOnChange = (event) => {
         const term = event.target.value;
