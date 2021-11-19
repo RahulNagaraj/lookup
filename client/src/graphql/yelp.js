@@ -49,8 +49,17 @@ const GET_SERVICES = gql`
 
 const GET_BUSINESS_DEALS = gql`
     ${BUSINESS_FRAGMENT}
-    query services {
+    query businessDeals {
         deals: getBusinessDeals {
+            ...businessFragment
+        }
+    }
+`;
+
+const GET_ALL_BUSINESSES = gql`
+    ${BUSINESS_FRAGMENT}
+    query businesses {
+        businesses: getAllBusiness {
             ...businessFragment
         }
     }
@@ -132,4 +141,5 @@ export default {
     SEARCH_SERVICE,
     GET_SERVICES,
     GET_BUSINESS_DEALS,
+    GET_ALL_BUSINESSES,
 };

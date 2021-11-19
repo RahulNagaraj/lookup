@@ -26,10 +26,10 @@ export const businessesRequest = () => {
     };
 };
 
-export const businessesSuccess = (deals) => {
+export const businessesSuccess = (businesses) => {
     return {
         type: types.BUSINESSES_REQUEST_SUCCESS,
-        deals,
+        businesses,
     };
 };
 

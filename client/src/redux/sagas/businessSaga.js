@@ -15,8 +15,8 @@ function* businessDeals() {
 
 function* businesses() {
     try {
-        const services = yield call(service.businesses);
-        yield put(actions.businessesSuccess(services));
+        const businesses = yield call(service.businesses);
+        yield put(actions.businessesSuccess(businesses));
     } catch (e) {
         yield put(actions.businessesFailure("Error fetching businesses!"));
     }

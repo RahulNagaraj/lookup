@@ -38,7 +38,7 @@ export const businessesReducer = (state = initialState, action) => {
             };
         case types.BUSINESSES_REQUEST_FAILURE:
             return {
-                ...state,
+                ...initialState,
                 businesses: [],
                 error: action.error,
             };

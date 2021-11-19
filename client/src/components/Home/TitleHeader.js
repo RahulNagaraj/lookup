@@ -12,28 +12,28 @@ import {
     TextField,
     CircularProgress,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { blueGrey } from "@mui/material/colors";
 import { useQuery } from "@apollo/client";
 import { YelpQuery } from "../../graphql";
 import yelpClient from "../../redux/services/yelp";
+import { businessesRequest } from "../../redux/actions/businessActions";
 
 const TitleHeader = (props) => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [searchText, setSearchText] = React.useState("");
 
-    // const { loading, error, data } = useQuery(YelpQuery.SEARCH_SERVICE, {
-    //     client: yelpClient,
-    //     variables: {
-    //         term: searchText,
-    //         location: props.location.value,
-    //         categories: "homeservices",
-    //         limit: 50,
-    //     },
-    // });
+    const businessState = useSelector((state) => state.businesses);
 
-    const loading = false,
-        error = false,
-        data = [];
+    React.useEffect(() => {
+        if (
+            !businessState.isFetching &&
+            businessState.businesses.length === 0
+        ) {
+            dispatch(businessesRequest());
+        }
+    }, [businessState]);
 
     const handleOnChange = (event) => {
         const term = event.target.value;
@@ -95,29 +95,27 @@ const TitleHeader = (props) => {
                     </Select>
                 </FormControl>
 
-                <Autocomplete
+                {/* <Autocomplete
                     id="autocomplete"
                     autoHighlight
-                    options={data ? data?.search?.business : []}
+                    options={businessState.businesses}
                     filterOptions={(x) => x}
                     getOptionLabel={(option) => option.name}
                     sx={{ width: "40vw", ml: 1 }}
-                    loading={loading}
+                    loading={businessState.isFetching}
                     isOptionEqualToValue={(option, value) =>
                         option.id === value.id
                     }
-                    onChange={handleOnInputChange}
                     renderInput={(params) => (
                         <TextField
                             {...params}
                             label="Search"
                             placeholder="Search for a service..."
-                            onChange={(e) => handleOnChange(e)}
                             InputProps={{
                                 ...params.InputProps,
                                 endAdornment: (
                                     <React.Fragment>
-                                        {loading ? (
+                                        {businessState.isFetching ? (
                                             <CircularProgress
                                                 color="inherit"
                                                 size={20}
@@ -126,6 +124,26 @@ const TitleHeader = (props) => {
                                         {params.InputProps.endAdornment}
                                     </React.Fragment>
                                 ),
+                            }}
+                            variant="filled"
+                        />
+                    )}
+                /> */}
+                <Autocomplete
+                    id="autocomplete"
+                    autoHighlight
+                    disableClearable
+                    sx={{ width: "40vw", ml: 1 }}
+                    options={businessState.businesses.map(
+                        (business) => business.name
+                    )}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Search for a service..."
+                            InputProps={{
+                                ...params.InputProps,
+                                type: "search",
                             }}
                             variant="filled"
                         />

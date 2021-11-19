@@ -10,9 +10,9 @@ export const businessDeals = async () => {
 };
 
 export const businesses = async () => {
-    const services = await client.query({
-        query: YelpQuery.GET_SERVICES,
+    const business = await client.query({
+        query: YelpQuery.GET_ALL_BUSINESSES,
     });
 
-    return services.data.services;
+    return business.data.businesses;
 };
