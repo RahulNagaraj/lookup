@@ -45,6 +45,9 @@ services:
 
     jupyter:
         image: jupyter/datascience-notebook
+        build:
+            context: ./jupyter
+            dockerfile: Dockerfile
         volumes:
             - ./jupyter:/usr/app/lookup/jupyter
         ports:
