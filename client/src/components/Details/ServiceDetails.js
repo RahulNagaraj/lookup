@@ -14,6 +14,7 @@ import Filters from "./Filters";
 import yelpClient from "../../redux/services/yelp";
 import ServiceCards from "./ServiceCards";
 import Maps from "./Maps";
+import Map from "./Map";
 import { constructPlacesObject } from "../../common/util";
 import { YelpQuery } from "../../graphql";
 
@@ -135,49 +136,11 @@ const ServiceDetails = (props) => {
                     />
                 </Grid>
                 <Grid item sm={4}>
-                    {/* <Maps
-                        location={searchLocation.coordinates}
-                        zoomLevel={11}
-                        places={places}
-                    /> */}
+                    <Map location={searchLocation} places={places} />
                 </Grid>
             </Grid>
         </Box>
     );
-
-    // if (loading) {
-    //     return (
-    //         <Container maxWidth="sm">
-    //             <Box
-    //                 sx={{
-    //                     display: "flex",
-    //                     justifyContent: "center",
-    //                     alignItems: "center",
-    //                     height: "85vh",
-    //                 }}
-    //             >
-    //                 <CircularProgress />
-    //             </Box>
-    //         </Container>
-    //     );
-    // } else if (error) {
-    //     return (
-    //         <Container maxWidth="sm">
-    //             <Box
-    //                 sx={{
-    //                     display: "flex",
-    //                     justifyContent: "center",
-    //                     alignItems: "center",
-    //                     height: "85vh",
-    //                 }}
-    //             >
-    //                 Error downloading the data
-    //             </Box>
-    //         </Container>
-    //     );
-    // } else {
-
-    // }
 
     /**
      * totalItems = 20
