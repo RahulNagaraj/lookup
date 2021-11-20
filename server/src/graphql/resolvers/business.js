@@ -9,7 +9,7 @@ export default {
             return await Businesses.findOne({ id });
         },
         getBusinessDeals: async () => {
-            return await Deals.find({}, null, { limit: 20 });
+            return await Deals.find({}, null, { limit: 5 });
         },
     },
 };

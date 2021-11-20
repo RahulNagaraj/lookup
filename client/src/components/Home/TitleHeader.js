@@ -6,6 +6,8 @@ import {
     Typography,
     FormControl,
     InputLabel,
+    Input,
+    FilledInput,
     Select,
     MenuItem,
     Autocomplete,
@@ -65,13 +67,11 @@ const TitleHeader = (props) => {
         <Box
             sx={{
                 backgroundColor: blueGrey[100],
-                height: "45vh",
+                height: "auto",
+                p: 5,
             }}
         >
-            <Box
-                sx={{ mx: 5, alignItems: "center", mb: 5 }}
-                textAlign={"center"}
-            >
+            <Box sx={{ alignItems: "center", mb: 5 }} textAlign={"center"}>
                 <Typography variant="h1" component="div" gutterBottom>
                     Lookup
                 </Typography>
@@ -86,14 +86,14 @@ const TitleHeader = (props) => {
             </Box>
             <Box display="flex" justifyContent="center">
                 <FormControl variant="standard" sx={{ minWidth: 200, mr: 1 }}>
-                    <InputLabel sx={{ pl: 1 }} id="demo-simple-select-label">
-                        Location
+                    <InputLabel sx={{ p: 1 }} id="city-label">
+                        City
                     </InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="city-label"
+                        id="city-select"
                         value={props.location.value}
-                        label="Location"
+                        label="City"
                         variant="filled"
                     >
                         {props.locations.map((loc) => (
@@ -106,6 +106,10 @@ const TitleHeader = (props) => {
                             </MenuItem>
                         ))}
                     </Select>
+                </FormControl>
+                <FormControl variant="filled">
+                    <InputLabel id="zipcode-label">Zip Code</InputLabel>
+                    <FilledInput labelId="zipcode-label" id="zipcode-input" />
                 </FormControl>
 
                 {/* <Autocomplete
