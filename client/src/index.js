@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import CssBaseline from "@mui/material/CssBaseline";
 import "./static/styles/index.css";
 import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
@@ -21,6 +22,7 @@ ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <ApolloProvider client={client}>
+                <CssBaseline />
                 <App />
             </ApolloProvider>
         </Provider>

@@ -31,8 +31,6 @@ const TitleHeader = (props) => {
         (business) => business.location.city === props.location.value
     );
 
-    console.log(businesses);
-
     React.useEffect(() => {
         if (
             !businessState.isFetching &&

@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useQuery } from "@apollo/client";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Filters from "./Filters";
 import yelpClient from "../../redux/services/yelp";
@@ -16,6 +16,11 @@ import ServiceCards from "./ServiceCards";
 import Maps from "./Maps";
 import Map from "./Map";
 import { constructPlacesObject } from "../../common/util";
+import {
+    filterBusinesses,
+    resetFilter,
+    setFilter,
+} from "../../redux/actions/businessActions";
 import { YelpQuery } from "../../graphql";
 
 const covertToMiles = (meters) => {
@@ -31,14 +36,10 @@ const location = {
 
 const ServiceDetails = (props) => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const businessesState = useSelector((state) => state.businesses);
-    const { businessTitle, searchLocation } = history?.location?.state;
-    const [filters, updateFilters] = React.useState({
-        jobType: "",
-        sortType: "",
-        costType: "",
-        distance: "",
-    });
+    const { businessTitle, alias, searchLocation } = history?.location?.state;
+    const filters = businessesState.filters;
     // const [businesses, setBusinesses] = React.useState([]);
     // const [filteredBusinesses, setFilteredBusinesses] = React.useState([]);
 
@@ -84,26 +85,15 @@ const ServiceDetails = (props) => {
     };
 
     const updateFilter = (type, value) => {
-        updateFilters({
-            ...filters,
-            [type]: value,
-        });
-
-        if (type === "sortType") {
-            filterByRating(value);
-        } else if (type === "distance") {
-            filterByDistance(value);
-        }
+        dispatch(setFilter(type, value));
     };
 
     const handleReset = () => {
-        // setFilteredBusinesses(businesses);
-        updateFilters({
-            jobType: "",
-            sortType: "",
-            costType: "",
-            distance: "",
-        });
+        dispatch(resetFilter(alias, searchLocation.value));
+    };
+
+    const handleFilterBusinesses = () => {
+        dispatch(filterBusinesses());
     };
 
     const handleBusinesCardClick = (business) => {
@@ -122,6 +112,7 @@ const ServiceDetails = (props) => {
                     filters={filters}
                     updateFilter={updateFilter}
                     handleReset={handleReset}
+                    handleFilterBusinesses={handleFilterBusinesses}
                 />
                 <Grid item sm={6}>
                     <Container sx={{ my: 1 }}>

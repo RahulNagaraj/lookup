@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Box, Typography } from "@mui/material";
 import {
     Map,
     GoogleApiWrapper,
@@ -45,22 +46,32 @@ export class MapContainer extends Component {
 
         if (selectedPlace.currentLocation) {
             return (
-                <div>
-                    <h6>{selectedPlace.name}</h6>
-                </div>
+                <Box>
+                    <Typography variant="body1">
+                        {selectedPlace.name}
+                    </Typography>
+                </Box>
             );
         } else {
             return (
-                <div>
-                    <h6>Business</h6>
-                    <p>Name: {selectedPlace.name}</p>
-                    <p>Address: {selectedPlace.address1}</p>
-                    <p>City: {selectedPlace.city}</p>
-                    <p>Rating: {selectedPlace.rating}</p>
-                    <p>
+                <Box>
+                    <Typography variant="h6">Business</Typography>
+                    <Typography variant="body2">
+                        Name: {selectedPlace.name}
+                    </Typography>
+                    <Typography variant="body2">
+                        Address: {selectedPlace.address1}
+                    </Typography>
+                    <Typography variant="body2">
+                        City: {selectedPlace.city}
+                    </Typography>
+                    <Typography variant="body2">
+                        Rating: {selectedPlace.rating}
+                    </Typography>
+                    <Typography variant="body2">
                         Open Now: {selectedPlace.isOpenNow ? "Open" : "Closed"}
-                    </p>
-                </div>
+                    </Typography>
+                </Box>
             );
         }
     };

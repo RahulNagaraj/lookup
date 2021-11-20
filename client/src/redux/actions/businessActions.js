@@ -42,10 +42,36 @@ export const businessesFailure = (error) => {
 
 export const getBusinessByServiceType = (serviceType, searchLocation) => {
     return {
-        type: types.GET_BUSINESS_BY_SERVICE_TYPE,
+        type: types.GET_BUSINESSES_BY_SERVICE_TYPE,
         data: {
             serviceType,
             searchLocation,
-        }
+        },
+    };
+};
+
+export const setFilter = (filterType, filterValue) => {
+    return {
+        type: types.SET_FILTER,
+        data: {
+            filterType,
+            filterValue,
+        },
+    };
+};
+
+export const resetFilter = (serviceType, searchLocation) => {
+    return {
+        type: types.RESET_FILTER,
+        data: {
+            serviceType,
+            searchLocation,
+        },
+    };
+};
+
+export const filterBusinesses = () => {
+    return {
+        type: types.FILTER_BUSINESSES,
     };
 };

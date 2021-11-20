@@ -8,6 +8,7 @@ const BUSINESS_FRAGMENT = gql`
         photos
         phone
         display_phone
+        is_closed
         hours {
             is_open_now
             open {
@@ -29,6 +30,7 @@ const BUSINESS_FRAGMENT = gql`
             city
             state
             country
+            zip_code
         }
         review_count
         messaging {

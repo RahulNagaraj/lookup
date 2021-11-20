@@ -27,17 +27,15 @@ const ServiceCards = (props) => {
         items: props.businesses.slice(0, itemsPerPage),
     });
 
-    console.log(pagination);
-
-    // React.useEffect(() => {
-    //     const numPages = props.businesses.length / itemsPerPage;
-    //     setPagination({
-    //         totalItems: props.businesses.length,
-    //         numberOfPages: numPages < 1 ? 1 : numPages,
-    //         page: 1,
-    //         items: props.businesses.slice(0, itemsPerPage),
-    //     });
-    // }, [props.businesses]);
+    React.useEffect(() => {
+        const numPages = Math.floor(props.businesses.length / itemsPerPage);
+        setPagination({
+            totalItems: props.businesses.length,
+            numberOfPages: numPages < 1 ? 1 : numPages,
+            page: 1,
+            items: props.businesses.slice(0, itemsPerPage),
+        });
+    }, [props.businesses]);
 
     const updatePage = (event, value) => {
         setPagination({
@@ -49,6 +47,14 @@ const ServiceCards = (props) => {
             ),
         });
     };
+
+    if (props.businesses.length === 0) {
+        return (
+            <Box textAlign="center">
+                <Typography variant="h4">No Data available</Typography>
+            </Box>
+        );
+    }
 
     return (
         <Box

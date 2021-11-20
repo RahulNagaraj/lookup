@@ -114,6 +114,7 @@ const Home = () => {
             pathname: "/service-detail",
             state: {
                 businessTitle: title,
+                alias,
                 searchLocation: location,
             },
         });

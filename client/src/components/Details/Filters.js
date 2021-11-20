@@ -15,31 +15,27 @@ import {
     RadioGroup,
     Radio,
     InputLabel,
+    Input,
     Select,
     MenuItem,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { blueGrey, red } from "@mui/material/colors";
 
-const JOB_TYPE_FILTER = [
-    { key: "repair", label: "Repair" },
-    { key: "installation", label: "Installation" },
-    { key: "inspection", label: "Inspection" },
+const REVIEWS_FILTER = [
+    { key: "recommended", label: "50-100" },
+    { key: "highest", label: "100+" },
+    { key: "lowest", label: "0-50" },
 ];
-const SORT_TYPE_FILTER = [
+const RATING_FILTER = [
     { key: "recommended", label: "Recommended" },
     { key: "highest", label: "Highest Rated" },
     { key: "lowest", label: "Lowest Rated" },
 ];
-const COST_TYPE_FILTER = [
-    { key: "$", label: "Low" },
-    { key: "$$", label: "Medium" },
-    { key: "$$$", label: "High" },
-];
-const DISTANCE_FILTER = [
-    { key: "driving", label: "Driving" },
-    { key: "walking", label: "Walking" },
-    { key: "biking", label: "Biking" },
+const OPEN_NOW_FILTER = [
+    { key: "all", label: "All" },
+    { key: 1, label: "Yes" },
+    { key: 0, label: "No" },
 ];
 
 const useStyles = makeStyles({
@@ -70,41 +66,33 @@ const Filters = (props) => {
             <Container>
                 <Box sx={{ mt: 2, mb: 1 }}>
                     <Typography variant="h5">Filters</Typography>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            minWidth: 150,
-                        }}
-                    >
-                        <Button size="small" onClick={props.handleReset}>
-                            Reset
-                        </Button>
-                    </Box>
                     <FormControl
                         variant="standard"
                         sx={{
-                            mt: 0,
+                            mt: 1,
                             display: "flex",
                             justifyContent: "flex-end",
                         }}
                     >
-                        <InputLabel id="jobType">Job Type</InputLabel>
+                        <InputLabel id="reviewCount">Review Count</InputLabel>
                         <Select
-                            labelId="jobType"
+                            labelId="reviewCount"
                             id="jobType-select"
-                            value={props.filters.jobType}
-                            label="Job Type"
+                            value={props.filters.reviewCount}
+                            label="Review Count"
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {JOB_TYPE_FILTER.map((data) => (
+                            {REVIEWS_FILTER.map((data) => (
                                 <MenuItem
                                     key={data.key}
                                     value={data.key}
                                     onClick={() =>
-                                        props.updateFilter("jobType", data.key)
+                                        props.updateFilter(
+                                            "reviewCount",
+                                            data.key
+                                        )
                                     }
                                 >
                                     {data.label}
@@ -161,22 +149,22 @@ const Filters = (props) => {
                         variant="standard"
                         sx={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                        <InputLabel id="sortType">Rating</InputLabel>
+                        <InputLabel id="rating">Rating</InputLabel>
                         <Select
-                            labelId="sortType"
-                            id="sortType-select"
-                            value={props.filters.sortType}
-                            label="Sort"
+                            labelId="rating"
+                            id="rating-select"
+                            value={props.filters.rating}
+                            label="Rating"
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {SORT_TYPE_FILTER.map((data) => (
+                            {RATING_FILTER.map((data) => (
                                 <MenuItem
                                     key={data.key}
                                     value={data.key}
                                     onClick={() =>
-                                        props.updateFilter("sortType", data.key)
+                                        props.updateFilter("rating", data.key)
                                     }
                                 >
                                     {data.label}
@@ -184,48 +172,6 @@ const Filters = (props) => {
                             ))}
                         </Select>
                     </FormControl>
-                    {/* <Typography varaiant="h4">Sort</Typography>
-                    <Paper
-                        sx={{
-                            display: "flex",
-                            justifyContent: "start",
-                            flexWrap: "wrap",
-                            listStyle: "none",
-                            p: 0.5,
-                            m: 0,
-                            background: "transparent",
-                        }}
-                        elevation={0}
-                        component="ul"
-                    >
-                        {SORT_TYPE_FILTER.map((data) => {
-                            return (
-                                <ListItem
-                                    key={data.key}
-                                    sx={{ pt: 0.5, px: 0 }}
-                                >
-                                    <Chip
-                                        classes={{
-                                            root: classes.selected,
-                                            filled: classes.filled,
-                                        }}
-                                        variant={
-                                            props.filters.sortType === data.key
-                                                ? "filled"
-                                                : "outlined"
-                                        }
-                                        label={data.label}
-                                        onClick={() =>
-                                            props.updateFilter(
-                                                "sortType",
-                                                data.key
-                                            )
-                                        }
-                                    />
-                                </ListItem>
-                            );
-                        })}
-                    </Paper> */}
                 </Box>
 
                 <Box sx={{ mt: 1 }}>
@@ -233,22 +179,25 @@ const Filters = (props) => {
                         variant="standard"
                         sx={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                        <InputLabel id="costType">Cost</InputLabel>
+                        <InputLabel id="openNow">Open Now</InputLabel>
                         <Select
-                            labelId="costType"
-                            id="costType-select"
-                            value={props.filters.costType}
-                            label="Cost"
+                            labelId="openNow"
+                            id="openNow-select"
+                            value={props.filters.isOpenNow}
+                            label="Open Now"
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {COST_TYPE_FILTER.map((data) => (
+                            {OPEN_NOW_FILTER.map((data) => (
                                 <MenuItem
                                     key={data.key}
                                     value={data.key}
                                     onClick={() =>
-                                        props.updateFilter("costType", data.key)
+                                        props.updateFilter(
+                                            "isOpenNow",
+                                            data.key
+                                        )
                                     }
                                 >
                                     {data.label}
@@ -256,45 +205,6 @@ const Filters = (props) => {
                             ))}
                         </Select>
                     </FormControl>
-                    {/*  <Typography varaiant="h4">Cost</Typography>
-                    <Paper
-                        sx={{
-                            display: "flex",
-                            justifyContent: "start",
-                            flexWrap: "wrap",
-                            listStyle: "none",
-                            p: 0.5,
-                            m: 0,
-                            background: "transparent",
-                        }}
-                        elevation={0}
-                        component="ul"
-                    >
-                        <ButtonGroup
-                            aria-label="button group"
-                            variant="outlined"
-                        >
-                            {COST_TYPE_FILTER.map((data) => (
-                                <Button
-                                    classes={{
-                                        root: classes.selected,
-                                        contained: classes.filled,
-                                    }}
-                                    variant={
-                                        data.key === props.filters.costType
-                                            ? "contained"
-                                            : "outlined"
-                                    }
-                                    key={data.key}
-                                    onClick={() =>
-                                        props.updateFilter("costType", data.key)
-                                    }
-                                >
-                                    {data.label}
-                                </Button>
-                            ))}
-                        </ButtonGroup>
-                    </Paper> */}
                 </Box>
 
                 <Box sx={{ mt: 1.5, mb: 2 }}>
@@ -302,29 +212,26 @@ const Filters = (props) => {
                         variant="standard"
                         sx={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                        <InputLabel id="distance">Distance</InputLabel>
-                        <Select
-                            labelId="distance"
-                            id="distance-select"
-                            value={props.filters.distance}
-                            label="Distance"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {DISTANCE_FILTER.map((data) => (
-                                <MenuItem
-                                    key={data.key}
-                                    value={data.key}
-                                    onClick={() =>
-                                        props.updateFilter("distance", data.key)
-                                    }
-                                >
-                                    {data.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
+                        <InputLabel id="zipcode">Zip Code</InputLabel>
+                        <Input
+                            id="zipcode-input"
+                            value={props.filters.zipcode}
+                            onChange={(e) =>
+                                props.updateFilter("zipcode", e.target.value)
+                            }
+                        />
                     </FormControl>
+                </Box>
+                <Box display="flex" justifyContent="space-between">
+                    <Button
+                        variant="contained"
+                        onClick={props.handleFilterBusinesses}
+                    >
+                        Go
+                    </Button>
+                    <Button variant="contained" onClick={props.handleReset}>
+                        Reset
+                    </Button>
                 </Box>
             </Container>
         </Grid>

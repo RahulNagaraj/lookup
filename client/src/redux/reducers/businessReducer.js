@@ -5,6 +5,13 @@ export const initialState = {
     deals: [],
     businesses: [],
     filteredBusinesses: [],
+    filters: {
+        rating: "",
+        reviewCount: "",
+        isOpenNow: "",
+        category: "",
+        zipcode: "",
+    },
     error: "",
 };
 
@@ -24,6 +31,79 @@ const filterBusinessByServiceType = (state, serviceType, searchLocation) => {
     });
 
     return filteredBusinesses;
+};
+
+const setFilters = (state, filterType, filterValue) => {
+    return {
+        ...state.filters,
+        [filterType]: filterValue,
+    };
+};
+
+const filterBusinesses = (state) => {
+    const { filters, filteredBusinesses } = state;
+    let businesses = [...filteredBusinesses];
+
+    Object.keys(filters).forEach((key) => {
+        if (key === "zipcode" && filters[key] !== "") {
+            businesses = businesses.filter(
+                (business) => business.location.zip_code === filters[key]
+            );
+        }
+        if (key === "isOpenNow" && filters[key] !== "") {
+            businesses = businesses.filter((business) => {
+                if (filters[key] === "all") return true;
+                return business.hours[0].is_open_now === Boolean(filters[key]);
+            });
+        }
+        if (key === "rating" && filters[key] !== "") {
+            if (filters[key] === "highest") {
+                businesses = businesses.filter(
+                    (business) => business.rating === 5
+                );
+            } else if (filters[key] === "lowest") {
+                businesses = businesses.filter(
+                    (business) => business.rating === 1
+                );
+            } else {
+                businesses = businesses.filter(
+                    (business) => business.rating >= 3
+                );
+            }
+        }
+        if (key === "reviewCount" && filters[key] !== "") {
+            if (filters[key] === "highest") {
+                businesses = businesses.filter(
+                    (business) => business.review_count > 100
+                );
+            } else if (filters[key] === "lowest") {
+                businesses = businesses.filter(
+                    (business) => business.review_count <= 50
+                );
+            } else {
+                businesses = businesses.filter(
+                    (business) =>
+                        business.review_count > 50 &&
+                        business.review_count <= 100
+                );
+            }
+        }
+    });
+
+    // state.filteredBusinesses.forEach((business) => {
+    //     Object.keys(state.filters).forEach((key) => {
+    //         if (
+    //             key === "zipcode" &&
+    //             state.filters[key] === business.location.zip_code
+    //         ) {
+    //             businesses.push(business);
+    //         }
+    //     });
+    // });
+
+    console.log(businesses);
+
+    return businesses;
 };
 
 export const businessesReducer = (state = initialState, action) => {
@@ -62,7 +142,7 @@ export const businessesReducer = (state = initialState, action) => {
                 error: action.error,
             };
 
-        case types.GET_BUSINESS_BY_SERVICE_TYPE:
+        case types.GET_BUSINESSES_BY_SERVICE_TYPE: {
             const { serviceType, searchLocation } = action.data;
             const filteredBusinesses = filterBusinessByServiceType(
                 state,
@@ -73,6 +153,39 @@ export const businessesReducer = (state = initialState, action) => {
                 ...state,
                 filteredBusinesses,
             };
+        }
+
+        case types.SET_FILTER:
+            const { filterType, filterValue } = action.data;
+            const filters = setFilters(state, filterType, filterValue);
+            return {
+                ...state,
+                filters,
+            };
+
+        case types.FILTER_BUSINESSES: {
+            const filteredBusinesses = filterBusinesses(state);
+            return {
+                ...state,
+                filteredBusinesses,
+            };
+        }
+
+        case types.RESET_FILTER: {
+            const { serviceType, searchLocation } = action.data;
+            const filteredBusinesses = filterBusinessByServiceType(
+                state,
+                serviceType,
+                searchLocation
+            );
+            return {
+                ...state,
+                filters: {
+                    ...initialState.filters,
+                },
+                filteredBusinesses,
+            };
+        }
 
         default:
             return state;
