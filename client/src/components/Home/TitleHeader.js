@@ -12,6 +12,7 @@ import {
     TextField,
     CircularProgress,
 } from "@mui/material";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 import { useDispatch, useSelector } from "react-redux";
 import { blueGrey } from "@mui/material/colors";
 import { useQuery } from "@apollo/client";
@@ -25,6 +26,12 @@ const TitleHeader = (props) => {
     const [searchText, setSearchText] = React.useState("");
 
     const businessState = useSelector((state) => state.businesses);
+
+    const businesses = businessState.businesses.filter(
+        (business) => business.location.city === props.location.value
+    );
+
+    console.log(businesses);
 
     React.useEffect(() => {
         if (
@@ -46,6 +53,14 @@ const TitleHeader = (props) => {
         //     pathname: "/business-detail",
         //     state: business,
         // });
+    };
+
+    const filterOptions = (options, { inputValue }) => {
+        return options.filter(
+            (option) =>
+                option.name.toLowerCase().includes(inputValue.toLowerCase()) &&
+                option.location.city === props.location.value
+        );
     };
 
     return (
@@ -134,9 +149,9 @@ const TitleHeader = (props) => {
                     autoHighlight
                     disableClearable
                     sx={{ width: "40vw", ml: 1 }}
-                    options={businessState.businesses.map(
-                        (business) => business.name
-                    )}
+                    options={businesses}
+                    getOptionLabel={(option) => option.name}
+                    filterOptions={filterOptions}
                     renderInput={(params) => (
                         <TextField
                             {...params}
