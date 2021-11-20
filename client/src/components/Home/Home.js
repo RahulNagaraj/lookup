@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, CircularProgress } from "@mui/material";
+import { Box, Container, CircularProgress, Skeleton } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
@@ -128,49 +128,31 @@ const Home = () => {
 
     const handleLocation = (loc) => setLocation(loc);
 
-    if (servicesState.isFetching) {
-        return <Loader />;
-    } else if (servicesState.error != "") {
-        return (
-            <Container maxWidth="sm">
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "85vh",
-                    }}
-                >
-                    Error downloading the data
-                </Box>
-            </Container>
-        );
-    } else {
-        return (
-            <Container id="home" maxWidth="xl" disableGutters>
-                <TitleHeader
-                    locations={locations}
-                    services={servicesState.services}
-                    handleLocation={handleLocation}
-                    location={location}
-                />
+    return (
+        <Container id="home" maxWidth="xl" disableGutters>
+            <TitleHeader
+                locations={locations}
+                services={servicesState.services}
+                handleLocation={handleLocation}
+                location={location}
+            />
 
-                <Services
-                    homeServices={servicesState.services}
-                    handleCardClick={handleCardClick}
-                />
+            <Services
+                homeServices={servicesState.services}
+                handleCardClick={handleCardClick}
+                loading={servicesState.isFetching}
+            />
 
-                {/* <Trending
+            {/* <Trending
                     trending={trending}
                     handleBusinessCardClick={businessCardClick}
                 /> */}
 
-                <Offers offers={businessesState.deals} />
+            <Offers offers={businessesState.deals} />
 
-                <RecommendedEvents recommendedEvents={recommendedEvents} />
-            </Container>
-        );
-    }
+            <RecommendedEvents recommendedEvents={recommendedEvents} />
+        </Container>
+    );
 };
 
 export default Home;

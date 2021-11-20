@@ -9,6 +9,7 @@ import {
     CardActionArea,
     CardMedia,
     CardContent,
+    Skeleton,
 } from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
 
@@ -37,21 +38,45 @@ const Services = (props) => {
                                 }
                             >
                                 <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        width="200"
-                                        image={`/static/images/${service.alias}.jpg`}
-                                        alt={service.title}
-                                    />
+                                    {props.loading ? (
+                                        <Skeleton
+                                            sx={{ height: 200 }}
+                                            animation="wave"
+                                            variant="rectangular"
+                                        />
+                                    ) : (
+                                        <CardMedia
+                                            component="img"
+                                            height="200"
+                                            width="200"
+                                            image={`/static/images/${service.alias}.jpg`}
+                                            alt={service.title}
+                                        />
+                                    )}
+
                                     <CardContent>
-                                        <Typography
-                                            gutterBottom
-                                            variant="body1"
-                                            component="div"
-                                        >
-                                            {service.title}
-                                        </Typography>
+                                        {props.loading ? (
+                                            <React.Fragment>
+                                                <Skeleton
+                                                    animation="wave"
+                                                    height={10}
+                                                    style={{ marginBottom: 6 }}
+                                                />
+                                                <Skeleton
+                                                    animation="wave"
+                                                    height={10}
+                                                    width="80%"
+                                                />
+                                            </React.Fragment>
+                                        ) : (
+                                            <Typography
+                                                gutterBottom
+                                                variant="body1"
+                                                component="div"
+                                            >
+                                                {service.title}
+                                            </Typography>
+                                        )}
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
