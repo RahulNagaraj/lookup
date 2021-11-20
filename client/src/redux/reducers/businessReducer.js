@@ -4,7 +4,26 @@ export const initialState = {
     isFetching: false,
     deals: [],
     businesses: [],
+    filteredBusinesses: [],
     error: "",
+};
+
+const filterBusinessByServiceType = (state, serviceType, searchLocation) => {
+    const { businesses } = state;
+    const filteredBusinesses = [];
+
+    businesses.forEach((business) => {
+        business.categories.forEach((category) => {
+            if (
+                category.alias === serviceType &&
+                business.location.city === searchLocation
+            ) {
+                filteredBusinesses.push(business);
+            }
+        });
+    });
+
+    return filteredBusinesses;
 };
 
 export const businessesReducer = (state = initialState, action) => {
@@ -41,6 +60,18 @@ export const businessesReducer = (state = initialState, action) => {
                 ...initialState,
                 businesses: [],
                 error: action.error,
+            };
+
+        case types.GET_BUSINESS_BY_SERVICE_TYPE:
+            const { serviceType, searchLocation } = action.data;
+            const filteredBusinesses = filterBusinessByServiceType(
+                state,
+                serviceType,
+                searchLocation
+            );
+            return {
+                ...state,
+                filteredBusinesses,
             };
 
         default:

@@ -39,3 +39,13 @@ export const businessesFailure = (error) => {
         error,
     };
 };
+
+export const getBusinessByServiceType = (serviceType, searchLocation) => {
+    return {
+        type: types.GET_BUSINESS_BY_SERVICE_TYPE,
+        data: {
+            serviceType,
+            searchLocation,
+        }
+    };
+};

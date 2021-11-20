@@ -13,7 +13,10 @@ import yelpClient from "../../redux/services/yelp";
 import { YelpQuery } from "../../graphql";
 import Loader from "../../common/Loader";
 import { servicesRequest } from "../../redux/actions/servicesActions";
-import { businessDealsRequest } from "../../redux/actions/businessActions";
+import {
+    businessDealsRequest,
+    getBusinessByServiceType,
+} from "../../redux/actions/businessActions";
 
 const locations = [
     {
@@ -105,15 +108,16 @@ const Home = () => {
         },
     });
 
-    const handleCardClick = (title, alias) =>
+    const handleCardClick = (title, alias) => {
+        dispatch(getBusinessByServiceType(alias, location.value));
         history.push({
             pathname: "/service-detail",
             state: {
                 businessTitle: title,
-                alias,
                 searchLocation: location,
             },
         });
+    };
 
     const businessCardClick = (business) =>
         history.push({

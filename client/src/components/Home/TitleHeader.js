@@ -41,11 +41,11 @@ const TitleHeader = (props) => {
     };
 
     const handleOnInputChange = (event) => {
-        const business = data?.search?.business[event.target.value];
-        history.push({
-            pathname: "/business-detail",
-            state: business,
-        });
+        // const business = data?.search?.business[event.target.value];
+        // history.push({
+        //     pathname: "/business-detail",
+        //     state: business,
+        // });
     };
 
     return (

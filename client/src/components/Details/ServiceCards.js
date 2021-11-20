@@ -22,20 +22,22 @@ const itemsPerPage = 5;
 const ServiceCards = (props) => {
     const [pagination, setPagination] = React.useState({
         totalItems: props.businesses.length,
-        numberOfPages: props.businesses.length / itemsPerPage,
+        numberOfPages: Math.floor(props.businesses.length / itemsPerPage),
         page: 1,
         items: props.businesses.slice(0, itemsPerPage),
     });
 
-    React.useEffect(() => {
-        const numPages = props.businesses.length / itemsPerPage;
-        setPagination({
-            totalItems: props.businesses.length,
-            numberOfPages: numPages < 1 ? 1 : numPages,
-            page: 1,
-            items: props.businesses.slice(0, itemsPerPage),
-        });
-    }, [props.businesses]);
+    console.log(pagination);
+
+    // React.useEffect(() => {
+    //     const numPages = props.businesses.length / itemsPerPage;
+    //     setPagination({
+    //         totalItems: props.businesses.length,
+    //         numberOfPages: numPages < 1 ? 1 : numPages,
+    //         page: 1,
+    //         items: props.businesses.slice(0, itemsPerPage),
+    //     });
+    // }, [props.businesses]);
 
     const updatePage = (event, value) => {
         setPagination({
@@ -87,9 +89,9 @@ const ServiceCards = (props) => {
                             alt={business.name}
                         />
                         <CardContent>
-                            <Typography variant="body2" color="text.secondary">
+                            {/* <Typography variant="body2" color="text.secondary">
                                 {business.reviews[0].text}
-                            </Typography>
+                            </Typography> */}
                         </CardContent>
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites">
