@@ -1,17 +1,12 @@
 import React from "react";
-import { Box, Container, CircularProgress, Skeleton } from "@mui/material";
+import { Container } from "@mui/material";
 import { useHistory } from "react-router-dom";
-import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 
 import Services from "./Services";
 import RecommendedEvents from "./Recommended";
-import Trending from "./Trending";
 import Offers from "./Offers";
 import TitleHeader from "./TitleHeader";
-import yelpClient from "../../redux/services/yelp";
-import { YelpQuery } from "../../graphql";
-import Loader from "../../common/Loader";
 import { servicesRequest } from "../../redux/actions/servicesActions";
 import {
     businessDealsRequest,
@@ -91,13 +86,13 @@ const Home = () => {
         if (!servicesState.isFetching && servicesState.services.length === 0) {
             dispatch(servicesRequest());
         }
-    }, [servicesState]);
+    }, [servicesState, dispatch]);
 
     React.useEffect(() => {
         if (!businessesState.isFetching && businessesState.deals.length === 0) {
             dispatch(businessDealsRequest());
         }
-    }, [businessesState]);
+    }, [businessesState, dispatch]);
 
     const [location, setLocation] = React.useState({
         key: "chicago",

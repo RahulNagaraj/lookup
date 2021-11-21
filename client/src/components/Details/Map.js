@@ -5,7 +5,6 @@ import {
     GoogleApiWrapper,
     InfoWindow,
     Marker,
-    Circle,
 } from "google-maps-react";
 
 const containerStyles = {

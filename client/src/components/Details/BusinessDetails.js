@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
     Box,
@@ -91,7 +91,7 @@ const OpenHours = ({ business }) => {
     );
 };
 
-const Review = ({ k, review }) => {
+const Review = ({ key, review }) => {
     const date = new Date(review.time_created);
     const options = {
         weekday: "long",
@@ -101,7 +101,7 @@ const Review = ({ k, review }) => {
     };
     const formatedDate = date.toLocaleDateString("en-US", options);
     return (
-        <Card key={k} sx={{ my: 1 }}>
+        <Card sx={{ my: 1 }}>
             <CardHeader
                 avatar={
                     <Avatar
@@ -368,7 +368,7 @@ const BusinessDetails = () => {
                         <Box>
                             <Typography variant="h6">Top Reviews</Typography>
                             {businessesState.reviews.map((review, i) => (
-                                <Review k={i} review={review} />
+                                <Review key={i} review={review} />
                             ))}
                         </Box>
                         <Divider sx={{ my: 2 }} />

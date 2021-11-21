@@ -16,7 +16,6 @@ const Footer = () => {
                     sx={{ bgcolor: blueGrey[50] }}
                     value=""
                     label=""
-                    showLabel={false}
                     onChange={() => {}}
                 >
                     <Typography sx={{ m: 2 }} variant="body1" component="div">

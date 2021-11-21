@@ -12,11 +12,9 @@ import { Link, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { blueGrey, grey, purple, red } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
-import { useMutation } from "@apollo/client";
 
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
-import { LoginQuery } from "../../graphql";
 import { useDispatch, useSelector } from "react-redux";
 import {
     logoutRequest,
@@ -37,15 +35,6 @@ const useStyles = makeStyles({
         backgroundColor: purple[900],
     },
 });
-
-const LoginButton = styled(Button)(() => ({
-    color: "#FFF",
-    backgroundColor: grey[900],
-    "&:hover": {
-        backgroundColor: grey[400],
-        color: "#000",
-    },
-}));
 
 export default function Header() {
     const classes = useStyles();
@@ -98,13 +87,13 @@ export default function Header() {
         if (user && !user.isFetching && user.isLoggedIn && openLogin) {
             handleCloseLogin();
         }
-    }, [handleCloseLogin, openLogin]);
+    }, [handleCloseLogin, openLogin, user]);
 
     React.useEffect(() => {
         if (user && !user.isFetching && user.isLoggedIn && openSignup) {
             handleCloseSignup();
         }
-    }, [handleCloseSignup, openSignup]);
+    }, [handleCloseSignup, openSignup, user]);
 
     const handleLogout = () => {
         dispatch(logoutRequest());

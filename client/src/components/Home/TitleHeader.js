@@ -6,20 +6,14 @@ import {
     Typography,
     FormControl,
     InputLabel,
-    Input,
     FilledInput,
     Select,
     MenuItem,
     Autocomplete,
     TextField,
-    CircularProgress,
 } from "@mui/material";
-import { createFilterOptions } from "@mui/material/Autocomplete";
 import { useDispatch, useSelector } from "react-redux";
 import { blueGrey } from "@mui/material/colors";
-import { useQuery } from "@apollo/client";
-import { YelpQuery } from "../../graphql";
-import yelpClient from "../../redux/services/yelp";
 import { businessesRequest } from "../../redux/actions/businessActions";
 
 const TitleHeader = (props) => {
@@ -112,40 +106,6 @@ const TitleHeader = (props) => {
                     <FilledInput labelId="zipcode-label" id="zipcode-input" />
                 </FormControl>
 
-                {/* <Autocomplete
-                    id="autocomplete"
-                    autoHighlight
-                    options={businessState.businesses}
-                    filterOptions={(x) => x}
-                    getOptionLabel={(option) => option.name}
-                    sx={{ width: "40vw", ml: 1 }}
-                    loading={businessState.isFetching}
-                    isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                    }
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="Search"
-                            placeholder="Search for a service..."
-                            InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                    <React.Fragment>
-                                        {businessState.isFetching ? (
-                                            <CircularProgress
-                                                color="inherit"
-                                                size={20}
-                                            />
-                                        ) : null}
-                                        {params.InputProps.endAdornment}
-                                    </React.Fragment>
-                                ),
-                            }}
-                            variant="filled"
-                        />
-                    )}
-                /> */}
                 <Autocomplete
                     id="autocomplete"
                     autoHighlight
