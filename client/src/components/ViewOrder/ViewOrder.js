@@ -13,6 +13,7 @@ import {
 import { useQuery } from "@apollo/client";
 import { ViewOrderQuery } from "../../graphql";
 import Loader from "../../common/Loader";
+import { useSelector } from "react-redux";
 
 const formatColumns = (data) => {
     if (data.length > 0) {
@@ -35,7 +36,8 @@ const formatColumns = (data) => {
 export default function StickyHeadTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const userId = localStorage.getItem("userId");
+    const userState = useSelector((state) => state.user);
+    const userId = userState.userDetails.id;
     const { loading, error, data } = useQuery(
         ViewOrderQuery.VIEW_ORDER_BY_USER_ID,
         {

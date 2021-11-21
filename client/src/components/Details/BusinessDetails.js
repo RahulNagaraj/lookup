@@ -190,7 +190,7 @@ const BusinessDetails = () => {
         const customerName = `${firstName}, ${lastName}`;
         const customerAddress = `${address}, ${city}, ${state} - ${zipCode}`;
         const { id: businessId, name: businessName, categories } = business;
-        const userId = localStorage.getItem("userId");
+        const userId = userState.userDetails.id;
         createOrder({
             variables: {
                 businessId,

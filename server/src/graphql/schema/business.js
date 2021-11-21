@@ -5,6 +5,8 @@ export default gql`
         getAllBusiness: [Business]!
         getBusiness(id: ID!): Business
         getBusinessDeals: [Business]!
+        filterBusinessesByCity(city: String!): [Business]!
+        filterBusinessesByZipcode(zipcode: String!): [Business]!
     }
 
     type Business {

@@ -158,6 +158,24 @@ const GET_ALL_REVIEWS = gql`
     }
 `;
 
+const FILTER_BUSINESSES_BY_CITY = gql`
+    ${BUSINESS_FRAGMENT}
+    query filterBusinessByCity($city: String!) {
+        businesses: filterBusinessesByCity(city: $city) {
+            ...businessFragment
+        }
+    }
+`;
+
+const FILTER_BUSINESSES_BY_ZIPCODE = gql`
+    ${BUSINESS_FRAGMENT}
+    query filterBusinessByZipcode($zipcode: String!) {
+        businesses: filterBusinessesByZipcode(zipcode: $zipcode) {
+            ...businessFragment
+        }
+    }
+`;
+
 const SEARCH_SERVICE = gql`
     ${BUSINESS_FRAGMENT}
     query search_service(
@@ -188,4 +206,6 @@ export default {
     GET_YELP_REVIEWS,
     GET_ALL_REVIEWS,
     ADD_REVIEW,
+    FILTER_BUSINESSES_BY_CITY,
+    FILTER_BUSINESSES_BY_ZIPCODE,
 };

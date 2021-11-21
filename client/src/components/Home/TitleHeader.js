@@ -11,21 +11,30 @@ import {
     MenuItem,
     Autocomplete,
     TextField,
+    CircularProgress,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { blueGrey } from "@mui/material/colors";
 import { businessesRequest } from "../../redux/actions/businessActions";
+import {
+    setSearchField,
+    filterBusinessesSearchRequest,
+} from "../../redux/actions/searchActions";
 
 const TitleHeader = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    const [searchText, setSearchText] = React.useState("");
+    // const [searchText, setSearchText] = React.useState("");
 
     const businessState = useSelector((state) => state.businesses);
+    const searchState = useSelector((state) => state.search);
 
-    const businesses = businessState.businesses.filter(
-        (business) => business.location.city === props.location.value
-    );
+    const {
+        searchFields: { city, zipcode, searchText },
+        isFetching,
+        filteredBusinesses,
+    } = searchState;
+    const { businesses } = businessState;
 
     React.useEffect(() => {
         if (
@@ -37,25 +46,30 @@ const TitleHeader = (props) => {
     }, [businessState]);
 
     const handleOnChange = (event) => {
-        const term = event.target.value;
-        setSearchText(term);
+        // const term = event.target.value;
+        // setSearchText(term);
     };
 
-    const handleOnInputChange = (event) => {
-        // const business = data?.search?.business[event.target.value];
-        // history.push({
-        //     pathname: "/business-detail",
-        //     state: business,
-        // });
+    const handleOnInputChange = (business) => {
+        history.push({
+            pathname: "/business-detail",
+            state: business,
+        });
     };
 
-    const filterOptions = (options, { inputValue }) => {
-        return options.filter(
-            (option) =>
-                option.name.toLowerCase().includes(inputValue.toLowerCase()) &&
-                option.location.city === props.location.value
-        );
-    };
+    // const filterOptions = (options, { inputValue }) => {
+    //     console.log(inputValue);
+    //     if (inputValue != "") {
+    //         return options.filter(
+    //             (option) =>
+    //                 option.name
+    //                     .toLowerCase()
+    //                     .includes(inputValue.toLowerCase()) &&
+    //                 option.location.city === props.location.value
+    //         );
+    //     }
+    //     return options;
+    // };
 
     return (
         <Box
@@ -79,34 +93,99 @@ const TitleHeader = (props) => {
                 </Typography>
             </Box>
             <Box display="flex" justifyContent="center">
-                <FormControl variant="standard" sx={{ minWidth: 200, mr: 1 }}>
+                <FormControl variant="standard" sx={{ minWidth: 200 }}>
                     <InputLabel sx={{ p: 1 }} id="city-label">
                         City
                     </InputLabel>
                     <Select
                         labelId="city-label"
                         id="city-select"
-                        value={props.location.value}
+                        value={city}
                         label="City"
                         variant="filled"
+                        onBlur={() =>
+                            dispatch(
+                                filterBusinessesSearchRequest(city, zipcode)
+                            )
+                        }
                     >
                         {props.locations.map((loc) => (
                             <MenuItem
                                 key={loc.key}
                                 value={loc.value}
-                                onClick={() => props.handleLocation(loc)}
+                                onClick={() =>
+                                    dispatch(setSearchField("city", loc.value))
+                                }
                             >
                                 {loc.value}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
+                <Box display="flex" alignItems="center" sx={{ mx: 1 }}>
+                    <Typography variant="body1">OR</Typography>
+                </Box>
+
                 <FormControl variant="filled">
                     <InputLabel id="zipcode-label">Zip Code</InputLabel>
-                    <FilledInput labelId="zipcode-label" id="zipcode-input" />
+                    <FilledInput
+                        labelId="zipcode-label"
+                        id="zipcode-input"
+                        value={zipcode}
+                        onChange={(e) =>
+                            dispatch(setSearchField("zipcode", e.target.value))
+                        }
+                        onBlur={() =>
+                            dispatch(
+                                filterBusinessesSearchRequest(city, zipcode)
+                            )
+                        }
+                    />
                 </FormControl>
 
                 <Autocomplete
+                    id="autocomplete"
+                    autoHighlight
+                    options={
+                        filteredBusinesses.length > 0
+                            ? filteredBusinesses
+                            : businesses
+                    }
+                    getOptionLabel={(option) => option.name}
+                    sx={{ width: "40vw", ml: 1 }}
+                    loading={businessState.isFetching || isFetching}
+                    isOptionEqualToValue={(option, value) =>
+                        option.id === value.id
+                    }
+                    onChange={(e, newValue) => {
+                        handleOnInputChange(newValue);
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Search"
+                            placeholder="Search for a service..."
+                            InputProps={{
+                                ...params.InputProps,
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {businessState.isFetching ||
+                                        isFetching ? (
+                                            <CircularProgress
+                                                color="inherit"
+                                                size={20}
+                                            />
+                                        ) : null}
+                                        {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                ),
+                            }}
+                            variant="filled"
+                        />
+                    )}
+                />
+
+                {/* <Autocomplete
                     id="autocomplete"
                     autoHighlight
                     disableClearable
@@ -125,7 +204,7 @@ const TitleHeader = (props) => {
                             variant="filled"
                         />
                     )}
-                />
+                /> */}
             </Box>
         </Box>
     );
