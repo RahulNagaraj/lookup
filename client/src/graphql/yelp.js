@@ -40,6 +40,20 @@ const BUSINESS_FRAGMENT = gql`
     }
 `;
 
+const REVIEW_FRAGMENT = gql`
+    fragment reviewFragment on Review {
+        _id
+        business_id
+        text
+        time_created
+        rating
+        user {
+            image_url
+            name
+        }
+    }
+`;
+
 const GET_SERVICES = gql`
     query services {
         services: getServices {
@@ -117,6 +131,33 @@ const GET_ALL = gql`
     }
 `;
 
+const GET_YELP_REVIEWS = gql`
+    ${REVIEW_FRAGMENT}
+    query getYelpReviews($business_id: ID!) {
+        reviews: getYelpReviews(business_id: $business_id) {
+            ...reviewFragment
+        }
+    }
+`;
+
+const ADD_REVIEW = gql`
+    ${REVIEW_FRAGMENT}
+    mutation addLookupReview($review: ReviewInput!) {
+        review: addLookupReview(review: $review) {
+            ...reviewFragment
+        }
+    }
+`;
+
+const GET_ALL_REVIEWS = gql`
+    ${REVIEW_FRAGMENT}
+    query getAllReviews($business_id: ID!) {
+        reviews: getAllReviews(business_id: $business_id) {
+            ...reviewFragment
+        }
+    }
+`;
+
 const SEARCH_SERVICE = gql`
     ${BUSINESS_FRAGMENT}
     query search_service(
@@ -144,4 +185,7 @@ export default {
     GET_SERVICES,
     GET_BUSINESS_DEALS,
     GET_ALL_BUSINESSES,
+    GET_YELP_REVIEWS,
+    GET_ALL_REVIEWS,
+    ADD_REVIEW,
 };

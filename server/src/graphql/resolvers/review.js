@@ -3,17 +3,31 @@ import { LookupReviews, Reviews } from "../../db/mongo";
 export default {
     Query: {
         getYelpReviews: async (parent, { business_id }) => {
-            return await Reviews.find({ business_id });
+            const yelpReviews = await Reviews.find({ business_id });
+            const lookupReviews = await LookupReviews.find({ business_id });
+            return [...yelpReviews];
         },
         getLookupReviews: async (parent, { business_id }) => {
             return await LookupReviews.find({ business_id });
         },
-        addLookupReview: async (parent, review) => {
-            return await LookupReviews.find({ id: review });
+        getAllReviews: async (parent, { business_id }) => {
+            const yelpReviews = await Reviews.find({ business_id });
+            const lookupReviews = await LookupReviews.find({ business_id });
+            return [...yelpReviews, ...lookupReviews];
         },
-        updateLookupReview: async (parent, review) => {
-            const doc = LookupReviews.find({ id: review });
-            return await LookupReviews.updateOne({ _id: doc._id, review });
+    },
+
+    Mutation: {
+        addLookupReview: async (parent, { review }) => {
+            const newReview = new LookupReviews({ ...review });
+            await LookupReviews.create(review);
+            return newReview;
+        },
+        updateLookupReview: async (parent, { id, review }) => {
+            return await LookupReviews.findOneAndUpdate({ _id: id }, review, {
+                upsert: true,
+                returnOriginal: false,
+            });
         },
         deleteLookupReview: async (parent, { id }, { models }) => {
             return await LookupReviews.deleteOne({ id });

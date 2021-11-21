@@ -22,6 +22,24 @@ function* businesses() {
     }
 }
 
+function* reviews({ business_id }) {
+    try {
+        const reviews = yield call(service.reviews, business_id);
+        yield put(actions.reviewsSuccess(reviews));
+    } catch (e) {
+        yield put(actions.reviewsFailure("Error fetching reviews!"));
+    }
+}
+
+function* addReview({ review }) {
+    try {
+        const newReview = yield call(service.addReview, review);
+        yield put(actions.addReviewSuccess(newReview));
+    } catch (e) {
+        yield put(actions.addReviewFailure("Error adding review!"));
+    }
+}
+
 function* watchBusinessDeals() {
     yield takeEvery(types.BUSINESS_DEALS_REQUEST, businessDeals);
 }
@@ -30,6 +48,19 @@ function* watchBusinesses() {
     yield takeEvery(types.BUSINESSES_REQUEST, businesses);
 }
 
+function* watchReviews() {
+    yield takeEvery(types.REVIEWS_REQUEST, reviews);
+}
+
+function* watchAddReview() {
+    yield takeEvery(types.ADD_REVIEW_REQUEST, addReview);
+}
+
 export function* businessSaga() {
-    yield all([watchBusinessDeals(), watchBusinesses()]);
+    yield all([
+        watchBusinessDeals(),
+        watchBusinesses(),
+        watchReviews(),
+        watchAddReview(),
+    ]);
 }

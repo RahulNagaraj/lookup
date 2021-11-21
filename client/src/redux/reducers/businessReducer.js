@@ -5,6 +5,7 @@ export const initialState = {
     deals: [],
     businesses: [],
     filteredBusinesses: [],
+    reviews: [],
     filters: {
         rating: "",
         reviewCount: "",
@@ -90,20 +91,12 @@ const filterBusinesses = (state) => {
         }
     });
 
-    // state.filteredBusinesses.forEach((business) => {
-    //     Object.keys(state.filters).forEach((key) => {
-    //         if (
-    //             key === "zipcode" &&
-    //             state.filters[key] === business.location.zip_code
-    //         ) {
-    //             businesses.push(business);
-    //         }
-    //     });
-    // });
-
-    console.log(businesses);
-
     return businesses;
+};
+
+const addNewReview = (state, review) => {
+    const reviews = [...state.reviews, review];
+    return reviews;
 };
 
 export const businessesReducer = (state = initialState, action) => {
@@ -184,6 +177,52 @@ export const businessesReducer = (state = initialState, action) => {
                     ...initialState.filters,
                 },
                 filteredBusinesses,
+            };
+        }
+
+        case types.REVIEWS_REQUEST: {
+            return {
+                ...state,
+                isFetching: true,
+            };
+        }
+
+        case types.REVIEWS_REQUEST_SUCCESS: {
+            return {
+                ...state,
+                isFetching: false,
+                reviews: action.reviews,
+            };
+        }
+
+        case types.REVIEWS_REQUEST_FAILURE: {
+            return {
+                ...state,
+                isFetching: false,
+                reviews: [],
+            };
+        }
+
+        case types.ADD_REVIEW_REQUEST: {
+            return {
+                ...state,
+                isFetching: true,
+            };
+        }
+
+        case types.ADD_REVIEW_REQUEST_SUCCESS: {
+            const reviews = addNewReview(state, action.review);
+            return {
+                ...state,
+                isFetching: false,
+                reviews,
+            };
+        }
+
+        case types.ADD_REVIEW_REQUEST_FAILURE: {
+            return {
+                ...state,
+                isFetching: false,
             };
         }
 

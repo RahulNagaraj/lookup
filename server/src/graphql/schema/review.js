@@ -4,18 +4,21 @@ export default gql`
     extend type Query {
         getYelpReviews(business_id: ID!): [Review]!
         getLookupReviews(business_id: ID!): [Review]!
-        addLookupReview(review: ID!): [Review!]!
-        updateLookupReview(review: ID!): [Review!]!
+        getAllReviews(business_id: ID!): [Review]!
+    }
+
+    extend type Mutation {
+        addLookupReview(review: ReviewInput!): Review!
+        updateLookupReview(id: ID!, review: ReviewInput!): Review!
         deleteLookupReview(id: ID!): Boolean!
     }
 
     type Review {
-        id: ID
+        _id: ID
         business_id: String
         text: String
         time_created: String
-        url: String
-        rating: Int
+        rating: String
         user: ReviewUser
     }
 
@@ -23,6 +26,18 @@ export default gql`
         id: String
         profile_url: String
         image_url: String
+        name: String
+    }
+
+    input ReviewInput {
+        business_id: String
+        text: String
+        time_created: String
+        rating: String
+        user: ReviewUserInput
+    }
+
+    input ReviewUserInput {
         name: String
     }
 `;

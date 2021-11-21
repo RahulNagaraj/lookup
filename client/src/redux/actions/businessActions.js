@@ -75,3 +75,45 @@ export const filterBusinesses = () => {
         type: types.FILTER_BUSINESSES,
     };
 };
+
+export const reviewsRequest = (business_id) => {
+    return {
+        type: types.REVIEWS_REQUEST,
+        business_id,
+    };
+};
+
+export const reviewsSuccess = (reviews) => {
+    return {
+        type: types.REVIEWS_REQUEST_SUCCESS,
+        reviews,
+    };
+};
+
+export const reviewsFailure = (error) => {
+    return {
+        type: types.REVIEWS_REQUEST_FAILURE,
+        error,
+    };
+};
+
+export const addReviewRequest = (review) => {
+    return {
+        type: types.ADD_REVIEW_REQUEST,
+        review,
+    };
+};
+
+export const addReviewSuccess = (review) => {
+    return {
+        type: types.ADD_REVIEW_REQUEST_SUCCESS,
+        review,
+    };
+};
+
+export const addReviewFailure = (error) => {
+    return {
+        type: types.ADD_REVIEW_REQUEST_FAILURE,
+        error,
+    };
+};

@@ -1,5 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import {
     Box,
     Container,
@@ -25,11 +26,16 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import { useMutation } from "@apollo/client";
 
-import Maps from "./Maps";
+import Map from "./Map";
 import BookNowModal from "./BookNowModal";
+import AddReviewModal from "./AddReviewModal";
 import OrderConfirmationModal from "./OrderConfirmationModal";
 import { constructPlacesObject } from "../../common/util";
 import { BookNowQuery } from "../../graphql";
+import {
+    reviewsRequest,
+    addReviewRequest,
+} from "../../redux/actions/businessActions";
 
 const parseOpenHours = (openHours) => {
     if (openHours && openHours.length > 0) {
@@ -128,9 +134,16 @@ const Review = ({ k, review }) => {
 
 const BusinessDetails = () => {
     const history = useHistory();
-    const business = history?.location?.state;
+    const dispatch = useDispatch();
+    const businessesState = useSelector((state) => state.businesses);
+    const userState = useSelector((state) => state.user);
+
+    const business = history.location.state;
+
     const [bookNowClicked, setBookNow] = React.useState(false);
     const [openBookNowModal, setOpenBookNowModal] = React.useState(false);
+    const [addReviewClicked, setAddReview] = React.useState(false);
+    const [openAddReviewModal, setAddReviewModal] = React.useState(false);
     const [showOrderConfirmationModal, setOrderConfirmationModal] =
         React.useState(false);
     const [orderConfirmationModalOpen, setOrderConfirmationModalOpen] =
@@ -146,6 +159,17 @@ const BusinessDetails = () => {
         state: "",
         zipCode: "",
     });
+
+    const [reviewDetails, setReviewDetails] = React.useState({
+        business_id: business.id,
+        text: "",
+        time_created: new Date(),
+        rating: null,
+        user: {
+            name: userState?.userDetails?.name || "Rahul",
+        },
+    });
+
     const [createOrder, { data, loading, error }] = useMutation(
         BookNowQuery.CREATE_ORDER
     );
@@ -196,8 +220,28 @@ const BusinessDetails = () => {
         setOpenBookNowModal(true);
     };
 
+    const handleAddReviewModalClick = () => {
+        setReviewDetails({
+            business_id: business.id,
+            text: "",
+            time_created: new Date(),
+            rating: null,
+            user: {
+                name: userState?.userDetails?.name || "Rahul",
+            },
+        });
+        setAddReview(!addReviewClicked);
+        setAddReviewModal(true);
+    };
+
     const handleCloseBookNowModal = () => {
+        setBookNow(!bookNowClicked);
         setOpenBookNowModal(false);
+    };
+
+    const handleCloseAddReviewModal = () => {
+        setAddReview(!addReviewClicked);
+        setAddReviewModal(false);
     };
 
     const handleBookNowButtonClick = (e) => {
@@ -223,6 +267,35 @@ const BusinessDetails = () => {
         setOrderConfirmationModalOpen(false);
         history.push("/");
     };
+
+    const handleSetReviewDetail = (e) => {
+        setReviewDetails({
+            ...reviewDetails,
+            [e.target.name]: e.target.value,
+            time_created: new Date(),
+        });
+    };
+
+    const handleAddReview = () => {
+        dispatch(addReviewRequest(reviewDetails));
+        handleCloseAddReviewModal();
+    };
+
+    const location = {
+        coordinates: {
+            lat: business.coordinates.latitude,
+            lng: business.coordinates.longitude,
+        },
+    };
+
+    React.useEffect(() => {
+        if (
+            !businessesState.isFetching &&
+            businessesState.reviews.length === 0
+        ) {
+            dispatch(reviewsRequest(business.id));
+        }
+    }, [businessesState]);
 
     return (
         <Box sx={{ mb: 8 }}>
@@ -275,35 +348,52 @@ const BusinessDetails = () => {
                             </Grid>
                         </Grid>
                         <Divider sx={{ my: 2 }} />
+                        <Typography variant="h6">Photos</Typography>
+                        <Grid container spacing={1}>
+                            {business.photos.map((photo) => (
+                                <Grid item xs={3}>
+                                    <Card sx={{ maxWidth: 200 }}>
+                                        <CardMedia
+                                            component="img"
+                                            alt={business.name}
+                                            height="200"
+                                            src={photo}
+                                        />
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+
+                        <Divider sx={{ my: 2 }} />
                         <Box>
                             <Typography variant="h6">Top Reviews</Typography>
-                            {business.reviews.map((review, i) => (
+                            {businessesState.reviews.map((review, i) => (
                                 <Review k={i} review={review} />
                             ))}
                         </Box>
                         <Divider sx={{ my: 2 }} />
-                        <Box>
+                        <Box sx={{ minHeight: 400 }}>
                             <Typography variant="h6">Location</Typography>
                             <Grid container spacing={2}>
                                 <Grid item sm={6}>
                                     <Card
                                         sx={{
-                                            maxHeight: 350,
+                                            maxHeight: 400,
                                             backgroundColor: "transparent",
                                         }}
                                     >
                                         <CardContent sx={{ padding: 0 }}>
-                                            <Maps
-                                                location={{
-                                                    lat: business.coordinates
-                                                        .latitude,
-                                                    lng: business.coordinates
-                                                        .longitude,
-                                                }}
-                                                zoomLevel={15}
+                                            <Map
+                                                location={location}
                                                 places={constructPlacesObject([
                                                     business,
                                                 ])}
+                                                showCurrentLocation={false}
+                                                zoom={15}
+                                                containerStyles={{
+                                                    width: "33%",
+                                                    height: "50%",
+                                                }}
                                             />
                                         </CardContent>
                                     </Card>
@@ -334,7 +424,9 @@ const BusinessDetails = () => {
                                 </ListItem>
                                 {/* <Divider /> */}
                                 <ListItem disablePadding>
-                                    <ListItemButton disabled={true}>
+                                    <ListItemButton
+                                        onClick={handleAddReviewModalClick}
+                                    >
                                         <ListItemIcon>
                                             <RateReviewIcon />
                                         </ListItemIcon>
@@ -365,6 +457,16 @@ const BusinessDetails = () => {
                     handleServiceDate={handleServiceDate}
                     customerDetails={customerDetails}
                     handleCreateOrder={handleCreateOrder}
+                />
+            )}
+
+            {addReviewClicked && (
+                <AddReviewModal
+                    openAddReviewModal={openAddReviewModal}
+                    handleCloseAddReviewModal={handleCloseAddReviewModal}
+                    reviewDetails={reviewDetails}
+                    handleSetReviewDetail={handleSetReviewDetail}
+                    handleAddReview={handleAddReview}
                 />
             )}
 

@@ -16,3 +16,21 @@ export const businesses = async () => {
 
     return business.data.businesses;
 };
+
+export const reviews = async (business_id) => {
+    const reviews = await client.query({
+        query: YelpQuery.GET_ALL_REVIEWS,
+        variables: { business_id },
+    });
+
+    return reviews.data.reviews;
+};
+
+export const addReview = async (review) => {
+    const reviews = await client.mutate({
+        mutation: YelpQuery.ADD_REVIEW,
+        variables: { review },
+    });
+
+    return reviews.data.review;
+};

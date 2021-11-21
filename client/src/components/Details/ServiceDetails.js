@@ -127,7 +127,12 @@ const ServiceDetails = (props) => {
                     />
                 </Grid>
                 <Grid item sm={4}>
-                    <Map location={searchLocation} places={places} />
+                    <Map
+                        location={searchLocation}
+                        places={places}
+                        showCurrentLocation
+                        zoom={11}
+                    />
                 </Grid>
             </Grid>
         </Box>

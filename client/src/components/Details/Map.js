@@ -83,23 +83,30 @@ export class MapContainer extends Component {
         return (
             <Map
                 google={this.props.google}
-                zoom={11}
-                containerStyle={containerStyles}
+                zoom={this.props.zoom}
+                containerStyle={
+                    this.props.containerStyles
+                        ? this.props.containerStyles
+                        : containerStyles
+                }
                 style={mapStyles}
                 initialCenter={{
                     lat: this.props.location.coordinates.lat,
                     lng: this.props.location.coordinates.lng,
                 }}
             >
-                <Marker
-                    onClick={this.onMarkerClick}
-                    currentLocation={true}
-                    name={`You are here in ${this.props.location.value}`}
-                    icon={{
-                        url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-                        scaledSize: new this.props.google.maps.Size(60, 60),
-                    }}
-                />
+                {this.props.showCurrentLocation && (
+                    <Marker
+                        onClick={this.onMarkerClick}
+                        currentLocation={true}
+                        name={`You are here in ${this.props.location.value}`}
+                        icon={{
+                            url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+                            scaledSize: new this.props.google.maps.Size(60, 60),
+                        }}
+                    />
+                )}
+
                 {this.props.places.map((place) => (
                     <Marker
                         key={place.name}
