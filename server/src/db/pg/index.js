@@ -25,6 +25,7 @@ const models = {
     User: sequelize.import("./models/user"),
     Customer: sequelize.import("./models/customer"),
     Order: sequelize.import("./models/order"),
+    SearchLog: sequelize.import("./models/search_log.js"),
 };
 
 Object.keys(models).forEach((key) => {

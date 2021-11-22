@@ -44,14 +44,13 @@ services:
         restart: always
 
     jupyter:
-        image: jupyter/datascience-notebook
         build:
             context: ./jupyter
             dockerfile: Dockerfile
         volumes:
             - ./jupyter:/usr/app/lookup/jupyter
         ports:
-            - 9999:8888
+            - 8888:8888
         container_name: lookup-jupyter
         depends_on:
             - mongodb

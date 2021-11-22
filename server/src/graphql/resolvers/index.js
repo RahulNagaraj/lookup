@@ -6,6 +6,7 @@ import businessResolvers from "./business";
 import reviewResolvers from "./review";
 import eventResolvers from "./event";
 import serviceResolvers from "./service";
+import searchLogResolvers from "./searchLog";
 
 const customScalarResolver = {
     Date: GraphQLDateTime,
@@ -19,4 +20,5 @@ export default [
     reviewResolvers,
     eventResolvers,
     serviceResolvers,
+    searchLogResolvers,
 ];

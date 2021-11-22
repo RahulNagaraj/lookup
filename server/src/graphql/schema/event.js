@@ -3,7 +3,9 @@ import { gql } from "apollo-server-express";
 export default gql`
     extend type Query {
         getAllEvents: [Event]!
-        getEventsByLocation(city: String!): [Event]!
+        getEventsByCity(city: String!): [Event]!
+        getEventsByZipcode(zipcode: Int!): [Event]!
+        getEventsByUserId(userId: String!): [Event]!
     }
 
     type Event {

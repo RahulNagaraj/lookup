@@ -66,6 +66,7 @@ const order = (sequelize, DataTypes) => {
 
     Order.viewOrderByUserId = async (userId) => {
         let orders = await Order.findAll({
+            raw: true,
             where: { userId },
         });
 
