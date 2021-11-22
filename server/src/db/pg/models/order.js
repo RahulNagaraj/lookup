@@ -51,7 +51,7 @@ const order = (sequelize, DataTypes) => {
             },
         },
         phone: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             validate: {
                 notEmpty: true,

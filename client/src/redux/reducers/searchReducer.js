@@ -3,7 +3,14 @@ import * as types from "../actionTypes/searchTypes";
 export const initialState = {
     isFetching: false,
     searchFields: {
-        city: "",
+        city: {
+            key: "chicago",
+            value: "Chicago",
+            coordinates: {
+                lat: 41.881832,
+                lng: -87.623177,
+            },
+        },
         zipcode: "",
         searchText: "",
     },

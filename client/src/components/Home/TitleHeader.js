@@ -24,13 +24,12 @@ import {
 const TitleHeader = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
-    // const [searchText, setSearchText] = React.useState("");
 
     const businessState = useSelector((state) => state.businesses);
     const searchState = useSelector((state) => state.search);
 
     const {
-        searchFields: { city, zipcode, searchText },
+        searchFields: { city, zipcode },
         isFetching,
         filteredBusinesses,
     } = searchState;
@@ -45,31 +44,12 @@ const TitleHeader = (props) => {
         }
     }, [businessState]);
 
-    const handleOnChange = (event) => {
-        // const term = event.target.value;
-        // setSearchText(term);
-    };
-
     const handleOnInputChange = (business) => {
         history.push({
             pathname: "/business-detail",
             state: business,
         });
     };
-
-    // const filterOptions = (options, { inputValue }) => {
-    //     console.log(inputValue);
-    //     if (inputValue != "") {
-    //         return options.filter(
-    //             (option) =>
-    //                 option.name
-    //                     .toLowerCase()
-    //                     .includes(inputValue.toLowerCase()) &&
-    //                 option.location.city === props.location.value
-    //         );
-    //     }
-    //     return options;
-    // };
 
     return (
         <Box
@@ -100,12 +80,15 @@ const TitleHeader = (props) => {
                     <Select
                         labelId="city-label"
                         id="city-select"
-                        value={city}
+                        value={city.value}
                         label="City"
                         variant="filled"
                         onBlur={() =>
                             dispatch(
-                                filterBusinessesSearchRequest(city, zipcode)
+                                filterBusinessesSearchRequest(
+                                    city.value,
+                                    zipcode
+                                )
                             )
                         }
                     >
@@ -114,7 +97,7 @@ const TitleHeader = (props) => {
                                 key={loc.key}
                                 value={loc.value}
                                 onClick={() =>
-                                    dispatch(setSearchField("city", loc.value))
+                                    dispatch(setSearchField("city", loc))
                                 }
                             >
                                 {loc.value}
@@ -137,7 +120,10 @@ const TitleHeader = (props) => {
                         }
                         onBlur={() =>
                             dispatch(
-                                filterBusinessesSearchRequest(city, zipcode)
+                                filterBusinessesSearchRequest(
+                                    city.value,
+                                    zipcode
+                                )
                             )
                         }
                     />

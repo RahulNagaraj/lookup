@@ -81,6 +81,7 @@ const Home = () => {
 
     const servicesState = useSelector((state) => state.services);
     const businessesState = useSelector((state) => state.businesses);
+    const searchState = useSelector((state) => state.search);
 
     React.useEffect(() => {
         if (!servicesState.isFetching && servicesState.services.length === 0) {
@@ -104,13 +105,22 @@ const Home = () => {
     });
 
     const handleCardClick = (title, alias) => {
-        dispatch(getBusinessByServiceType(alias, location.value));
+        const {
+            searchFields: { city },
+            zipcode,
+        } = searchState;
+        if (zipcode) {
+            // TODO: getBusinessByZipcode
+        } else {
+            dispatch(getBusinessByServiceType(alias, city.value));
+        }
+
         history.push({
             pathname: "/service-detail",
             state: {
                 businessTitle: title,
                 alias,
-                searchLocation: location,
+                searchLocation: city,
             },
         });
     };
