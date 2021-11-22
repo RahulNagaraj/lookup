@@ -38,6 +38,7 @@ export default {
             const merged = [];
             const unique = new Set();
             const events = [];
+            const eventObject = {};
 
             searchHistory.forEach((history) => {
                 merged.push(history);
@@ -74,7 +75,15 @@ export default {
                     events.push(...e);
                 }
             }
-            return events;
+
+            events.forEach((event) => {
+                const eventId = event["id"];
+                if (!eventObject[eventId]) {
+                    eventObject[eventId] = event;
+                }
+            });
+
+            return Object.values(eventObject);
         },
     },
 };
