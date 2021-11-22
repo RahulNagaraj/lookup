@@ -138,7 +138,7 @@ const TitleHeader = (props) => {
                             : businesses
                     }
                     getOptionLabel={(option) => option.name}
-                    sx={{ width: "40vw", ml: 1 }}
+                    sx={{ width: "40vw", ml: 3 }}
                     loading={businessState.isFetching || isFetching}
                     isOptionEqualToValue={(option, value) =>
                         option.id === value.id

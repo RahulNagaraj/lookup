@@ -48,6 +48,10 @@ export default function Header() {
 
     const user = useSelector((state) => state.user);
 
+    const handleLoginClick = () => {
+        history.push("/signin");
+    };
+
     const handleOpenLogin = () => setOpenLogin(true);
     const handleCloseLogin = () => setOpenLogin(false);
 
@@ -104,6 +108,11 @@ export default function Header() {
 
         return `${userDetails.firstName[0].toUpperCase()}${userDetails.lastName[0].toUpperCase()}`;
     };
+
+    const style =
+        user.isLoggedIn && user.userDetails.role === "ADMIN"
+            ? { marginRight: 5 }
+            : { flexGrow: 1 };
 
     return (
         <Box>
@@ -168,7 +177,7 @@ export default function Header() {
                         <Typography
                             variant="subtitle2"
                             component="span"
-                            sx={{ flexGrow: 1 }}
+                            sx={style}
                         >
                             <Link
                                 className={classes.link}
@@ -179,6 +188,22 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
+                        {user.isLoggedIn && user.userDetails.role === "ADMIN" && (
+                            <Typography
+                                variant="subtitle2"
+                                component="span"
+                                sx={{ flexGrow: 1 }}
+                            >
+                                <Link
+                                    className={classes.link}
+                                    underline="none"
+                                    href={"/analytics"}
+                                    rel={"noopener"}
+                                >
+                                    Analytics
+                                </Link>
+                            </Typography>
+                        )}
                         {user.isLoggedIn && (
                             <div>
                                 <IconButton
@@ -223,7 +248,7 @@ export default function Header() {
                             </div>
                         )}
                         {!user.isLoggedIn && (
-                            <Button color="inherit" onClick={handleOpenLogin}>
+                            <Button color="inherit" onClick={handleLoginClick}>
                                 Login
                             </Button>
                         )}

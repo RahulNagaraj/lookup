@@ -8,6 +8,9 @@ import Footer from "../Footer/Footer";
 import ServiceDetails from "../Details/ServiceDetails";
 import BusinessDetails from "../Details/BusinessDetails";
 import ViewOrder from "../ViewOrder/ViewOrder";
+import SignIn from "../Login/SignIn";
+import SignUp from "../Login/SignUp";
+import PrivateRoute from "./PrivateRoute";
 
 const theme = createTheme({
     palette: {
@@ -39,6 +42,12 @@ function App() {
                         <Route exact path="/">
                             <Home />
                         </Route>
+                        <Route path="/signin">
+                            <SignIn />
+                        </Route>
+                        <Route path="/signup">
+                            <SignUp />
+                        </Route>
                         <Route path="/service-detail">
                             <ServiceDetails />
                         </Route>
@@ -48,6 +57,9 @@ function App() {
                         <Route path="/view-order">
                             <ViewOrder />
                         </Route>
+                        <PrivateRoute path="/analytics">
+                            <ViewOrder />
+                        </PrivateRoute>
                     </Switch>
 
                     <Footer />
