@@ -2,7 +2,6 @@ import client from "../../graphql/client";
 import { YelpQuery } from "../../graphql";
 
 export const filterBusinessesByCityOrZipcode = async ({ city, zipcode }) => {
-    console.log(city, zipcode);
     let businesses = [];
     if (zipcode && zipcode != "") {
         businesses = await client.query({

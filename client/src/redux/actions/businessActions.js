@@ -40,12 +40,13 @@ export const businessesFailure = (error) => {
     };
 };
 
-export const getBusinessByServiceType = (serviceType, searchLocation) => {
+export const getBusinessByServiceType = (serviceType, zipcode, city) => {
     return {
         type: types.GET_BUSINESSES_BY_SERVICE_TYPE,
         data: {
             serviceType,
-            searchLocation,
+            zipcode,
+            city,
         },
     };
 };
@@ -60,12 +61,13 @@ export const setFilter = (filterType, filterValue) => {
     };
 };
 
-export const resetFilter = (serviceType, searchLocation) => {
+export const resetFilter = (serviceType, zipcode, city) => {
     return {
         type: types.RESET_FILTER,
         data: {
             serviceType,
-            searchLocation,
+            zipcode,
+            city,
         },
     };
 };

@@ -17,7 +17,13 @@ const ServiceDetails = (props) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const businessesState = useSelector((state) => state.businesses);
+    const searchState = useSelector((state) => state.search);
+
     const { businessTitle, alias, searchLocation } = history?.location?.state;
+    const {
+        searchFields: { city, zipcode },
+    } = searchState;
+
     const filters = businessesState.filters;
 
     const updateFilter = (type, value) => {
@@ -25,7 +31,7 @@ const ServiceDetails = (props) => {
     };
 
     const handleReset = () => {
-        dispatch(resetFilter(alias, searchLocation.value));
+        dispatch(resetFilter(alias, zipcode, city.value));
     };
 
     const handleFilterBusinesses = () => {

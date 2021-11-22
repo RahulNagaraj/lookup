@@ -106,14 +106,10 @@ const Home = () => {
 
     const handleCardClick = (title, alias) => {
         const {
-            searchFields: { city },
-            zipcode,
+            searchFields: { city, zipcode },
         } = searchState;
-        if (zipcode) {
-            // TODO: getBusinessByZipcode
-        } else {
-            dispatch(getBusinessByServiceType(alias, city.value));
-        }
+
+        dispatch(getBusinessByServiceType(alias, zipcode, city.value));
 
         history.push({
             pathname: "/service-detail",

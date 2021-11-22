@@ -5,7 +5,6 @@ import * as service from "../services/searchService";
 import * as actions from "../actions/searchActions";
 
 function* filterSearchBusinesses({ data }) {
-    console.log(data);
     try {
         const businesses = yield call(
             service.filterBusinessesByCityOrZipcode,

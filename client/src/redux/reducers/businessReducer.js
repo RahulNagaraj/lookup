@@ -16,17 +16,26 @@ export const initialState = {
     error: "",
 };
 
-const filterBusinessByServiceType = (state, serviceType, searchLocation) => {
+const filterBusinessByServiceType = (state, serviceType, zipcode, city) => {
     const { businesses } = state;
     const filteredBusinesses = [];
 
     businesses.forEach((business) => {
         business.categories.forEach((category) => {
-            if (
-                category.alias === serviceType &&
-                business.location.city === searchLocation
-            ) {
-                filteredBusinesses.push(business);
+            if (zipcode) {
+                if (
+                    category.alias === serviceType &&
+                    business.location.zip_code === zipcode
+                ) {
+                    filteredBusinesses.push(business);
+                }
+            } else if (city) {
+                if (
+                    category.alias === serviceType &&
+                    business.location.city === city
+                ) {
+                    filteredBusinesses.push(business);
+                }
             }
         });
     });
@@ -136,11 +145,12 @@ export const businessesReducer = (state = initialState, action) => {
             };
 
         case types.GET_BUSINESSES_BY_SERVICE_TYPE: {
-            const { serviceType, searchLocation } = action.data;
+            const { serviceType, zipcode, city } = action.data;
             const filteredBusinesses = filterBusinessByServiceType(
                 state,
                 serviceType,
-                searchLocation
+                zipcode,
+                city
             );
             return {
                 ...state,
@@ -165,11 +175,12 @@ export const businessesReducer = (state = initialState, action) => {
         }
 
         case types.RESET_FILTER: {
-            const { serviceType, searchLocation } = action.data;
+            const { serviceType, zipcode, city } = action.data;
             const filteredBusinesses = filterBusinessByServiceType(
                 state,
                 serviceType,
-                searchLocation
+                zipcode,
+                city
             );
             return {
                 ...state,
