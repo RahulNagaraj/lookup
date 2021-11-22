@@ -19,6 +19,20 @@ import BootstrapDialog, {
 import LoginButton from "./LoginButton";
 import SignUpButton from "./SignUpButton";
 
+/**
+ * 
+ * <>
+                {openLogin && (
+                    <LoginModal
+                        openLogin={openLogin}
+                        handleCloseLogin={handleCloseLogin}
+                        handleLogin={handleLogin}
+                        handleOpenSignup={handleOpenSignup}
+                    />
+                )}
+            </>
+ */
+
 const LoginModal = (props) => {
     const [signInDetails, setSignInDetails] = React.useState({
         email: "rvimud@g.com",

@@ -41,22 +41,12 @@ export default function Header() {
     const history = useHistory();
     const dispatch = useDispatch();
 
-    const [openLogin, setOpenLogin] = React.useState(false);
-    const [openSignup, setOpenSignup] = React.useState(false);
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const user = useSelector((state) => state.user);
 
     const handleLoginClick = () => {
         history.push("/signin");
-    };
-
-    const handleOpenLogin = () => setOpenLogin(true);
-    const handleCloseLogin = () => setOpenLogin(false);
-
-    const handleChange = (event) => {
-        setIsLoggedIn(true);
     };
 
     const handleMenu = (event) => {
@@ -67,37 +57,10 @@ export default function Header() {
         setAnchorEl(null);
     };
 
-    const handleOpenSignup = () => {
-        setOpenLogin(false);
-        setOpenSignup(true);
-    };
-
-    const handleCloseSignup = () => setOpenSignup(false);
-
-    const handleLogin = ({ email, password }) => {
-        dispatch(signInRequest({ email, password }));
-    };
-
-    const handleSignup = ({ firstName, lastName, email, password }) => {
-        dispatch(signUpRequest({ firstName, lastName, email, password }));
-    };
-
     const handleViewOrder = () => {
         handleClose();
         history.push("/view-order");
     };
-
-    React.useEffect(() => {
-        if (user && !user.isFetching && user.isLoggedIn && openLogin) {
-            handleCloseLogin();
-        }
-    }, [handleCloseLogin, openLogin, user]);
-
-    React.useEffect(() => {
-        if (user && !user.isFetching && user.isLoggedIn && openSignup) {
-            handleCloseSignup();
-        }
-    }, [handleCloseSignup, openSignup, user]);
 
     const handleLogout = () => {
         dispatch(logoutRequest());
@@ -124,11 +87,7 @@ export default function Header() {
                             component="div"
                             sx={{ marginRight: 10 }}
                         >
-                            <Link
-                                underline="none"
-                                href={"/#home"}
-                                rel={"noopener"}
-                            >
+                            <Link underline="none" href={"#"} rel={"noopener"}>
                                 Lookup
                             </Link>
                         </Typography>
@@ -255,25 +214,6 @@ export default function Header() {
                     </Toolbar>
                 </AppBar>
             </Box>
-            <>
-                {openLogin && (
-                    <LoginModal
-                        openLogin={openLogin}
-                        handleCloseLogin={handleCloseLogin}
-                        handleLogin={handleLogin}
-                        handleOpenSignup={handleOpenSignup}
-                    />
-                )}
-            </>
-            <>
-                {openSignup && (
-                    <SignupModal
-                        handleCloseSignup={handleCloseSignup}
-                        handleSignup={handleSignup}
-                        openSignup={openSignup}
-                    />
-                )}
-            </>
         </Box>
     );
 }

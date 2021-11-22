@@ -216,22 +216,30 @@ const BusinessDetails = () => {
     }
 
     const handleBookNowModalClick = () => {
-        setBookNow(!bookNowClicked);
-        setOpenBookNowModal(true);
+        if (userState.isLoggedIn) {
+            setBookNow(!bookNowClicked);
+            setOpenBookNowModal(true);
+        } else {
+            history.push("/signin");
+        }
     };
 
     const handleAddReviewModalClick = () => {
-        setReviewDetails({
-            business_id: business.id,
-            text: "",
-            time_created: new Date(),
-            rating: null,
-            user: {
-                name: userState?.userDetails?.name || "Rahul",
-            },
-        });
-        setAddReview(!addReviewClicked);
-        setAddReviewModal(true);
+        if (userState.isLoggedIn) {
+            setReviewDetails({
+                business_id: business.id,
+                text: "",
+                time_created: new Date(),
+                rating: null,
+                user: {
+                    name: userState?.userDetails?.name,
+                },
+            });
+            setAddReview(!addReviewClicked);
+            setAddReviewModal(true);
+        } else {
+            history.push("/signin");
+        }
     };
 
     const handleCloseBookNowModal = () => {

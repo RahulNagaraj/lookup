@@ -5,8 +5,8 @@ import createSagaMiddleware from "redux-saga";
 import rootReducer from "./redux/reducers/rootReducer";
 import rootSaga from "./redux/sagas/rootSaga";
 
-// import { checkUser } from "./services/UserService";
-// import { userLoggedIn } from "./actions/userActions";
+import { checkUser } from "./redux/services/userService";
+import { signInSuccess } from "./redux/actions/userActions";
 
 const composeEnhancers =
     typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -21,10 +21,10 @@ const enhancer = composeEnhancers(applyMiddleware(saga));
 
 const store = createStore(rootReducer, enhancer);
 
-// const user = checkUser();
-// if (user) {
-//     store.dispatch(userLoggedIn(user));
-// }
+const user = checkUser();
+if (user) {
+    store.dispatch(signInSuccess(user));
+}
 
 saga.run(rootSaga);
 

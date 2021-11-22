@@ -18,6 +18,19 @@ import BootstrapDialog, {
 } from "../../common/BootstrapDialog";
 import SignUpButton from "./SignUpButton";
 
+/**
+ * 
+ * <>
+                {openSignup && (
+                    <SignupModal
+                        handleCloseSignup={handleCloseSignup}
+                        handleSignup={handleSignup}
+                        openSignup={openSignup}
+                    />
+                )}
+            </>
+ */
+
 const SignupModal = (props) => {
     const [signUpDetails, setSignUpDetails] = React.useState({
         email: "",

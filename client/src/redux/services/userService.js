@@ -36,6 +36,14 @@ export const signIn = async ({ email, password }) => {
     return userDetails;
 };
 
+export const checkUser = () => {
+    const user = localStorage.getItem("user");
+    if (user) {
+        return JSON.parse(user);
+    }
+    return null;
+};
+
 export const logout = () => {
     console.log("logout service");
     localStorage.removeItem("user");
