@@ -29,3 +29,29 @@ export const constructPlacesObject = (businesses) => {
 
     return places;
 };
+
+export const constructEventsPlacesObject = (events) => {
+    const places = [];
+    events.forEach((event) => {
+        const newObj = {
+            name: "",
+            attendingCount: "",
+            timeStart: "",
+            timeEnd: "",
+            displayAddress: "",
+            coordinates: {
+                latitude: "",
+                longitude: "",
+            },
+        };
+        newObj.name = event.name;
+        newObj.attendingCount = event.attending_count;
+        newObj.displayAddress = event?.location?.display_address.join(", ");
+        newObj.coordinates.latitude = event.latitude;
+        newObj.coordinates.longitude = event.longitude;
+
+        places.push(newObj);
+    });
+
+    return places;
+};

@@ -40,6 +40,41 @@ const BUSINESS_FRAGMENT = gql`
     }
 `;
 
+const EVENT_FRAGMENT = gql`
+    fragment eventFragment on Event {
+        attending_count
+        category
+        cost
+        cost_max
+        description
+        event_site_url
+        id
+        image_url
+        interested_count
+        is_canceled
+        is_free
+        is_official
+        latitude
+        longitude
+        name
+        tickets_url
+        time_end
+        time_start
+        location {
+            address1
+            address2
+            address3
+            city
+            zip_code
+            country
+            state
+            display_address
+            cross_streets
+        }
+        business_id
+    }
+`;
+
 const REVIEW_FRAGMENT = gql`
     fragment reviewFragment on Review {
         _id
@@ -197,6 +232,15 @@ const SEARCH_SERVICE = gql`
     }
 `;
 
+const GET_EVENTS_BY_USER_ID = gql`
+    ${EVENT_FRAGMENT}
+    query getEventsByUserId($userId: ID!) {
+        events: getEventsByUserId(userId: $userId) {
+            ...eventFragment
+        }
+    }
+`;
+
 export default {
     GET_ALL,
     SEARCH_SERVICE,
@@ -208,4 +252,5 @@ export default {
     ADD_REVIEW,
     FILTER_BUSINESSES_BY_CITY,
     FILTER_BUSINESSES_BY_ZIPCODE,
+    GET_EVENTS_BY_USER_ID,
 };

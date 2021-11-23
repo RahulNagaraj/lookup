@@ -5,7 +5,7 @@ export default gql`
         getAllEvents: [Event]!
         getEventsByCity(city: String!): [Event]!
         getEventsByZipcode(zipcode: Int!): [Event]!
-        getEventsByUserId(userId: String!): [Event]!
+        getEventsByUserId(userId: ID!): [Event]!
     }
 
     type Event {

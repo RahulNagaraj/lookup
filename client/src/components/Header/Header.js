@@ -141,7 +141,7 @@ export default function Header() {
                             <Link
                                 className={classes.link}
                                 underline="none"
-                                href={"/#recommended"}
+                                href={"/events"}
                                 rel={"noopener"}
                             >
                                 Recommended Events

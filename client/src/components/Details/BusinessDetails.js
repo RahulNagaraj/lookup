@@ -26,7 +26,7 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import { useMutation } from "@apollo/client";
 
-import Map from "./Map";
+import Map from "../../common/Map";
 import BookNowModal from "./BookNowModal";
 import AddReviewModal from "./AddReviewModal";
 import OrderConfirmationModal from "./OrderConfirmationModal";

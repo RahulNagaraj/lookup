@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Filters from "./Filters";
 import ServiceCards from "./ServiceCards";
-import Map from "./Map";
+import Map from "../../common/Map";
 import { constructPlacesObject } from "../../common/util";
 import {
     filterBusinesses,
@@ -69,12 +69,7 @@ const ServiceDetails = (props) => {
                     />
                 </Grid>
                 <Grid item sm={4}>
-                    <Map
-                        location={searchLocation}
-                        places={places}
-                        showCurrentLocation
-                        zoom={11}
-                    />
+                    <Map location={searchLocation} places={places} zoom={11} />
                 </Grid>
             </Grid>
         </Box>
