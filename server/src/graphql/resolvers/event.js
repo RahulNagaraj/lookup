@@ -85,9 +85,10 @@ export default {
 
             const finalResult = Object.values(eventObject);
 
-            return finalResult.length > 20
-                ? finalResult.splice(0, 20)
-                : finalResult;
+            // return finalResult.length > 20
+            //     ? finalResult.splice(0, 20)
+            //     : finalResult;
+            return finalResult;
         },
     },
 };

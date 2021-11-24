@@ -18,6 +18,30 @@ function* filterSearchBusinesses({ data }) {
     }
 }
 
+function* setSearchLogCityEntry({ data }) {
+    try {
+        yield call(service.setSearchLogCityEntry, data);
+    } catch (e) {}
+}
+
+function* setSearchLogZipcodeEntry({ data }) {
+    try {
+        yield call(service.setSearchLogZipcodeEntry, data);
+    } catch (e) {}
+}
+
+function* setSearchLogBusinessCityEntry({ data }) {
+    try {
+        yield call(service.setSearchLogBusinessCityEntry, data);
+    } catch (e) {}
+}
+
+function* setSearchLogBusinessZipcodeEntry({ data }) {
+    try {
+        yield call(service.setSearchLogBusinessZipcodeEntry, data);
+    } catch (e) {}
+}
+
 function* watchFilterSearchBusinesses() {
     yield takeEvery(
         types.FILTER_BUSINESSES_SEARCH_REQUEST,
@@ -25,6 +49,37 @@ function* watchFilterSearchBusinesses() {
     );
 }
 
+function* watchSetSearchLogCityEntry() {
+    yield takeEvery(types.SET_SEARCH_LOG_CITY_ENTRY, setSearchLogCityEntry);
+}
+
+function* watchSetSearchLogZipcodeEntry() {
+    yield takeEvery(
+        types.SET_SEARCH_LOG_ZIPCODE_ENTRY,
+        setSearchLogZipcodeEntry
+    );
+}
+
+function* watchSetSearchLogBusinessCityEntry() {
+    yield takeEvery(
+        types.SET_SEARCH_LOG_BUSINESS_CITY_ENTRY,
+        setSearchLogBusinessCityEntry
+    );
+}
+
+function* watchSetSearchLogBusinessZipcodeEntry() {
+    yield takeEvery(
+        types.SET_SEARCH_LOG_BUSINESS_ZIPCODE_ENTRY,
+        setSearchLogBusinessZipcodeEntry
+    );
+}
+
 export function* searchSaga() {
-    yield all([watchFilterSearchBusinesses()]);
+    yield all([
+        watchFilterSearchBusinesses(),
+        watchSetSearchLogCityEntry(),
+        watchSetSearchLogZipcodeEntry(),
+        watchSetSearchLogBusinessCityEntry(),
+        watchSetSearchLogBusinessZipcodeEntry(),
+    ]);
 }

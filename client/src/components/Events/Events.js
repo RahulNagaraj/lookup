@@ -1,6 +1,12 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import {
+    Box,
+    Grid,
+    Container,
+    Typography,
+    CircularProgress,
+} from "@mui/material";
 
 import Map from "../../common/Map";
 import Filters from "./Filters";
@@ -19,7 +25,6 @@ const Events = (props) => {
 
     const userState = useSelector((state) => state.user);
     const eventsState = useSelector((state) => state.events);
-    const searchState = useSelector((state) => state.search);
 
     React.useEffect(() => {
         if (
@@ -39,8 +44,9 @@ const Events = (props) => {
         dispatch(resetFilter());
     };
 
+    let location = {};
+
     const handleOnEventClick = (event) => {
-        console.log("event", event);
         history.push({
             pathname: "/event-detail",
             state: event,
@@ -48,7 +54,38 @@ const Events = (props) => {
     };
 
     const places = constructEventsPlacesObject(eventsState.filteredEvents);
-    console.log(places);
+    if (eventsState.filteredEvents.length !== 0) {
+        location = {
+            key: eventsState.filteredEvents[0].location.city.toLowerCase(),
+            value: eventsState.filteredEvents[0].location.city,
+            coordinates: {
+                lat: eventsState.filteredEvents[0].latitude,
+                lng: eventsState.filteredEvents[0].longitude,
+            },
+        };
+    }
+
+    if (eventsState.isFetching) {
+        return (
+            <Container>
+                <CircularProgress />
+            </Container>
+        );
+    }
+
+    if (eventsState.filteredEvents.length === 0) {
+        return (
+            <Container
+                sx={{
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                }}
+            >
+                <Typography variant="h6">No Events Nearby</Typography>
+            </Container>
+        );
+    }
 
     return (
         <Box>
@@ -66,7 +103,7 @@ const Events = (props) => {
                 </Grid>
                 <Grid item sm={4}>
                     <Map
-                        location={searchState.searchFields.city}
+                        location={location}
                         places={places}
                         showCurrentLocation
                         zoom={11}

@@ -33,3 +33,43 @@ export const filterBusinessesSearchFailure = (error) => {
         error,
     };
 };
+
+export const setSearchLogCityEntry = (userId, searchCity) => {
+    return {
+        type: types.SET_SEARCH_LOG_CITY_ENTRY,
+        data: {
+            userId,
+            searchCity,
+        },
+    };
+};
+
+export const setSearchLogZipcodeEntry = (userId, searchZipcode) => {
+    return {
+        type: types.SET_SEARCH_LOG_ZIPCODE_ENTRY,
+        data: {
+            userId,
+            searchZipcode,
+        },
+    };
+};
+
+export const setSearchLogBusinessCityEntry = (userId, businessCity) => {
+    return {
+        type: types.SET_SEARCH_LOG_BUSINESS_CITY_ENTRY,
+        data: {
+            userId,
+            businessCity,
+        },
+    };
+};
+
+export const setSearchLogBusinessZipcodeEntry = (userId, businessZipcode) => {
+    return {
+        type: types.SET_SEARCH_LOG_BUSINESS_ZIPCODE_ENTRY,
+        data: {
+            userId,
+            businessZipcode,
+        },
+    };
+};

@@ -19,6 +19,10 @@ import { businessesRequest } from "../../redux/actions/businessActions";
 import {
     setSearchField,
     filterBusinessesSearchRequest,
+    setSearchLogCityEntry,
+    setSearchLogZipcodeEntry,
+    setSearchLogBusinessCityEntry,
+    setSearchLogBusinessZipcodeEntry,
 } from "../../redux/actions/searchActions";
 
 const TitleHeader = (props) => {
@@ -27,6 +31,7 @@ const TitleHeader = (props) => {
 
     const businessState = useSelector((state) => state.businesses);
     const searchState = useSelector((state) => state.search);
+    const userState = useSelector((state) => state.user);
 
     const {
         searchFields: { city, zipcode },
@@ -45,10 +50,42 @@ const TitleHeader = (props) => {
     }, [businessState]);
 
     const handleOnInputChange = (business) => {
+        if (userState.isLoggedIn) {
+            dispatch(
+                setSearchLogBusinessCityEntry(
+                    userState.userDetails.id,
+                    business.location.city
+                )
+            );
+            dispatch(
+                setSearchLogBusinessZipcodeEntry(
+                    userState.userDetails.id,
+                    business.location.zip_code
+                )
+            );
+        }
         history.push({
             pathname: "/business-detail",
             state: business,
         });
+    };
+
+    const handleCityOnBlur = (city) => {
+        dispatch(filterBusinessesSearchRequest(city.value, zipcode));
+        if (userState.isLoggedIn) {
+            dispatch(
+                setSearchLogCityEntry(userState.userDetails.id, city.value)
+            );
+        }
+    };
+
+    const handleZipcodeOnBlur = (city) => {
+        dispatch(filterBusinessesSearchRequest(city.value, zipcode));
+        if (userState.isLoggedIn) {
+            dispatch(
+                setSearchLogZipcodeEntry(userState.userDetails.id, zipcode)
+            );
+        }
     };
 
     return (
@@ -83,14 +120,7 @@ const TitleHeader = (props) => {
                         value={city.value}
                         label="City"
                         variant="filled"
-                        onBlur={() =>
-                            dispatch(
-                                filterBusinessesSearchRequest(
-                                    city.value,
-                                    zipcode
-                                )
-                            )
-                        }
+                        onBlur={() => handleCityOnBlur(city)}
                     >
                         {props.locations.map((loc) => (
                             <MenuItem
@@ -118,14 +148,7 @@ const TitleHeader = (props) => {
                         onChange={(e) =>
                             dispatch(setSearchField("zipcode", e.target.value))
                         }
-                        onBlur={() =>
-                            dispatch(
-                                filterBusinessesSearchRequest(
-                                    city.value,
-                                    zipcode
-                                )
-                            )
-                        }
+                        onBlur={() => handleZipcodeOnBlur(city)}
                     />
                 </FormControl>
 
