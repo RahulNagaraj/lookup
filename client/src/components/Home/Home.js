@@ -151,7 +151,7 @@ const Home = () => {
 
             <Offers offers={businessesState.deals} />
 
-            <RecommendedEvents recommendedEvents={recommendedEvents} />
+            {/* <RecommendedEvents recommendedEvents={recommendedEvents} /> */}
         </Container>
     );
 };

@@ -74,7 +74,7 @@ export default function Header() {
 
     const style =
         user.isLoggedIn && user.userDetails.role === "ADMIN"
-            ? { marginRight: 5 }
+            ? { marginRight: 4 }
             : { flexGrow: 1 };
 
     return (
@@ -94,7 +94,7 @@ export default function Header() {
                         <Typography
                             variant="subtitle2"
                             component="span"
-                            sx={{ marginRight: 5 }}
+                            sx={{ marginRight: 4 }}
                         >
                             <Link
                                 className={classes.link}
@@ -108,21 +108,7 @@ export default function Header() {
                         <Typography
                             variant="subtitle2"
                             component="span"
-                            sx={{ marginRight: 5 }}
-                        >
-                            <Link
-                                className={classes.link}
-                                underline="none"
-                                href={"/#trending"}
-                                rel={"noopener"}
-                            >
-                                Trending
-                            </Link>
-                        </Typography>
-                        <Typography
-                            variant="subtitle2"
-                            component="span"
-                            sx={{ marginRight: 5 }}
+                            sx={{ marginRight: 4 }}
                         >
                             <Link
                                 className={classes.link}
