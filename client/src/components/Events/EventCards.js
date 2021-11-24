@@ -82,7 +82,7 @@ const EventCards = (props) => {
                     <Card
                         key={event.name}
                         sx={{ mt: 2, minWidth: 350, minHeight: 200 }}
-                        onClick={() => {}}
+                        onClick={() => props.handleOnEventClick(event)}
                     >
                         <CardHeader
                             avatar={

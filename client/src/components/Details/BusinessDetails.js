@@ -71,8 +71,19 @@ const OpenHours = ({ business }) => {
         "Sunday",
     ];
 
+    const displayAddress = () => {
+        if (business?.location?.display_address)
+            return business?.location?.display_address.join(" ");
+        else {
+            return `${business?.location?.address1}, ${business?.location?.city}, ${business?.location?.state} ${business?.location?.zip_code}`;
+        }
+    };
+
     return (
         <Grid item sm={6} textAlign="center">
+            <Typography variant="h6">Address</Typography>
+            <Typography variant="body2">{displayAddress()}</Typography>
+            <br />
             <Typography variant="h6">Open Hours</Typography>
             <br />
             <Grid container spacing={2}>

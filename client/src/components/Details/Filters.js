@@ -93,48 +93,6 @@ const Filters = (props) => {
                             ))}
                         </Select>
                     </FormControl>
-                    {/* <Typography varaiant="h4">Job Type</Typography>
-                    <Paper
-                        sx={{
-                            display: "flex",
-                            justifyContent: "start",
-                            flexWrap: "wrap",
-                            listStyle: "none",
-                            p: 0.5,
-                            m: 0,
-                            background: "transparent",
-                        }}
-                        elevation={0}
-                        component="ul"
-                    >
-                        {JOB_TYPE_FILTER.map((data) => {
-                            return (
-                                <ListItem
-                                    key={data.key}
-                                    sx={{ pt: 0.5, px: 0 }}
-                                >
-                                    <Chip
-                                        classes={{
-                                            root: classes.selected,
-                                            filled: classes.filled,
-                                        }}
-                                        variant={
-                                            props.filters.jobType === data.key
-                                                ? "filled"
-                                                : "outlined"
-                                        }
-                                        label={data.label}
-                                        onClick={() =>
-                                            props.updateFilter(
-                                                "jobType",
-                                                data.key
-                                            )
-                                        }
-                                    />
-                                </ListItem>
-                            );
-                        })}
-                    </Paper> */}
                 </Box>
 
                 <Box sx={{ mt: 1 }}>

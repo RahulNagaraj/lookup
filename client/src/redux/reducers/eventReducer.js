@@ -22,12 +22,12 @@ const filterEvents = (state, type, value) => {
 
     Object.keys(filters).forEach((key) => {
         const data = filters[key];
-        if (key === "category" && data != "") {
+        if (key === "category" && data !== "") {
             filteredEvents = filteredEvents.filter(
                 (event) => event.category === filters[key]
             );
         }
-        if (key === "attendingCount" && data != "") {
+        if (key === "attendingCount" && data !== "") {
             if (data === "lowest") {
                 filteredEvents = filteredEvents.filter(
                     (event) =>
@@ -46,7 +46,7 @@ const filterEvents = (state, type, value) => {
                 );
             }
         }
-        if (key === "free" && data != "") {
+        if (key === "free" && data !== "") {
             if (data === "free") {
                 filteredEvents = filteredEvents.filter(
                     (event) => event.is_free
@@ -100,6 +100,15 @@ export const eventsReducer = (state = initialState, action) => {
                     [type]: value,
                 },
                 filteredEvents,
+            };
+
+        case types.RESET_EVENT_FILTER:
+            return {
+                ...state,
+                filters: {
+                    ...initialState.filters,
+                },
+                filteredEvents: state.events,
             };
 
         default:

@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import { Box, Typography } from "@mui/material";
-import {
-    Map,
-    GoogleApiWrapper,
-    InfoWindow,
-    Marker,
-} from "google-maps-react";
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from "google-maps-react";
 
 const containerStyles = {
     width: "33%",
@@ -74,9 +69,6 @@ export class MapContainer extends Component {
             );
         }
     };
-
-    /**lat: this.props.location.lat,
-                    lng: this.props.location.lng, */
 
     render() {
         return (

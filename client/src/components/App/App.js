@@ -11,6 +11,7 @@ import ViewOrder from "../ViewOrder/ViewOrder";
 import SignIn from "../Login/SignIn";
 import SignUp from "../Login/SignUp";
 import Events from "../Events/Events";
+import EventDetails from "../Events/EventDetails";
 import PrivateRoute from "./PrivateRoute";
 
 const theme = createTheme({
@@ -60,6 +61,9 @@ function App() {
                         </Route>
                         <PrivateRoute path="/events">
                             <Events />
+                        </PrivateRoute>
+                        <PrivateRoute path="/event-detail">
+                            <EventDetails />
                         </PrivateRoute>
                         <PrivateRoute path="/analytics" adminOnly>
                             <ViewOrder />

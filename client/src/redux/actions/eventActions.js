@@ -30,3 +30,9 @@ export const setFilterType = (type, value) => {
         },
     };
 };
+
+export const resetFilter = () => {
+    return {
+        type: types.RESET_EVENT_FILTER,
+    };
+};

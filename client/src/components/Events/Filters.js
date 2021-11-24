@@ -45,7 +45,6 @@ const CATEGORIES = [
     { key: "music", value: "Music" },
     { key: "performing-arts", value: "Performing Arts" },
     { key: "sports-active-life", value: "Sports Active Life" },
-    { key: "nightlife", value: "Nightlife" },
 ];
 
 const ATTENDING_COUNT = [
@@ -72,43 +71,12 @@ const Filters = (props) => {
             <Container>
                 <Box sx={{ mt: 2, mb: 1 }}>
                     <Typography variant="h5">Filters</Typography>
-                    {/*<FormControl
-                        variant="standard"
-                        sx={{
-                            mt: 1,
-                            display: "flex",
-                            justifyContent: "flex-end",
-                        }}
-                    >
-                        <InputLabel id="reviewCount">Review Count</InputLabel>
-                        <Select
-                            labelId="reviewCount"
-                            id="jobType-select"
-                            value={props.filters.reviewCount}
-                            label="Review Count"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {REVIEWS_FILTER.map((data) => (
-                                <MenuItem
-                                    key={data.key}
-                                    value={data.key}
-                                    onClick={() =>
-                                        props.updateFilter(
-                                            "reviewCount",
-                                            data.key
-                                        )
-                                    }
-                                >
-                                    {data.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl> */}
-                    <Typography varaiant="h4" sx={{ mt: 1 }}>
-                        Category
-                    </Typography>
+                    <Box display="flex" justifyContent="flex-end">
+                        <Button variant="text" onClick={props.handleReset}>
+                            Reset
+                        </Button>
+                    </Box>
+                    <Typography varaiant="h4">Category</Typography>
                     <Paper
                         sx={{
                             display: "flex",
@@ -123,11 +91,6 @@ const Filters = (props) => {
                         component="ul"
                     >
                         {CATEGORIES.map((data) => {
-                            console.log(
-                                "data",
-                                data.key,
-                                props.filters["category"]
-                            );
                             return (
                                 <ListItem
                                     key={data.key}
@@ -140,13 +103,12 @@ const Filters = (props) => {
                                         // }}
                                         variant={"filled"}
                                         label={data.value}
-                                        deleteIcon={
+                                        icon={
                                             data.key ===
                                             props.filters["category"] ? (
                                                 <DoneIcon />
                                             ) : null
                                         }
-                                        onDelete={() => {}}
                                         onClick={() =>
                                             props.handleEventFilter(
                                                 "category",
@@ -184,13 +146,12 @@ const Filters = (props) => {
                                     <Chip
                                         variant={"filled"}
                                         label={data.value}
-                                        deleteIcon={
+                                        icon={
                                             data.key ===
                                             props.filters["attendingCount"] ? (
                                                 <DoneIcon />
                                             ) : null
                                         }
-                                        onDelete={() => {}}
                                         onClick={() =>
                                             props.handleEventFilter(
                                                 "attendingCount",
@@ -228,13 +189,12 @@ const Filters = (props) => {
                                     <Chip
                                         variant={"filled"}
                                         label={data.value}
-                                        deleteIcon={
+                                        icon={
                                             data.key ===
                                             props.filters["free"] ? (
                                                 <DoneIcon />
                                             ) : null
                                         }
-                                        onDelete={() => {}}
                                         onClick={() =>
                                             props.handleEventFilter(
                                                 "free",

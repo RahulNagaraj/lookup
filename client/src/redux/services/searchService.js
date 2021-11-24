@@ -3,7 +3,7 @@ import { YelpQuery } from "../../graphql";
 
 export const filterBusinessesByCityOrZipcode = async ({ city, zipcode }) => {
     let businesses = [];
-    if (zipcode && zipcode != "") {
+    if (zipcode && zipcode !== "") {
         businesses = await client.query({
             query: YelpQuery.FILTER_BUSINESSES_BY_ZIPCODE,
             variables: { zipcode },
