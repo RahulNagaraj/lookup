@@ -170,11 +170,18 @@ export default {
                 }
             );
 
+            const businessesSet = new Set();
             const businesses = [];
 
             reviews.forEach((review) => {
                 const { business_id } = review;
-                const business = Businesses.findOne({ id: business_id });
+                businessesSet.add(business_id);
+            });
+
+            console.log(businessesSet);
+
+            businessesSet.forEach((id) => {
+                const business = Businesses.findOne({ id });
                 businesses.push(business);
             });
 

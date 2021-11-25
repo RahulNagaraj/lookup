@@ -55,3 +55,15 @@ export const constructEventsPlacesObject = (events) => {
 
     return places;
 };
+
+export const dateFormat = (date) => {
+    const newDate = new Date(date);
+    const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+    const formatedDate = newDate.toLocaleDateString("en-US", options);
+    return formatedDate;
+};

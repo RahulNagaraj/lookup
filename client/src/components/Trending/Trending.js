@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
     Box,
     Paper,
@@ -10,20 +11,30 @@ import {
     TablePagination,
     TableRow,
 } from "@mui/material";
-import { useQuery } from "@apollo/client";
-import { ViewOrderQuery } from "../../graphql";
+
 import Loader from "../../common/Loader";
-import { useSelector } from "react-redux";
-import { dateFormat } from "../../common/util";
+import { topRatedServicesRequest } from "../../redux/actions/analyticsActions";
+
+const filterKeys = ["id", "name", "location", "categories"];
 
 const formatColumns = (data) => {
     if (data.length > 0) {
         let cols = [];
         Object.keys(data[0]).forEach((key) => {
-            if (key !== "__typename") {
+            if (filterKeys.includes(key)) {
+                let label = key.toUpperCase();
+                if (key === "location") {
+                    label = "Address";
+                } else if (key === "categories") {
+                    label = "Services Offered";
+                } else if (key === "name") {
+                    label = "Name";
+                } else if (key === "id") {
+                    label = "ID";
+                }
                 cols.push({
                     id: key,
-                    label: key.toUpperCase(),
+                    label: label,
                     align: "left",
                 });
             }
@@ -34,22 +45,22 @@ const formatColumns = (data) => {
     }
 };
 
-export default function StickyHeadTable() {
+const Trending = (props) => {
+    const dispatch = useDispatch();
+    const analyticsState = useSelector((state) => state.analytics);
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const userState = useSelector((state) => state.user);
-    const userId = userState.userDetails.id;
-    const { loading, error, data } = useQuery(
-        ViewOrderQuery.VIEW_ORDER_BY_USER_ID,
-        {
-            variables: { userId },
-        }
-    );
-    let COLUMNS = [];
 
-    if (!loading && !error && data) {
-        COLUMNS = formatColumns(data?.viewOrderByUserId);
-    }
+    React.useEffect(() => {
+        if (
+            !analyticsState.isFetching &&
+            analyticsState.data.length === 0 &&
+            analyticsState.error === ""
+        ) {
+            dispatch(topRatedServicesRequest());
+        }
+    }, [analyticsState]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -60,7 +71,17 @@ export default function StickyHeadTable() {
         setPage(0);
     };
 
-    if (loading) return <Loader />;
+    let COLUMNS = [];
+
+    if (
+        !analyticsState.isFetching &&
+        analyticsState.error === "" &&
+        analyticsState.data
+    ) {
+        COLUMNS = formatColumns(analyticsState.data);
+    }
+
+    if (analyticsState.isFetching) return <Loader />;
 
     return (
         <Box sx={{ m: 2 }}>
@@ -83,12 +104,12 @@ export default function StickyHeadTable() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.viewOrderByUserId
+                            {analyticsState.data
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
                                 )
-                                .map((row) => {
+                                .map((row, index) => {
                                     return (
                                         <TableRow
                                             hover
@@ -97,18 +118,31 @@ export default function StickyHeadTable() {
                                             key={row.id}
                                         >
                                             {COLUMNS.map((column) => {
-                                                const value = row[column.id];
+                                                let value = row[column.id];
+                                                if (column.id === "location") {
+                                                    value = `${
+                                                        value.address1
+                                                            ? value.address1
+                                                            : ""
+                                                    }, ${value.city}, ${
+                                                        value.state
+                                                    } - ${value.zip_code}`;
+                                                } else if (
+                                                    column.id === "categories"
+                                                ) {
+                                                    value = value
+                                                        .map((v) => v.title)
+                                                        .join(", ");
+                                                } else if (column.id === "id") {
+                                                    value = index + 1;
+                                                }
+
                                                 return (
                                                     <TableCell
-                                                        key={column.id}
+                                                        key={column.name}
                                                         align={column.align}
                                                     >
-                                                        {[
-                                                            "orderDate",
-                                                            "serviceDate",
-                                                        ].includes(column.id)
-                                                            ? dateFormat(value)
-                                                            : value}
+                                                        {value}
                                                     </TableCell>
                                                 );
                                             })}
@@ -121,7 +155,7 @@ export default function StickyHeadTable() {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={data.viewOrderByUserId.length}
+                    count={analyticsState.data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -130,4 +164,6 @@ export default function StickyHeadTable() {
             </Paper>
         </Box>
     );
-}
+};
+
+export default Trending;

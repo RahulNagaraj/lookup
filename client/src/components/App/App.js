@@ -12,6 +12,7 @@ import SignIn from "../Login/SignIn";
 import SignUp from "../Login/SignUp";
 import Events from "../Events/Events";
 import EventDetails from "../Events/EventDetails";
+import Trending from "../Trending/Trending";
 import Analytics from "../Analytics/Analytics";
 import PrivateRoute from "./PrivateRoute";
 
@@ -59,6 +60,9 @@ function App() {
                         </Route>
                         <Route path="/view-order">
                             <ViewOrder />
+                        </Route>
+                        <Route path="/trending">
+                            <Trending />
                         </Route>
                         <PrivateRoute path="/events">
                             <Events />

@@ -127,6 +127,20 @@ export default function Header() {
                         <Typography
                             variant="subtitle2"
                             component="span"
+                            sx={{ marginRight: 4 }}
+                        >
+                            <Link
+                                className={classes.link}
+                                underline="none"
+                                href={"/trending"}
+                                rel={"noopener noreferrer"}
+                            >
+                                Trending
+                            </Link>
+                        </Typography>
+                        <Typography
+                            variant="subtitle2"
+                            component="span"
                             sx={style}
                         >
                             <Link
