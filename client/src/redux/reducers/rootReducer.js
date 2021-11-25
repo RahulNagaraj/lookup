@@ -5,6 +5,7 @@ import { servicesReducer } from "./servicesReducer";
 import { businessesReducer } from "./businessReducer";
 import { searchReducer } from "./searchReducer";
 import { eventsReducer } from "./eventReducer";
+import { analyticsReducer } from "./analyticsReducer";
 
 export default combineReducers({
     user: userReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
     businesses: businessesReducer,
     search: searchReducer,
     events: eventsReducer,
+    analytics: analyticsReducer,
 });

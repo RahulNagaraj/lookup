@@ -42,6 +42,7 @@ export default function Header() {
     const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorAnalyticsEl, setAnchorAnalyticsEl] = React.useState(null);
 
     const user = useSelector((state) => state.user);
 
@@ -53,8 +54,16 @@ export default function Header() {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleAnalyticsButtonClick = (event) => {
+        setAnchorAnalyticsEl(event.currentTarget);
+    };
+
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleAnalyticsClose = () => {
+        setAnchorAnalyticsEl(null);
     };
 
     const handleViewOrder = () => {
@@ -73,9 +82,32 @@ export default function Header() {
     };
 
     const style =
-        user.isLoggedIn && user.userDetails.role === "ADMIN"
+        user.isLoggedIn && user.userDetails.role === "USER"
             ? { marginRight: 4 }
             : { flexGrow: 1 };
+
+    const renderAnalyticsMenu = () => {
+        return (
+            <Menu
+                id="analytics-menu"
+                anchorEl={anchorAnalyticsEl}
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                }}
+                open={Boolean(anchorAnalyticsEl)}
+                onClose={handleAnalyticsClose}
+            >
+                <MenuItem onClick={handleViewOrder}>View Order</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+        );
+    };
 
     return (
         <Box>
@@ -133,21 +165,26 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
-                        {user.isLoggedIn && user.userDetails.role === "ADMIN" && (
-                            <Typography
-                                variant="subtitle2"
-                                component="span"
-                                sx={{ flexGrow: 1 }}
-                            >
-                                <Link
-                                    className={classes.link}
-                                    underline="none"
-                                    href={"/analytics"}
-                                    rel={"noopener"}
+                        {user.isLoggedIn && user.userDetails.role === "USER" && (
+                            <div>
+                                <Typography
+                                    variant="text"
+                                    aria-controls="analytics-menu"
+                                    aria-haspopup="true"
+                                    onClick={handleAnalyticsButtonClick}
+                                    sx={{ flexGrow: 1 }}
                                 >
-                                    Analytics
-                                </Link>
-                            </Typography>
+                                    <Link
+                                        className={classes.link}
+                                        underline="none"
+                                        href={"/analytics"}
+                                        rel={"noopener"}
+                                    >
+                                        Analytics
+                                    </Link>
+                                </Typography>
+                                {renderAnalyticsMenu()}
+                            </div>
                         )}
                         {user.isLoggedIn && (
                             <div>

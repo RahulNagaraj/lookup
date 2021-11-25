@@ -5,6 +5,7 @@ import { servicesSaga } from "./servicesSaga";
 import { businessSaga } from "./businessSaga";
 import { searchSaga } from "./searchSaga";
 import { eventSaga } from "./eventSaga";
+import { analyticsSaga } from "./analyticsSaga";
 
 function* rootSaga() {
     yield all([
@@ -13,6 +14,7 @@ function* rootSaga() {
         businessSaga(),
         searchSaga(),
         eventSaga(),
+        analyticsSaga(),
     ]);
 }
 
