@@ -12,6 +12,7 @@ export default gql`
             lastName: String!
             email: String!
             password: String!
+            role: String
         ): AuthData!
         signIn(email: String!, password: String!): AuthData!
         deleteUser(id: ID!): Boolean!

@@ -70,7 +70,7 @@ function App() {
                         <PrivateRoute path="/event-detail">
                             <EventDetails />
                         </PrivateRoute>
-                        <PrivateRoute path="/analytics">
+                        <PrivateRoute path="/analytics" adminOnly>
                             <Analytics />
                         </PrivateRoute>
                     </Switch>

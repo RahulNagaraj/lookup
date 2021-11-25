@@ -51,11 +51,10 @@ const order = (sequelize, DataTypes) => {
             },
         },
         phone: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 notEmpty: true,
-                len: [10],
             },
         },
         address: {

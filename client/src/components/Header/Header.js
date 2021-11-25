@@ -74,7 +74,7 @@ export default function Header() {
     };
 
     const style =
-        user.isLoggedIn && user.userDetails.role === "USER"
+        user.isLoggedIn && user.userDetails.role === "ADMIN"
             ? { marginRight: 4 }
             : { flexGrow: 1 };
 
@@ -152,7 +152,7 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
-                        {user.isLoggedIn && user.userDetails.role === "USER" && (
+                        {user.isLoggedIn && user.userDetails.role === "ADMIN" && (
                             <Typography
                                 variant="subtitle2"
                                 component="span"
