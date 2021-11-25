@@ -7,9 +7,12 @@ import reviewSchema from "./review";
 import eventSchema from "./event";
 import serviceSchema from "./service";
 import searchLogSchema from "./searchLog";
+import analyticsSchema from "./analytics";
 
 const linkSchema = gql`
     scalar Date
+    scalar JSON
+    scalar JSONObject
     type Query {
         _: Boolean
     }
@@ -30,4 +33,5 @@ export default [
     eventSchema,
     serviceSchema,
     searchLogSchema,
+    analyticsSchema,
 ];

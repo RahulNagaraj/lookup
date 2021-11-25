@@ -12,6 +12,7 @@ import SignIn from "../Login/SignIn";
 import SignUp from "../Login/SignUp";
 import Events from "../Events/Events";
 import EventDetails from "../Events/EventDetails";
+import Analytics from "../Analytics/Analytics";
 import PrivateRoute from "./PrivateRoute";
 
 const theme = createTheme({
@@ -65,8 +66,8 @@ function App() {
                         <PrivateRoute path="/event-detail">
                             <EventDetails />
                         </PrivateRoute>
-                        <PrivateRoute path="/analytics" adminOnly>
-                            <ViewOrder />
+                        <PrivateRoute path="/analytics">
+                            <Analytics />
                         </PrivateRoute>
                     </Switch>
 

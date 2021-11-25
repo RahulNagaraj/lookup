@@ -175,9 +175,9 @@ const BusinessDetails = () => {
         business_id: business.id,
         text: "",
         time_created: new Date(),
-        rating: null,
+        rating: "",
         user: {
-            name: userState?.userDetails?.name || "Rahul",
+            name: `${userState?.userDetails?.firstName}, ${userState?.userDetails?.lastName}`,
         },
     });
 
@@ -241,9 +241,9 @@ const BusinessDetails = () => {
                 business_id: business.id,
                 text: "",
                 time_created: new Date(),
-                rating: null,
+                rating: "",
                 user: {
-                    name: userState?.userDetails?.name,
+                    name: `${userState?.userDetails?.firstName}, ${userState?.userDetails?.lastName}`,
                 },
             });
             setAddReview(!addReviewClicked);
