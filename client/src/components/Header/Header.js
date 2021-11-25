@@ -54,16 +54,8 @@ export default function Header() {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleAnalyticsButtonClick = (event) => {
-        setAnchorAnalyticsEl(event.currentTarget);
-    };
-
     const handleClose = () => {
         setAnchorEl(null);
-    };
-
-    const handleAnalyticsClose = () => {
-        setAnchorAnalyticsEl(null);
     };
 
     const handleViewOrder = () => {
@@ -86,29 +78,6 @@ export default function Header() {
             ? { marginRight: 4 }
             : { flexGrow: 1 };
 
-    const renderAnalyticsMenu = () => {
-        return (
-            <Menu
-                id="analytics-menu"
-                anchorEl={anchorAnalyticsEl}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-                open={Boolean(anchorAnalyticsEl)}
-                onClose={handleAnalyticsClose}
-            >
-                <MenuItem onClick={handleViewOrder}>View Order</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
-        );
-    };
-
     return (
         <Box>
             <Box sx={{ flexGrow: 1 }}>
@@ -119,7 +88,11 @@ export default function Header() {
                             component="div"
                             sx={{ marginRight: 10 }}
                         >
-                            <Link underline="none" href={"#"} rel={"noopener"}>
+                            <Link
+                                underline="none"
+                                href={"#"}
+                                rel={"noopener noreferrer"}
+                            >
                                 Lookup
                             </Link>
                         </Typography>
@@ -132,7 +105,7 @@ export default function Header() {
                                 className={classes.link}
                                 underline="none"
                                 href={"/#services"}
-                                rel={"noopener"}
+                                rel={"noopener noreferrer"}
                             >
                                 Services
                             </Link>
@@ -146,7 +119,7 @@ export default function Header() {
                                 className={classes.link}
                                 underline="none"
                                 href={"/#offers"}
-                                rel={"noopener"}
+                                rel={"noopener noreferrer"}
                             >
                                 Offers
                             </Link>
@@ -160,31 +133,26 @@ export default function Header() {
                                 className={classes.link}
                                 underline="none"
                                 href={"/events"}
-                                rel={"noopener"}
+                                rel={"noopener noreferrer"}
                             >
                                 Recommended Events
                             </Link>
                         </Typography>
                         {user.isLoggedIn && user.userDetails.role === "USER" && (
-                            <div>
-                                <Typography
-                                    variant="text"
-                                    aria-controls="analytics-menu"
-                                    aria-haspopup="true"
-                                    onClick={handleAnalyticsButtonClick}
-                                    sx={{ flexGrow: 1 }}
+                            <Typography
+                                variant="subtitle2"
+                                component="span"
+                                sx={{ flexGrow: 1 }}
+                            >
+                                <Link
+                                    className={classes.link}
+                                    underline="none"
+                                    rel={"noopener noreferrer"}
+                                    href={"/analytics"}
                                 >
-                                    <Link
-                                        className={classes.link}
-                                        underline="none"
-                                        href={"/analytics"}
-                                        rel={"noopener"}
-                                    >
-                                        Analytics
-                                    </Link>
-                                </Typography>
-                                {renderAnalyticsMenu()}
-                            </div>
+                                    Analytics
+                                </Link>
+                            </Typography>
                         )}
                         {user.isLoggedIn && (
                             <div>

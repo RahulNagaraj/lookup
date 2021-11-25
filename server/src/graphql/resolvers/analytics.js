@@ -55,9 +55,7 @@ export default {
     Query: {
         noOfRequestsPerYear: async (parent, { year }, { models }) => {
             const orders = await models.Order.findAll({ raw: true });
-            const object = {
-                [year]: {},
-            };
+            const array = [];
 
             months.forEach((month) => {
                 const o = orders.filter((order) => {
@@ -67,16 +65,11 @@ export default {
 
                     return month["key"] === orderedMonth;
                 });
-                const newObj = {
-                    [month["value"]]: { name: month["value"], data: o.length },
-                };
-                object[year] = {
-                    ...object[year],
-                    ...newObj,
-                };
+
+                array.push({ name: month["value"], y: o.length });
             });
 
-            return object;
+            return array;
         },
 
         typeOfRequests: async (parent, args, { models }) => {
@@ -91,7 +84,7 @@ export default {
 
             const response = Object.keys(res).map((key) => ({
                 name: key,
-                value: res[key],
+                y: res[key],
             }));
 
             return response;
@@ -100,7 +93,7 @@ export default {
         zipcodeVsNoOfRequests: async (parent, args, { models }) => {
             const orders = await models.Order.findAll({ raw: true });
             const res = {};
-            const response = {};
+            const response = [];
 
             orders.forEach((order) => {
                 const { address } = order;
@@ -112,7 +105,7 @@ export default {
             });
 
             Object.keys(res).forEach((key) => {
-                response[key] = { name: key, value: res[key] };
+                response.push({ name: key, y: res[key] });
             });
 
             return response;
