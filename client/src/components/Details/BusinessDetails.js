@@ -19,22 +19,25 @@ import {
     ListItemButton,
     ListItemIcon,
     CardActions,
+    IconButton,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import PhoneIcon from "@mui/icons-material/Phone";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import { useMutation } from "@apollo/client";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Map from "../../common/Map";
 import BookNowModal from "./BookNowModal";
 import AddReviewModal from "./AddReviewModal";
 import OrderConfirmationModal from "./OrderConfirmationModal";
-import { constructPlacesObject } from "../../common/util";
+import { constructPlacesObject, isAdmin } from "../../common/util";
 import { BookNowQuery } from "../../graphql";
 import {
     reviewsRequest,
     addReviewRequest,
+    deleteReviewRequest,
 } from "../../redux/actions/businessActions";
 
 const parseOpenHours = (openHours) => {
@@ -102,7 +105,7 @@ const OpenHours = ({ business }) => {
     );
 };
 
-const Review = ({ key, review }) => {
+const Review = ({ key, review, userState, handleOnDeleteClick }) => {
     const date = new Date(review.time_created);
     const options = {
         weekday: "long",
@@ -111,6 +114,7 @@ const Review = ({ key, review }) => {
         day: "numeric",
     };
     const formatedDate = date.toLocaleDateString("en-US", options);
+    const showDeleteIcon = isAdmin(userState) && !review.user.id;
     return (
         <Card sx={{ my: 1 }}>
             <CardHeader
@@ -130,7 +134,9 @@ const Review = ({ key, review }) => {
                     {review.text}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions
+                sx={{ display: "flex", justifyContent: "space-between" }}
+            >
                 <Rating
                     name="review-rating"
                     precision={0.5}
@@ -138,6 +144,14 @@ const Review = ({ key, review }) => {
                     readOnly
                     size="small"
                 />
+                {showDeleteIcon && (
+                    <IconButton
+                        aria-label="delete review"
+                        onClick={() => handleOnDeleteClick(review)}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                )}
             </CardActions>
         </Card>
     );
@@ -316,6 +330,12 @@ const BusinessDetails = () => {
         }
     }, [businessesState]);
 
+    const handleOnDeleteClick = (review) => {
+        console.log("all reviews: ", businessesState.reviews);
+        console.log("to delete: ", review);
+        dispatch(deleteReviewRequest(review._id, review.business_id));
+    };
+
     return (
         <Box sx={{ mb: 8 }}>
             <Grid container spacing={2}>
@@ -387,7 +407,12 @@ const BusinessDetails = () => {
                         <Box>
                             <Typography variant="h6">Top Reviews</Typography>
                             {businessesState.reviews.map((review, i) => (
-                                <Review key={i} review={review} />
+                                <Review
+                                    key={i}
+                                    review={review}
+                                    userState={userState}
+                                    handleOnDeleteClick={handleOnDeleteClick}
+                                />
                             ))}
                         </Box>
                         <Divider sx={{ my: 2 }} />

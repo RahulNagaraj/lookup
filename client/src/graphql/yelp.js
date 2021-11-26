@@ -83,6 +83,7 @@ const REVIEW_FRAGMENT = gql`
         time_created
         rating
         user {
+            id
             image_url
             name
         }
@@ -241,6 +242,15 @@ const GET_EVENTS_BY_USER_ID = gql`
     }
 `;
 
+const DELETE_REVIEW = gql`
+    ${REVIEW_FRAGMENT}
+    mutation deleteLookupReview($id: ID!, $business_id: ID!) {
+        reviews: deleteLookupReview(id: $id, business_id: $business_id) {
+            ...reviewFragment
+        }
+    }
+`;
+
 export default {
     GET_ALL,
     SEARCH_SERVICE,
@@ -253,4 +263,5 @@ export default {
     FILTER_BUSINESSES_BY_CITY,
     FILTER_BUSINESSES_BY_ZIPCODE,
     GET_EVENTS_BY_USER_ID,
+    DELETE_REVIEW,
 };

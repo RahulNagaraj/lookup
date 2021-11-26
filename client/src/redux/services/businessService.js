@@ -34,3 +34,12 @@ export const addReview = async (review) => {
 
     return reviews.data.review;
 };
+
+export const deleteReview = async ({ id, businessId }) => {
+    const reviews = await client.mutate({
+        mutation: YelpQuery.DELETE_REVIEW,
+        variables: { id, business_id: businessId },
+    });
+
+    return reviews.data.reviews;
+};

@@ -119,3 +119,33 @@ export const addReviewFailure = (error) => {
         error,
     };
 };
+
+export const resetReviews = () => {
+    return {
+        type: types.RESET_REVIEWS,
+    };
+};
+
+export const deleteReviewRequest = (id, businessId) => {
+    return {
+        type: types.DELETE_REVIEW_REQUEST,
+        data: {
+            id,
+            businessId,
+        },
+    };
+};
+
+export const deleteReviewSuccess = (reviews) => {
+    return {
+        type: types.DELETE_REVIEW_REQUEST_SUCCESS,
+        reviews,
+    };
+};
+
+export const deleteReviewFailure = (error) => {
+    return {
+        type: types.DELETE_REVIEW_REQUEST_FAILURE,
+        error,
+    };
+};

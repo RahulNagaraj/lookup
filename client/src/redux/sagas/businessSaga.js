@@ -40,6 +40,15 @@ function* addReview({ review }) {
     }
 }
 
+function* deleteReview({ data }) {
+    try {
+        const newReviews = yield call(service.deleteReview, data);
+        yield put(actions.deleteReviewSuccess(newReviews));
+    } catch (e) {
+        yield put(actions.deleteReviewFailure("Error deleting review!"));
+    }
+}
+
 function* watchBusinessDeals() {
     yield takeEvery(types.BUSINESS_DEALS_REQUEST, businessDeals);
 }
@@ -56,11 +65,16 @@ function* watchAddReview() {
     yield takeEvery(types.ADD_REVIEW_REQUEST, addReview);
 }
 
+function* watchDeleteReview() {
+    yield takeEvery(types.DELETE_REVIEW_REQUEST, deleteReview);
+}
+
 export function* businessSaga() {
     yield all([
         watchBusinessDeals(),
         watchBusinesses(),
         watchReviews(),
         watchAddReview(),
+        watchDeleteReview(),
     ]);
 }

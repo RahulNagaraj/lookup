@@ -10,7 +10,7 @@ export default gql`
     extend type Mutation {
         addLookupReview(review: ReviewInput!): Review!
         updateLookupReview(id: ID!, review: ReviewInput!): Review!
-        deleteLookupReview(id: ID!): Boolean!
+        deleteLookupReview(id: ID!, business_id: ID!): [Review]!
     }
 
     type Review {

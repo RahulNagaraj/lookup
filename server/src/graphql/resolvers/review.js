@@ -20,7 +20,8 @@ export default {
     Mutation: {
         addLookupReview: async (parent, { review }) => {
             const newReview = new LookupReviews({ ...review });
-            await LookupReviews.create(review);
+            await newReview.save();
+
             return newReview;
         },
         updateLookupReview: async (parent, { id, review }) => {
@@ -29,8 +30,11 @@ export default {
                 returnOriginal: false,
             });
         },
-        deleteLookupReview: async (parent, { id }, { models }) => {
-            return await LookupReviews.deleteOne({ id });
+        deleteLookupReview: async (parent, { id, business_id }, { models }) => {
+            await LookupReviews.findByIdAndRemove(id);
+            const yelpReviews = await Reviews.find({ business_id });
+            const lookupReviews = await LookupReviews.find({ business_id });
+            return [...yelpReviews, ...lookupReviews];
         },
     },
 };

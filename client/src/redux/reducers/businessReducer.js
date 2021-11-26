@@ -136,12 +136,14 @@ export const businessesReducer = (state = initialState, action) => {
                 isFetching: false,
                 error: "",
                 businesses: action.businesses,
+                reviews: [],
             };
         case types.BUSINESSES_REQUEST_FAILURE:
             return {
                 ...initialState,
                 businesses: [],
                 error: action.error,
+                reviews: [],
             };
 
         case types.GET_BUSINESSES_BY_SERVICE_TYPE: {
@@ -154,6 +156,7 @@ export const businessesReducer = (state = initialState, action) => {
             );
             return {
                 ...state,
+                reviews: [],
                 filteredBusinesses,
             };
         }
@@ -170,6 +173,7 @@ export const businessesReducer = (state = initialState, action) => {
             const filteredBusinesses = filterBusinesses(state);
             return {
                 ...state,
+                reviews: [],
                 filteredBusinesses,
             };
         }
@@ -236,6 +240,28 @@ export const businessesReducer = (state = initialState, action) => {
                 isFetching: false,
             };
         }
+
+        case types.RESET_REVIEWS:
+            return {
+                ...state,
+                reviews: [],
+            };
+
+        case types.DELETE_REVIEW_REQUEST:
+            return {
+                ...state,
+            };
+
+        case types.DELETE_REVIEW_REQUEST_SUCCESS:
+            return {
+                ...state,
+                reviews: action.reviews,
+            };
+
+        case types.DELETE_REVIEW_REQUEST_FAILURE:
+            return {
+                ...state,
+            };
 
         default:
             return state;

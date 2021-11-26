@@ -15,7 +15,10 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { blueGrey } from "@mui/material/colors";
-import { businessesRequest } from "../../redux/actions/businessActions";
+import {
+    businessesRequest,
+    resetReviews,
+} from "../../redux/actions/businessActions";
 import {
     setSearchField,
     filterBusinessesSearchRequest,
@@ -63,6 +66,7 @@ const TitleHeader = (props) => {
                     business.location.zip_code
                 )
             );
+            dispatch(resetReviews());
         }
         history.push({
             pathname: "/business-detail",
