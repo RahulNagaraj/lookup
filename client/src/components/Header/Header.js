@@ -10,17 +10,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { Link, Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { blueGrey, grey, purple, red } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
+import { blueGrey, purple, red } from "@mui/material/colors";
 
-import LoginModal from "./LoginModal";
-import SignupModal from "./SignupModal";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    logoutRequest,
-    signInRequest,
-    signUpRequest,
-} from "../../redux/actions/userActions";
+import { logoutRequest } from "../../redux/actions/userActions";
+import { isAdmin } from "../../common/util";
+import { setViewAllOrders } from "../../redux/actions/viewOrdersActions";
 
 const useStyles = makeStyles({
     link: {
@@ -42,7 +37,6 @@ export default function Header() {
     const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorAnalyticsEl, setAnchorAnalyticsEl] = React.useState(null);
 
     const user = useSelector((state) => state.user);
 
@@ -60,6 +54,13 @@ export default function Header() {
 
     const handleViewOrder = () => {
         handleClose();
+        dispatch(setViewAllOrders(false));
+        history.push("/view-order");
+    };
+
+    const handleAllOrders = () => {
+        handleClose();
+        dispatch(setViewAllOrders(true));
         history.push("/view-order");
     };
 
@@ -73,10 +74,7 @@ export default function Header() {
         return `${userDetails.firstName[0].toUpperCase()}${userDetails.lastName[0].toUpperCase()}`;
     };
 
-    const style =
-        user.isLoggedIn && user.userDetails.role === "ADMIN"
-            ? { marginRight: 4 }
-            : { flexGrow: 1 };
+    const style = isAdmin(user) ? { marginRight: 4 } : { flexGrow: 1 };
 
     return (
         <Box>
@@ -152,7 +150,7 @@ export default function Header() {
                                 Recommended Events
                             </Link>
                         </Typography>
-                        {user.isLoggedIn && user.userDetails.role === "ADMIN" && (
+                        {isAdmin(user) && (
                             <Typography
                                 variant="subtitle2"
                                 component="span"
@@ -186,7 +184,7 @@ export default function Header() {
                                     id="menu-appbar"
                                     anchorEl={anchorEl}
                                     anchorOrigin={{
-                                        vertical: "top",
+                                        vertical: "bottom",
                                         horizontal: "right",
                                     }}
                                     keepMounted
@@ -203,8 +201,13 @@ export default function Header() {
                                             : `Profile`}
                                     </MenuItem>
                                     <MenuItem onClick={handleViewOrder}>
-                                        View Order
+                                        View Your Requests
                                     </MenuItem>
+                                    {isAdmin(user) && (
+                                        <MenuItem onClick={handleAllOrders}>
+                                            View All Requests
+                                        </MenuItem>
+                                    )}
                                     <MenuItem onClick={handleLogout}>
                                         Logout
                                     </MenuItem>

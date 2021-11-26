@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
     Box,
     Paper,
@@ -10,11 +12,14 @@ import {
     TablePagination,
     TableRow,
 } from "@mui/material";
-import { useQuery } from "@apollo/client";
-import { ViewOrderQuery } from "../../graphql";
 import Loader from "../../common/Loader";
 import { useSelector } from "react-redux";
 import { dateFormat } from "../../common/util";
+import {
+    viewAllOrdersRequest,
+    viewOrdersByUserIdRequest,
+    setViewAllOrders,
+} from "../../redux/actions/viewOrdersActions";
 
 const formatColumns = (data) => {
     if (data.length > 0) {
@@ -35,20 +40,39 @@ const formatColumns = (data) => {
 };
 
 export default function StickyHeadTable() {
+    const history = useHistory();
+    const dispatch = useDispatch();
+
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const userState = useSelector((state) => state.user);
+    const viewOrderState = useSelector((state) => state.viewOrders);
+
     const userId = userState.userDetails.id;
-    const { loading, error, data } = useQuery(
-        ViewOrderQuery.VIEW_ORDER_BY_USER_ID,
-        {
-            variables: { userId },
+
+    React.useEffect(() => {
+        if (
+            !viewOrderState.isFetching &&
+            viewOrderState.data.length === 0 &&
+            viewOrderState.error === ""
+        ) {
+            if (viewOrderState.setAllViewOrders) {
+                dispatch(setViewAllOrders(false));
+                dispatch(viewAllOrdersRequest());
+            } else {
+                dispatch(viewOrdersByUserIdRequest(userId));
+            }
         }
-    );
+    }, [viewOrderState]);
+
     let COLUMNS = [];
 
-    if (!loading && !error && data) {
-        COLUMNS = formatColumns(data?.viewOrderByUserId);
+    if (
+        !viewOrderState.isFetching &&
+        viewOrderState.error === "" &&
+        viewOrderState.data
+    ) {
+        COLUMNS = formatColumns(viewOrderState.data);
     }
 
     const handleChangePage = (event, newPage) => {
@@ -60,12 +84,12 @@ export default function StickyHeadTable() {
         setPage(0);
     };
 
-    if (loading) return <Loader />;
+    if (viewOrderState.isFetching) return <Loader />;
 
     return (
         <Box sx={{ m: 2 }}>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
-                <TableContainer sx={{ maxHeight: 550 }}>
+                <TableContainer sx={{ maxHeight: 500 }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -83,7 +107,7 @@ export default function StickyHeadTable() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.viewOrderByUserId
+                            {viewOrderState.data
                                 .slice(
                                     page * rowsPerPage,
                                     page * rowsPerPage + rowsPerPage
@@ -121,7 +145,7 @@ export default function StickyHeadTable() {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={data.viewOrderByUserId.length}
+                    count={viewOrderState.data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

@@ -67,3 +67,7 @@ export const dateFormat = (date) => {
     const formatedDate = newDate.toLocaleDateString("en-US", options);
     return formatedDate;
 };
+
+export const isAdmin = (state) => {
+    return state.isLoggedIn && state.userDetails.role === "ADMIN";
+};

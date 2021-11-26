@@ -1,14 +1,13 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
+import { isAdmin } from "../../common/util";
 
 const PrivateRoute = ({ children, adminOnly, ...rest }) => {
     const userState = useSelector((state) => state.user);
-    const { userDetails } = userState;
 
     const checkAccess = () => {
-        if (adminOnly)
-            return userState.isLoggedIn && userDetails.role === "ADMIN";
+        if (adminOnly) return isAdmin(userState);
         return userState.isLoggedIn;
     };
 
