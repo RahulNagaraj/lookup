@@ -179,7 +179,15 @@ const EventDetails = (props) => {
                                         Address
                                     </Typography>
                                     <Typography variant="body2">
-                                        {`${event.location.display_address}`}
+                                        <Link
+                                            rel="noopener noreferrer"
+                                            target="_blank"
+                                            href={encodeURI(
+                                                `https://www.google.com/maps/search/?api=1&query=${event.name}`
+                                            )}
+                                        >
+                                            {`${event.location.display_address}`}
+                                        </Link>
                                     </Typography>
                                 </Grid>
                             </Grid>

@@ -20,6 +20,7 @@ import {
     ListItemIcon,
     CardActions,
     IconButton,
+    Link,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -85,7 +86,17 @@ const OpenHours = ({ business }) => {
     return (
         <Grid item sm={6} textAlign="center">
             <Typography variant="h6">Address</Typography>
-            <Typography variant="body2">{displayAddress()}</Typography>
+            <Typography variant="body2">
+                <Link
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href={encodeURI(
+                        `https://www.google.com/maps/search/?api=1&query=${business.name}`
+                    )}
+                >
+                    {displayAddress()}
+                </Link>
+            </Typography>
             <br />
             <Typography variant="h6">Open Hours</Typography>
             <br />

@@ -106,6 +106,7 @@ const Events = (props) => {
                         location={location}
                         places={places}
                         showCurrentLocation
+                        isEvent
                         zoom={11}
                     />
                 </Grid>

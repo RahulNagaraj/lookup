@@ -49,6 +49,7 @@ export const constructEventsPlacesObject = (events) => {
         newObj.displayAddress = event?.location?.display_address.join(", ");
         newObj.coordinates.latitude = event.latitude;
         newObj.coordinates.longitude = event.longitude;
+        newObj.timeStart = dateFormat(event.time_start);
 
         places.push(newObj);
     });

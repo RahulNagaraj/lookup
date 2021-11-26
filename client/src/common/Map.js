@@ -46,6 +46,24 @@ export class MapContainer extends Component {
                     </Typography>
                 </Box>
             );
+        } else if (selectedPlace.isEvent) {
+            return (
+                <Box>
+                    <Typography variant="h6">Event</Typography>
+                    <Typography variant="body2">
+                        Name: {selectedPlace.name}
+                    </Typography>
+                    <Typography variant="body2">
+                        Address: {selectedPlace.displayAddress}
+                    </Typography>
+                    <Typography variant="body2">
+                        Attending Count: {selectedPlace.attendingCount}
+                    </Typography>
+                    <Typography variant="body2">
+                        Start Time: {selectedPlace.timeStart}
+                    </Typography>
+                </Box>
+            );
         } else {
             return (
                 <Box>
@@ -102,6 +120,7 @@ export class MapContainer extends Component {
                     <Marker
                         key={place.name}
                         onClick={this.onMarkerClick}
+                        isEvent={this.props.isEvent}
                         {...place}
                         position={{
                             lat: place.coordinates.latitude,
