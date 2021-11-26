@@ -10,6 +10,7 @@ import { constructPlacesObject } from "../../common/util";
 import {
     filterBusinesses,
     resetFilter,
+    resetReviews,
     setFilter,
 } from "../../redux/actions/businessActions";
 
@@ -39,6 +40,7 @@ const ServiceDetails = (props) => {
     };
 
     const handleBusinesCardClick = (business) => {
+        dispatch(resetReviews());
         history.push({
             pathname: "/business-detail",
             state: business,
