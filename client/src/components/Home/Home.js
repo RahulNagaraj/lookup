@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Services from "./Services";
-import RecommendedEvents from "./Recommended";
 import Offers from "./Offers";
 import TitleHeader from "./TitleHeader";
 import { servicesRequest } from "../../redux/actions/servicesActions";
@@ -45,33 +44,6 @@ const locations = [
             lat: 47.608013,
             lng: -122.335167,
         },
-    },
-];
-
-const recommendedEvents = [
-    {
-        title: "Marathon 21k",
-        type: "sports",
-        location: "Chicago",
-        imagePath: "marathon event.jpg",
-    },
-    {
-        title: "Halloween Night",
-        type: "social",
-        location: "New York",
-        imagePath: "halloween events.jpg",
-    },
-    {
-        title: "Christmas Carol",
-        type: "social",
-        location: "Seattle",
-        imagePath: "christmas events.jpg",
-    },
-    {
-        title: "Easter Day",
-        type: "social",
-        location: "San Fransisco",
-        imagePath: "easter events.jpg",
     },
 ];
 
@@ -121,12 +93,6 @@ const Home = () => {
         });
     };
 
-    const businessCardClick = (business) =>
-        history.push({
-            pathname: "/business-detail",
-            state: business,
-        });
-
     const handleLocation = (loc) => setLocation(loc);
 
     return (
@@ -144,14 +110,7 @@ const Home = () => {
                 loading={servicesState.isFetching}
             />
 
-            {/* <Trending
-                    trending={trending}
-                    handleBusinessCardClick={businessCardClick}
-                /> */}
-
             <Offers offers={businessesState.deals} />
-
-            {/* <RecommendedEvents recommendedEvents={recommendedEvents} /> */}
         </Container>
     );
 };

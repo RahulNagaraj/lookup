@@ -53,7 +53,6 @@ const useStyles = makeStyles({
 });
 
 const Filters = (props) => {
-    const classes = useStyles();
     return (
         <Grid item sm={2}>
             <Container>

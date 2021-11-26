@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
     Box,
@@ -40,7 +39,6 @@ const formatColumns = (data) => {
 };
 
 export default function StickyHeadTable() {
-    const history = useHistory();
     const dispatch = useDispatch();
 
     const [page, setPage] = React.useState(0);

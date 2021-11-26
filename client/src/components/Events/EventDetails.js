@@ -5,21 +5,16 @@ import {
     Container,
     Typography,
     Grid,
-    Rating,
     Card,
     CardMedia,
     Divider,
     CardContent,
-    Avatar,
-    CardHeader,
     List,
     Link,
     ListItem,
     ListItemText,
     ListItemButton,
     ListItemIcon,
-    CardActions,
-    Button,
 } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
@@ -28,7 +23,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import { constructEventsPlacesObject } from "../../common/util";
 import Map from "../../common/Map";
 
-const EventDetails = (props) => {
+const EventDetails = () => {
     const history = useHistory();
     const event = history.location.state;
 

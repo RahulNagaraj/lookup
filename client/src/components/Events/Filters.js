@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {
     Box,
     Typography,
@@ -7,13 +6,7 @@ import {
     Container,
     Button,
     Paper,
-    // ListItem,
     Chip,
-    FormControl,
-    InputLabel,
-    Input,
-    Select,
-    MenuItem,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
@@ -64,8 +57,6 @@ const ListItem = styled("li")(({ theme }) => ({
 }));
 
 const Filters = (props) => {
-    const classes = useStyles();
-
     return (
         <Grid item sm={2}>
             <Container>
@@ -92,15 +83,8 @@ const Filters = (props) => {
                     >
                         {CATEGORIES.map((data) => {
                             return (
-                                <ListItem
-                                    key={data.key}
-                                    // sx={{ pt: 0.5, px: 0 }}
-                                >
+                                <ListItem key={data.key}>
                                     <Chip
-                                        // classes={{
-                                        //     root: classes.selected,
-                                        //     filled: classes.filled,
-                                        // }}
                                         variant={"filled"}
                                         label={data.value}
                                         icon={
@@ -206,22 +190,6 @@ const Filters = (props) => {
                             );
                         })}
                     </Paper>
-                </Box>
-
-                <Box sx={{ mt: 1.5, mb: 2 }}>
-                    {/* <FormControl
-                        variant="standard"
-                        sx={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                        <InputLabel id="zipcode">Zip Code</InputLabel>
-                        <Input
-                            id="zipcode-input"
-                            value={props.filters.zipcode}
-                            onChange={(e) =>
-                                props.updateFilter("zipcode", e.target.value)
-                            }
-                        />
-                    </FormControl> */}
                 </Box>
             </Container>
         </Grid>

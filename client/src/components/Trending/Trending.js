@@ -45,7 +45,7 @@ const formatColumns = (data) => {
     }
 };
 
-const Trending = (props) => {
+const Trending = () => {
     const dispatch = useDispatch();
     const analyticsState = useSelector((state) => state.analytics);
 

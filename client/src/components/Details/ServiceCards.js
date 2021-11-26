@@ -7,7 +7,6 @@ import {
     Card,
     CardActions,
     CardMedia,
-    CardContent,
     CardHeader,
     Avatar,
     IconButton,
@@ -94,11 +93,6 @@ const ServiceCards = (props) => {
                             image={business.photos[0]}
                             alt={business.name}
                         />
-                        <CardContent>
-                            {/* <Typography variant="body2" color="text.secondary">
-                                {business.reviews[0].text}
-                            </Typography> */}
-                        </CardContent>
                         <CardActions disableSpacing>
                             <IconButton aria-label="add to favorites">
                                 <FavoriteIcon />

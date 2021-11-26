@@ -19,7 +19,7 @@ import {
 import { constructEventsPlacesObject } from "../../common/util";
 import { useHistory } from "react-router";
 
-const Events = (props) => {
+const Events = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
