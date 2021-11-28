@@ -114,3 +114,6 @@ dist
 
 # Mongodata
 **/mongodata
+
+# Neo4j Data
+**/neo4j
