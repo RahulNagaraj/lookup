@@ -97,6 +97,19 @@ services:
             DB_HOST: postgres
             DB_NAME: lookup
 
+    go:
+        container_name: "lookup-go"
+        depends_on:
+            - mongodb
+        build:
+            context: ./go
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        restart: always
+        volumes:
+            - ./go:/usr/app/lookup/go
+
     client:
         container_name: "lookup-ui"
         depends_on:

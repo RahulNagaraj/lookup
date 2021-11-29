@@ -1,4 +1,5 @@
 import { LookupReviews, Businesses } from "../../db/mongo";
+import business from "../schema/business";
 
 const months = [
     {
@@ -161,7 +162,7 @@ export default {
             return res;
         },
 
-        topRatedServices: async (parent, args, { models }) => {
+        topRatedBusinesses: async (parent, args, { models }) => {
             const reviews = await LookupReviews.find(
                 { rating: { $eq: 5 } },
                 null,
@@ -186,6 +187,41 @@ export default {
             });
 
             return businesses;
+        },
+
+        recommendedServices: async (parent, { city }, { models }) => {
+            const businesses = await Businesses.find({
+                "location.city": city,
+                rating: 5,
+            }).sort({ reviewCount: -1 });
+
+            let businessesObject = {};
+
+            businesses.forEach((business) => {
+                const titles = business.categories.map(
+                    (category) => category.title
+                );
+
+                titles.forEach((title) => {
+                    if (businessesObject[title]) {
+                        businessesObject[title] = [
+                            ...businessesObject[title],
+                        ].concat(business);
+                    } else {
+                        businessesObject[title] = [].concat(business);
+                    }
+                });
+            });
+
+            const recommendedServices = Object.keys(businessesObject)
+                .slice(0, 5)
+                .reduce((result, key) => {
+                    result[key] = businessesObject[key];
+
+                    return result;
+                }, {});
+
+            return recommendedServices;
         },
     },
 };

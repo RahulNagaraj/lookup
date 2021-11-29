@@ -5,8 +5,9 @@ export default gql`
         noOfRequestsPerYear(year: Int!): JSON!
         zipcodeVsNoOfRequests: JSON!
         typeOfRequests: JSON!
-        topRatedServices: [Business]!
+        topRatedBusinesses: [Business]!
         cityVsTypeOfRequests: JSON!
+        recommendedServices(city: String!): JSON!
     }
 
     type RequestsPerYear {

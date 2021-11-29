@@ -27,8 +27,8 @@ const CITY_VS_TYPE_OF_SERVICE_REQUESTS = gql`
 
 const TOP_RATED_SERVICES = gql`
     ${BUSINESS_FRAGMENT}
-    query topRatedServices {
-        data: topRatedServices {
+    query topRatedBusinesses {
+        data: topRatedBusinesses {
             ...businessFragment
         }
     }
