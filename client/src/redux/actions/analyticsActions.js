@@ -100,3 +100,30 @@ export const topRatedServicesError = (error) => {
         error,
     };
 };
+
+export const recommendedServicesRequest = (city) => {
+    return {
+        type: types.RECOMMENDED_SERVICES_REQUEST,
+        city,
+    };
+};
+
+export const recommendedServicesSuccess = (services) => {
+    return {
+        type: types.RECOMMENDED_SERVICES_REQUEST_SUCCESS,
+        services,
+    };
+};
+
+export const recommendedServicesError = (error) => {
+    return {
+        type: types.RECOMMENDED_SERVICES_REQUEST_FAILURE,
+        error,
+    };
+};
+
+export const resetRecommendedServices = () => {
+    return {
+        type: types.RESET_RECOMMENDED_SERVICES
+    }
+}

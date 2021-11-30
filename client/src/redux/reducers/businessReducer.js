@@ -263,6 +263,13 @@ export const businessesReducer = (state = initialState, action) => {
                 ...state,
             };
 
+        case types.SET_FILTERED_BUSINESSES:
+            return {
+                ...state,
+                filters: initialState.filters,
+                filteredBusinesses: action.businesses,
+            };
+
         default:
             return state;
     }

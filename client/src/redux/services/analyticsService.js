@@ -41,3 +41,12 @@ export const topRatedServices = async () => {
 
     return data.data.data;
 };
+
+export const recommendedServices = async (city) => {
+    const data = await client.query({
+        query: AnalyticsQuery.RECOMMENDED_SERVICES,
+        variables: { city },
+    });
+
+    return data.data.data;
+};

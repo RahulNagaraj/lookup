@@ -149,3 +149,10 @@ export const deleteReviewFailure = (error) => {
         error,
     };
 };
+
+export const setFilteredBusinesses = (businesses) => {
+    return {
+        type: types.SET_FILTERED_BUSINESSES,
+        businesses,
+    };
+};

@@ -3,6 +3,7 @@ import * as types from "../actionTypes/analyticsTypes";
 const initialState = {
     isFetching: false,
     data: [],
+    recommendedServices: {},
     error: "",
 };
 
@@ -15,6 +16,7 @@ export const analyticsReducer = (state = initialState, action) => {
         case types.TOP_RATED_SERVICES_REQUEST:
             return {
                 ...state,
+                data: [],
                 isFetching: true,
             };
 
@@ -39,6 +41,33 @@ export const analyticsReducer = (state = initialState, action) => {
                 isFetching: false,
                 data: [],
                 error: action.error,
+            };
+
+        case types.RECOMMENDED_SERVICES_REQUEST:
+            return {
+                ...state,
+                isFetching: true,
+            };
+
+        case types.RECOMMENDED_SERVICES_REQUEST_SUCCESS:
+            return {
+                ...state,
+                isFetching: false,
+                recommendedServices: action.services,
+            };
+
+        case types.RECOMMENDED_SERVICES_REQUEST_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                error: action.error,
+                recommendedServices: {},
+            };
+
+        case types.RESET_RECOMMENDED_SERVICES:
+            return {
+                ...state,
+                recommendedServices: {},
             };
 
         default:

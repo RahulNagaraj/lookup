@@ -39,7 +39,9 @@ import {
     reviewsRequest,
     addReviewRequest,
     deleteReviewRequest,
+    setFilteredBusinesses,
 } from "../../redux/actions/businessActions";
+import { recommendedServicesRequest } from "../../redux/actions/analyticsActions";
 
 const parseOpenHours = (openHours) => {
     if (openHours && openHours.length > 0) {
@@ -173,6 +175,8 @@ const BusinessDetails = () => {
     const dispatch = useDispatch();
     const businessesState = useSelector((state) => state.businesses);
     const userState = useSelector((state) => state.user);
+    const analyticsState = useSelector((state) => state.analytics);
+    const searchState = useSelector((state) => state.search);
 
     const business = history.location.state;
 
@@ -341,10 +345,30 @@ const BusinessDetails = () => {
         }
     }, [businessesState]);
 
+    React.useEffect(() => {
+        if (
+            !analyticsState.isFetching &&
+            Object.keys(analyticsState.recommendedServices).length === 0 &&
+            analyticsState.error === ""
+        ) {
+            const city = business.location.city;
+            dispatch(recommendedServicesRequest(city));
+        }
+    }, [analyticsState]);
+
     const handleOnDeleteClick = (review) => {
-        console.log("all reviews: ", businessesState.reviews);
-        console.log("to delete: ", review);
         dispatch(deleteReviewRequest(review._id, review.business_id));
+    };
+
+    const handleOnRecommendedServices = (service, businesses) => {
+        dispatch(setFilteredBusinesses(businesses));
+        history.push({
+            pathname: "/service-detail",
+            state: {
+                businessTitle: service,
+                searchLocation: searchState.searchFields.city,
+            },
+        });
     };
 
     return (
@@ -454,6 +478,55 @@ const BusinessDetails = () => {
                                     </Card>
                                 </Grid>
                                 <OpenHours business={business} />
+                            </Grid>
+                        </Box>
+                        <Divider sx={{ my: 2 }} />
+                        <Box>
+                            <Typography variant="h6">
+                                Recommended Services
+                            </Typography>
+                            <Grid container spacing={1} sx={{ my: 1 }}>
+                                {Object.keys(
+                                    analyticsState.recommendedServices
+                                ).map((service) => (
+                                    <Grid item sm={3}>
+                                        <Card
+                                            sx={{
+                                                maxHeight: 220,
+                                                maxWidth: 200,
+                                            }}
+                                            onClick={() =>
+                                                handleOnRecommendedServices(
+                                                    service,
+                                                    analyticsState
+                                                        .recommendedServices[
+                                                        service
+                                                    ]
+                                                )
+                                            }
+                                        >
+                                            <CardMedia
+                                                component="img"
+                                                alt={service}
+                                                height="150"
+                                                src={
+                                                    analyticsState
+                                                        .recommendedServices[
+                                                        service
+                                                    ][0].photos[0]
+                                                }
+                                            />
+                                            <CardContent>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                >
+                                                    {service}
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
                             </Grid>
                         </Box>
                     </Container>

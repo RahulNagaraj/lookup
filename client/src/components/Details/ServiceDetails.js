@@ -13,6 +13,7 @@ import {
     resetReviews,
     setFilter,
 } from "../../redux/actions/businessActions";
+import { resetRecommendedServices } from "../../redux/actions/analyticsActions";
 
 const ServiceDetails = (props) => {
     const history = useHistory();
@@ -41,6 +42,7 @@ const ServiceDetails = (props) => {
 
     const handleBusinesCardClick = (business) => {
         dispatch(resetReviews());
+        dispatch(resetRecommendedServices());
         history.push({
             pathname: "/business-detail",
             state: business,

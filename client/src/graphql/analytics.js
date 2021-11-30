@@ -34,10 +34,17 @@ const TOP_RATED_SERVICES = gql`
     }
 `;
 
+const RECOMMENDED_SERVICES = gql`
+    query recommendedServices($city: String!) {
+        data: recommendedServices(city: $city)
+    }
+`;
+
 export default {
     NUMBER_OF_REQUESTS_PER_YEAR,
     TYPE_OF_REQUESTS,
     CITY_VS_TYPE_OF_SERVICE_REQUESTS,
     TOP_RATED_SERVICES,
     ZIPCODE_VS_NUMBER_OF_REQUESTS,
+    RECOMMENDED_SERVICES,
 };

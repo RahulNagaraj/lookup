@@ -50,6 +50,15 @@ function* topRatedServices() {
     }
 }
 
+function* recommendedServices({ city }) {
+    try {
+        const data = yield call(service.recommendedServices, city);
+        yield put(actions.recommendedServicesSuccess(data));
+    } catch (e) {
+        yield put(actions.recommendedServicesError("Error fetching data!"));
+    }
+}
+
 function* watchNoOfRequestsPerYearRequest() {
     yield takeEvery(
         types.NUMBER_OF_REQUESTS_PER_YEAR_REQUEST,
@@ -79,6 +88,10 @@ function* watchTopRatedServices() {
     yield takeEvery(types.TOP_RATED_SERVICES_REQUEST, topRatedServices);
 }
 
+function* watchRecommendedServices() {
+    yield takeEvery(types.RECOMMENDED_SERVICES_REQUEST, recommendedServices);
+}
+
 export function* analyticsSaga() {
     yield all([
         watchNoOfRequestsPerYearRequest(),
@@ -86,5 +99,6 @@ export function* analyticsSaga() {
         watchZipcodeVsNoOfRequests(),
         watchCityVsTypeOfRequests(),
         watchTopRatedServices(),
+        watchRecommendedServices(),
     ]);
 }
