@@ -117,3 +117,6 @@ dist
 
 # Neo4j Data
 **/neo4j
+
+# Data export
+**/data-export
