@@ -1,5 +1,12 @@
+var neo4j = require("neo4j-driver");
+
 import { LookupReviews, Businesses } from "../../db/mongo";
-import business from "../schema/business";
+
+const driver = neo4j.driver(
+    "bolt://neo4j:7687",
+    neo4j.auth.basic("neo4j", "root"),
+    { disableLosslessIntegers: true }
+);
 
 const months = [
     {
@@ -222,6 +229,75 @@ export default {
                 }, {});
 
             return recommendedServices;
+        },
+
+        topInfluentialBusinesses: async () => {
+            const session = driver.session({
+                database: "neo4j",
+                defaultAccessMode: neo4j.session.READ,
+            });
+            const query = `
+                MATCH (n:User) - [r:\`Requested Services From\`] -> (b:Business) 
+                RETURN b AS business, COUNT(*) AS count 
+                ORDER BY toInteger(count) DESC LIMIT 10
+            `;
+
+            let results = await session.run(query);
+            const businesses = results.records.map((record) => {
+                const obj = {
+                    business: record.get("business")["properties"],
+                    count: record.get("count"),
+                };
+                return obj;
+            });
+
+            return businesses;
+        },
+
+        topInfluentialPeople: async () => {
+            const session = driver.session({
+                database: "neo4j",
+                defaultAccessMode: neo4j.session.READ,
+            });
+            const query = `
+                MATCH (n:User) - [r:Reviewed] -> (x) 
+                RETURN n as user, COUNT(*) AS count 
+                ORDER BY count DESC LIMIT 10
+            `;
+
+            let results = await session.run(query);
+            const people = results.records.map((record) => {
+                const obj = {
+                    user: record.get("user")["properties"],
+                    count: record.get("count"),
+                };
+                return obj;
+            });
+
+            return people;
+        },
+
+        topInfluentialCommunity: async () => {
+            const session = driver.session({
+                database: "neo4j",
+                defaultAccessMode: neo4j.session.READ,
+            });
+            const query = `
+                MATCH (z:Zipcode) - [r:Has] -> (e:Event) 
+                RETURN z.zipcode AS zipcode, COUNT(*) as count 
+                ORDER BY count DESC LIMIT 10
+            `;
+
+            let results = await session.run(query);
+            const community = results.records.map((record) => {
+                const obj = {
+                    user: record.get("zipcode"),
+                    count: record.get("count"),
+                };
+                return obj;
+            });
+
+            return community;
         },
     },
 };
