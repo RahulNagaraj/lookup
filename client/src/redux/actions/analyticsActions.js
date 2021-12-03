@@ -124,6 +124,66 @@ export const recommendedServicesError = (error) => {
 
 export const resetRecommendedServices = () => {
     return {
-        type: types.RESET_RECOMMENDED_SERVICES
-    }
-}
+        type: types.RESET_RECOMMENDED_SERVICES,
+    };
+};
+
+export const mostInfluentialBusinessesRequest = () => {
+    return {
+        type: types.MOST_INFLUENTIAL_BUSINESSES_REQUEST,
+    };
+};
+
+export const mostInfluentialBusinessesSuccess = (data) => {
+    return {
+        type: types.MOST_INFLUENTIAL_BUSINESSES_REQUEST_SUCCESS,
+        data,
+    };
+};
+
+export const mostInfluentialBusinessesError = (error) => {
+    return {
+        type: types.MOST_INFLUENTIAL_BUSINESSES_REQUEST_FAILURE,
+        error,
+    };
+};
+
+export const mostInfluentialPeopleRequest = () => {
+    return {
+        type: types.MOST_INFLUENTIAL_PEOPLE_REQUEST,
+    };
+};
+
+export const mostInfluentialPeopleSuccess = (data) => {
+    return {
+        type: types.MOST_INFLUENTIAL_PEOPLE_REQUEST_SUCCESS,
+        data,
+    };
+};
+
+export const mostInfluentialPeopleError = (error) => {
+    return {
+        type: types.MOST_INFLUENTIAL_PEOPLE_REQUEST_FAILURE,
+        error,
+    };
+};
+
+export const mostInfluentialCommunityRequest = () => {
+    return {
+        type: types.MOST_INFLUENTIAL_COMMUNITY_REQUEST,
+    };
+};
+
+export const mostInfluentialCommunitySuccess = (data) => {
+    return {
+        type: types.MOST_INFLUENTIAL_COMMUNITY_REQUEST_SUCCESS,
+        data,
+    };
+};
+
+export const mostInfluentialCommunityError = (error) => {
+    return {
+        type: types.MOST_INFLUENTIAL_COMMUNITY_REQUEST_FAILURE,
+        error,
+    };
+};

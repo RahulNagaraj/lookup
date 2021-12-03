@@ -40,6 +40,24 @@ const RECOMMENDED_SERVICES = gql`
     }
 `;
 
+const MOST_INFLUENTIAL_BUSINESSES = gql`
+    query topInfluentialBusinesses {
+        data: topInfluentialBusinesses
+    }
+`;
+
+const MOST_INFLUENTIAL_PEOPLE = gql`
+    query topInfluentialPeople {
+        data: topInfluentialPeople
+    }
+`;
+
+const MOST_INFLUENTIAL_COMMUNITY = gql`
+    query topInfluentialCommunity {
+        data: topInfluentialCommunity
+    }
+`;
+
 export default {
     NUMBER_OF_REQUESTS_PER_YEAR,
     TYPE_OF_REQUESTS,
@@ -47,4 +65,7 @@ export default {
     TOP_RATED_SERVICES,
     ZIPCODE_VS_NUMBER_OF_REQUESTS,
     RECOMMENDED_SERVICES,
+    MOST_INFLUENTIAL_BUSINESSES,
+    MOST_INFLUENTIAL_PEOPLE,
+    MOST_INFLUENTIAL_COMMUNITY,
 };

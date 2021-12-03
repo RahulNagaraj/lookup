@@ -7,14 +7,20 @@ import PieChartIcon from "@mui/icons-material/PieChart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import MultilineChartIcon from "@mui/icons-material/MultilineChart";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
+import DomainIcon from "@mui/icons-material/Domain";
+import StoreIcon from "@mui/icons-material/Store";
+import PeopleIcon from "@mui/icons-material/People";
 
 import {
     cityVsTypeOfRequestsRequest,
     noOfRequestsPerYearRequest,
     typeOfRequestsRequest,
     zipcodeVsNoOfRequestsRequest,
+    mostInfluentialBusinessesRequest,
+    mostInfluentialCommunityRequest,
+    mostInfluentialPeopleRequest,
 } from "../../redux/actions/analyticsActions";
-import Drawer from "./Drawer";
+import Drawer, { DRAWER_ITEMS } from "./Drawer";
 
 let option1 = {
     chart: {
@@ -163,14 +169,20 @@ let option4 = {
 };
 
 const getIcon = (name) => {
-    if (name === "Number of Requests Per Year") {
+    if (name === DRAWER_ITEMS[0]) {
         return <BarChartIcon />;
-    } else if (name === "Type of Requests") {
+    } else if (name === DRAWER_ITEMS[1]) {
         return <PieChartIcon />;
-    } else if (name === "Zipcode - Number of Requests") {
+    } else if (name === DRAWER_ITEMS[2]) {
         return <InsertChartIcon />;
-    } else if (name === "City - Service Type") {
+    } else if (name === DRAWER_ITEMS[3]) {
         return <MultilineChartIcon />;
+    } else if (name === DRAWER_ITEMS[4]) {
+        return <StoreIcon />;
+    } else if (name === DRAWER_ITEMS[5]) {
+        return <PeopleIcon />;
+    } else if (name === DRAWER_ITEMS[6]) {
+        return <DomainIcon />;
     }
 };
 
@@ -178,9 +190,7 @@ const Analytics = (props) => {
     const dispatch = useDispatch();
     const analyticsState = useSelector((state) => state.analytics);
 
-    const [chartSelected, setChartSelected] = React.useState(
-        "Number of Requests Per Year"
-    );
+    const [chartSelected, setChartSelected] = React.useState(DRAWER_ITEMS[0]);
 
     React.useEffect(() => {
         if (
@@ -194,21 +204,26 @@ const Analytics = (props) => {
 
     const handleDrawerButtonClick = (name) => {
         setChartSelected(name);
-        if (name === "Number of Requests Per Year") {
+        if (name === DRAWER_ITEMS[0]) {
             dispatch(noOfRequestsPerYearRequest(2021));
-        } else if (name === "Type of Requests") {
+        } else if (name === DRAWER_ITEMS[1]) {
             dispatch(typeOfRequestsRequest());
-        } else if (name === "Zipcode - Number of Requests") {
+        } else if (name === DRAWER_ITEMS[2]) {
             dispatch(zipcodeVsNoOfRequestsRequest());
-        } else if (name === "City - Service Type") {
+        } else if (name === DRAWER_ITEMS[3]) {
             dispatch(cityVsTypeOfRequestsRequest());
+        } else if (name === DRAWER_ITEMS[4]) {
+            dispatch(mostInfluentialBusinessesRequest());
+        } else if (name === DRAWER_ITEMS[5]) {
+            dispatch(mostInfluentialPeopleRequest());
+        } else if (name === DRAWER_ITEMS[6]) {
+            dispatch(mostInfluentialCommunityRequest());
         }
     };
 
     const renderHighCharts = () => {
-        console.log(chartSelected);
         if (
-            chartSelected === "Number of Requests Per Year" &&
+            chartSelected === DRAWER_ITEMS[0] &&
             analyticsState.data.length > 0
         ) {
             option1.series[0].data = analyticsState.data;
@@ -222,7 +237,7 @@ const Analytics = (props) => {
                 />
             );
         } else if (
-            chartSelected === "Type of Requests" &&
+            chartSelected === DRAWER_ITEMS[1] &&
             analyticsState.data.length > 0
         ) {
             option2.series[0].data = analyticsState.data;
@@ -236,7 +251,7 @@ const Analytics = (props) => {
                 />
             );
         } else if (
-            chartSelected === "Zipcode - Number of Requests" &&
+            chartSelected === DRAWER_ITEMS[2] &&
             analyticsState.data.length > 0
         ) {
             option3.series[0].data = analyticsState.data;
@@ -250,10 +265,9 @@ const Analytics = (props) => {
                 />
             );
         } else if (
-            chartSelected === "City - Service Type" &&
+            chartSelected === DRAWER_ITEMS[3] &&
             Object.keys(analyticsState.data).length > 0
         ) {
-            console.log(option4);
             option4.xAxis.categories = analyticsState.data.serviceTypes;
             option4.series = analyticsState.data.series;
             return (

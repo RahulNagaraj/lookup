@@ -1,24 +1,21 @@
 import * as React from "react";
-import {
-    Box,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-} from "@mui/material";
+import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
-const items = [
+export const DRAWER_ITEMS = [
     "Number of Requests Per Year",
     "Type of Requests",
     "Zipcode - Number of Requests",
     "City - Service Type",
+    "Most Influential Business",
+    "Most Influential People",
+    "Most Influential Community",
 ];
 
 const Drawer = (props) => {
     return (
         <Box>
             <List>
-                {items.map((text, index) => (
+                {DRAWER_ITEMS.map((text, index) => (
                     <ListItem
                         button
                         key={text}

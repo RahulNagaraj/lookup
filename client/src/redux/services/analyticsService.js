@@ -50,3 +50,27 @@ export const recommendedServices = async (city) => {
 
     return data.data.data;
 };
+
+export const mostInfluentialBusinesses = async () => {
+    const data = await client.query({
+        query: AnalyticsQuery.MOST_INFLUENTIAL_BUSINESSES,
+    });
+
+    return data.data.data;
+};
+
+export const mostInfluentialPeople = async () => {
+    const data = await client.query({
+        query: AnalyticsQuery.MOST_INFLUENTIAL_PEOPLE,
+    });
+
+    return data.data.data;
+};
+
+export const mostInfluentialCommunity = async () => {
+    const data = await client.query({
+        query: AnalyticsQuery.MOST_INFLUENTIAL_COMMUNITY,
+    });
+
+    return data.data.data;
+};

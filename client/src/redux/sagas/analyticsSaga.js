@@ -59,6 +59,37 @@ function* recommendedServices({ city }) {
     }
 }
 
+function* mostInfluentialBusinesses() {
+    try {
+        const data = yield call(service.mostInfluentialBusinesses);
+        yield put(actions.mostInfluentialBusinessesSuccess(data));
+    } catch (e) {
+        yield put(
+            actions.mostInfluentialBusinessesError("Error fetching data!")
+        );
+    }
+}
+
+function* mostInfluentialPeople() {
+    try {
+        const data = yield call(service.mostInfluentialPeople);
+        yield put(actions.mostInfluentialPeopleSuccess(data));
+    } catch (e) {
+        yield put(actions.mostInfluentialPeopleError("Error fetching data!"));
+    }
+}
+
+function* mostInfluentialCommunity() {
+    try {
+        const data = yield call(service.mostInfluentialCommunity);
+        yield put(actions.mostInfluentialCommunitySuccess(data));
+    } catch (e) {
+        yield put(
+            actions.mostInfluentialCommunityError("Error fetching data!")
+        );
+    }
+}
+
 function* watchNoOfRequestsPerYearRequest() {
     yield takeEvery(
         types.NUMBER_OF_REQUESTS_PER_YEAR_REQUEST,
@@ -92,6 +123,27 @@ function* watchRecommendedServices() {
     yield takeEvery(types.RECOMMENDED_SERVICES_REQUEST, recommendedServices);
 }
 
+function* watchMostInfluentialBusinesses() {
+    yield takeEvery(
+        types.MOST_INFLUENTIAL_BUSINESSES_REQUEST,
+        mostInfluentialBusinesses
+    );
+}
+
+function* watchMostInfluentialPeople() {
+    yield takeEvery(
+        types.MOST_INFLUENTIAL_PEOPLE_REQUEST,
+        mostInfluentialPeople
+    );
+}
+
+function* watchMostInfluentialCommunity() {
+    yield takeEvery(
+        types.MOST_INFLUENTIAL_COMMUNITY_REQUEST,
+        mostInfluentialCommunity
+    );
+}
+
 export function* analyticsSaga() {
     yield all([
         watchNoOfRequestsPerYearRequest(),
@@ -100,5 +152,8 @@ export function* analyticsSaga() {
         watchCityVsTypeOfRequests(),
         watchTopRatedServices(),
         watchRecommendedServices(),
+        watchMostInfluentialBusinesses(),
+        watchMostInfluentialPeople(),
+        watchMostInfluentialCommunity(),
     ]);
 }
