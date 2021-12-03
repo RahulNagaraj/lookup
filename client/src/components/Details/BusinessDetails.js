@@ -195,8 +195,8 @@ const BusinessDetails = () => {
         phone: "",
         email: "",
         address: "",
-        city: "",
-        state: "",
+        city: business.location.city,
+        state: business.location.state,
         zipCode: "",
     });
 
@@ -210,7 +210,7 @@ const BusinessDetails = () => {
         },
     });
 
-    const [createOrder, { data, loading, error }] = useMutation(
+    let [createOrder, { data, loading, error }] = useMutation(
         BookNowQuery.CREATE_ORDER
     );
 
@@ -249,9 +249,10 @@ const BusinessDetails = () => {
     };
 
     if (!loading && !error && data && data.createOrder && data.createOrder.id) {
-        if (!showOrderConfirmationModal) {
-            setOrderConfirmationModal(true);
+        if (!orderConfirmationModalOpen) {
+            // setOrderConfirmationModal(true);
             setOrderConfirmationModalOpen(true);
+            data = {};
         }
     }
 
@@ -311,7 +312,6 @@ const BusinessDetails = () => {
     };
 
     const handleOrderConfirmationModal = () => {
-        setOrderConfirmationModal(false);
         setOrderConfirmationModalOpen(false);
         history.push("/");
     };
@@ -598,7 +598,7 @@ const BusinessDetails = () => {
                 />
             )}
 
-            {showOrderConfirmationModal && (
+            {orderConfirmationModalOpen && (
                 <OrderConfirmationModal
                     orderConfirmationModalOpen={orderConfirmationModalOpen}
                     handleOrderConfirmationModal={handleOrderConfirmationModal}

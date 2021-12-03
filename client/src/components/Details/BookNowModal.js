@@ -156,6 +156,7 @@ const BookNowModal = (props) => {
                                     name="city"
                                     label="City"
                                     type="text"
+                                    disabled
                                     value={props.customerDetails.city}
                                     variant="standard"
                                     sx={{ minWidth: "90%" }}
@@ -172,6 +173,7 @@ const BookNowModal = (props) => {
                                     name="state"
                                     label="State"
                                     type="text"
+                                    disabled
                                     value={props.customerDetails.state}
                                     variant="standard"
                                     sx={{ minWidth: "90%" }}

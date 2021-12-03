@@ -291,7 +291,7 @@ export default {
             let results = await session.run(query);
             const community = results.records.map((record) => {
                 const obj = {
-                    user: record.get("zipcode"),
+                    zipcode: record.get("zipcode"),
                     count: record.get("count"),
                 };
                 return obj;

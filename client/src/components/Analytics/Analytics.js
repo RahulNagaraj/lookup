@@ -21,6 +21,7 @@ import {
     mostInfluentialPeopleRequest,
 } from "../../redux/actions/analyticsActions";
 import Drawer, { DRAWER_ITEMS } from "./Drawer";
+import InfluentialTable from "./InfluentialTable";
 
 let option1 = {
     chart: {
@@ -279,6 +280,37 @@ const Analytics = (props) => {
                     updateArgs={[true, true, true]}
                 />
             );
+        } else if (
+            chartSelected === DRAWER_ITEMS[4] &&
+            Object.keys(analyticsState.data).length > 0
+        ) {
+            const cols = Object.keys(analyticsState.data[0].business)
+                .filter((col) => col !== "id")
+                .concat("count");
+            const rows = analyticsState.data.map((data) => ({
+                ...data.business,
+                count: data.count,
+            }));
+            return <InfluentialTable columns={cols} rows={rows} />;
+        } else if (
+            chartSelected === DRAWER_ITEMS[5] &&
+            Object.keys(analyticsState.data).length > 0
+        ) {
+            const cols = Object.keys(analyticsState.data[0].user)
+                .filter((col) => col !== "id")
+                .concat("count");
+            const rows = analyticsState.data.map((data) => ({
+                ...data.user,
+                count: data.count,
+            }));
+            return <InfluentialTable columns={cols} rows={rows} />;
+        } else if (
+            chartSelected === DRAWER_ITEMS[6] &&
+            Object.keys(analyticsState.data).length > 0
+        ) {
+            const cols = Object.keys(analyticsState.data[0]);
+            const rows = analyticsState.data;
+            return <InfluentialTable columns={cols} rows={rows} />;
         }
     };
 
