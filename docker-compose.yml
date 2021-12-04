@@ -79,9 +79,11 @@ services:
         depends_on:
             - mongodb
             - neo4j
+            - postgres
         links:
             - mongodb
             - neo4j
+            - postgres
 
     server:
         container_name: "lookup-server"

@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook
+FROM jupyter/datascience-notebook
 
 WORKDIR /usr/app/lookup/jupyter
 
