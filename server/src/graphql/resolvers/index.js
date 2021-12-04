@@ -9,6 +9,7 @@ import eventResolvers from "./event";
 import serviceResolvers from "./service";
 import searchLogResolvers from "./searchLog";
 import analyticsResolvers from "./analytics";
+import twitterResolvers from "./twitter";
 
 const customScalarResolver = {
     Date: GraphQLDateTime,
@@ -26,4 +27,5 @@ export default [
     serviceResolvers,
     searchLogResolvers,
     analyticsResolvers,
+    twitterResolvers,
 ];

@@ -8,6 +8,7 @@ import eventSchema from "./event";
 import serviceSchema from "./service";
 import searchLogSchema from "./searchLog";
 import analyticsSchema from "./analytics";
+import twitterSchema from "./twitter";
 
 const linkSchema = gql`
     scalar Date
@@ -34,4 +35,5 @@ export default [
     serviceSchema,
     searchLogSchema,
     analyticsSchema,
+    twitterSchema,
 ];
