@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Services from "./Services";
 import Offers from "./Offers";
+import TwitterMatches from "./TwitterMatches";
 import TitleHeader from "./TitleHeader";
 import { servicesRequest } from "../../redux/actions/servicesActions";
 import {
     businessDealsRequest,
     getBusinessByServiceType,
 } from "../../redux/actions/businessActions";
+import { twitterMatchesRequest } from "../../redux/actions/twitterActions";
 
 const locations = [
     {
@@ -54,6 +56,7 @@ const Home = () => {
     const servicesState = useSelector((state) => state.services);
     const businessesState = useSelector((state) => state.businesses);
     const searchState = useSelector((state) => state.search);
+    const twitterMatchesState = useSelector((state) => state.twitterMatches);
 
     React.useEffect(() => {
         if (!servicesState.isFetching && servicesState.services.length === 0) {
@@ -66,6 +69,15 @@ const Home = () => {
             dispatch(businessDealsRequest());
         }
     }, [businessesState, dispatch]);
+
+    React.useEffect(() => {
+        if (
+            !twitterMatchesState.isFetching &&
+            twitterMatchesState.twitterMatches.length === 0
+        ) {
+            dispatch(twitterMatchesRequest());
+        }
+    }, [twitterMatchesState, dispatch]);
 
     const [location, setLocation] = React.useState({
         key: "chicago",
@@ -111,6 +123,8 @@ const Home = () => {
             />
 
             <Offers offers={businessesState.deals} />
+
+            <TwitterMatches matches={twitterMatchesState.twitterMatches} />
         </Container>
     );
 };

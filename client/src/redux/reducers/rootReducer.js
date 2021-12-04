@@ -7,6 +7,7 @@ import { searchReducer } from "./searchReducer";
 import { eventsReducer } from "./eventReducer";
 import { analyticsReducer } from "./analyticsReducer";
 import { viewOrdersReducer } from "./viewOrdersReducer";
+import { twitterMatchesReducer } from "./twitterReducer";
 
 export default combineReducers({
     user: userReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
     events: eventsReducer,
     analytics: analyticsReducer,
     viewOrders: viewOrdersReducer,
+    twitterMatches: twitterMatchesReducer,
 });

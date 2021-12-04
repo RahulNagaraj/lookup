@@ -45,6 +45,7 @@ export const twitterDealsSchema = new Schema(
         retweeted: Boolean,
         possibly_sensitive: Boolean,
         lang: String,
+        entities: {},
     },
     { collection: "twitter_deals" }
 );

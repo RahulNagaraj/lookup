@@ -5,6 +5,7 @@ import ViewOrderQuery from "./viewOrders";
 import SearchLogQuery from "./searchLog";
 import AnalyticsQuery from "./analytics";
 import ViewOrdersQuery from "./viewOrders";
+import TwitterQuery from "./twitter";
 
 export {
     LoginQuery,
@@ -14,4 +15,5 @@ export {
     SearchLogQuery,
     AnalyticsQuery,
     ViewOrdersQuery,
+    TwitterQuery,
 };

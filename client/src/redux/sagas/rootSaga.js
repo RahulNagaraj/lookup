@@ -7,6 +7,7 @@ import { searchSaga } from "./searchSaga";
 import { eventSaga } from "./eventSaga";
 import { analyticsSaga } from "./analyticsSaga";
 import { viewOrdersSaga } from "./viewOrdersSaga";
+import { twitterSaga } from "./twitterSaga";
 
 function* rootSaga() {
     yield all([
@@ -17,6 +18,7 @@ function* rootSaga() {
         eventSaga(),
         analyticsSaga(),
         viewOrdersSaga(),
+        twitterSaga(),
     ]);
 }
 
