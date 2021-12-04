@@ -41,11 +41,34 @@ export default function SignIn() {
     const history = useHistory();
 
     const userState = useSelector((state) => state.user);
+    const [fieldsState, setFieldsState] = React.useState({
+        emailHelperText: "",
+        emailError: false,
+        passwordHelperText: "",
+        passwordError: false,
+    });
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
+
+        if (data.get("email") === "") {
+            setFieldsState({
+                ...fieldsState,
+                emailError: true,
+                emailHelperText: "Please enter your email",
+            });
+            return;
+        }
+        if (data.get("password") === "") {
+            setFieldsState({
+                ...fieldsState,
+                passwordError: true,
+                passwordHelperText: "Please enter your password",
+            });
+            return;
+        }
+
         dispatch(
             signInRequest({
                 email: data.get("email"),
@@ -90,6 +113,8 @@ export default function SignIn() {
                         <TextField
                             margin="normal"
                             required
+                            error={fieldsState.emailError}
+                            helperText={fieldsState.emailHelperText}
                             fullWidth
                             id="email"
                             label="Email Address"
@@ -100,6 +125,8 @@ export default function SignIn() {
                         <TextField
                             margin="normal"
                             required
+                            error={fieldsState.passwordError}
+                            helperText={fieldsState.passwordHelperText}
                             fullWidth
                             name="password"
                             label="Password"

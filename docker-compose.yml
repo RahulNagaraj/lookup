@@ -3,7 +3,13 @@ services:
     postgres:
         container_name: "lookup-postgres"
         image: postgres
-        restart: always
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U postgres"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
         environment:
             POSTGRES_USER: lookup
             POSTGRES_PASSWORD: lookup
@@ -16,7 +22,7 @@ services:
     mongodb:
         container_name: "lookup-mongodb"
         image: mongo
-        restart: always
+        restart: unless-stopped
         environment:
             - MONGO_INITDB_DATABASE=lookup
             - MONGO_INITDB_ROOT_USERNAME=lookup
@@ -80,9 +86,9 @@ services:
     server:
         container_name: "lookup-server"
         depends_on:
+            - neo4j
             - postgres
             - mongodb
-            - neo4j
         build:
             context: ./server
             dockerfile: Dockerfile
@@ -129,3 +135,4 @@ services:
         environment:
             PORT: 3000
             CHOKIDAR_USEPOLLING: "true"
+

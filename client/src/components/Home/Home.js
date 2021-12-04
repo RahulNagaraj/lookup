@@ -31,7 +31,7 @@ const locations = [
     },
     {
         key: "san_fransisco",
-        value: "San Fransisco",
+        value: "San Francisco",
         coordinates: {
             lat: 37.773972,
             lng: -122.431297,

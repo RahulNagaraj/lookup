@@ -1,7 +1,13 @@
 import client from "../../graphql/client";
 import { LoginQuery } from "../../graphql";
 
-export const signUp = async ({ firstName, lastName, email, password }) => {
+export const signUp = async ({
+    firstName,
+    lastName,
+    email,
+    password,
+    role,
+}) => {
     const user = await client.mutate({
         mutation: LoginQuery.SIGN_UP,
         variables: {
@@ -9,6 +15,7 @@ export const signUp = async ({ firstName, lastName, email, password }) => {
             lastName,
             email,
             password,
+            role,
         },
     });
 

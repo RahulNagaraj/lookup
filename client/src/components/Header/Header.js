@@ -41,6 +41,7 @@ export default function Header() {
     const user = useSelector((state) => state.user);
 
     const handleLoginClick = () => {
+        setAnchorEl(null);
         history.push("/signin");
     };
 
