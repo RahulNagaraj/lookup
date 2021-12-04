@@ -339,7 +339,8 @@ const BusinessDetails = () => {
     React.useEffect(() => {
         if (
             !businessesState.isFetching &&
-            businessesState.reviews.length === 0
+            businessesState.reviews.length === 0 &&
+            businessesState.error === ""
         ) {
             dispatch(reviewsRequest(business.id));
         }

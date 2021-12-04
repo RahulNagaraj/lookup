@@ -32,7 +32,7 @@ export const addReview = async (review) => {
         variables: { review },
     });
 
-    return reviews.data.review;
+    return reviews.data.reviews;
 };
 
 export const deleteReview = async ({ id, businessId }) => {

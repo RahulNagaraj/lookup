@@ -179,7 +179,7 @@ const GET_YELP_REVIEWS = gql`
 const ADD_REVIEW = gql`
     ${REVIEW_FRAGMENT}
     mutation addLookupReview($review: ReviewInput!) {
-        review: addLookupReview(review: $review) {
+        reviews: addLookupReview(review: $review) {
             ...reviewFragment
         }
     }

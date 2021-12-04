@@ -203,10 +203,13 @@ export const businessesReducer = (state = initialState, action) => {
         }
 
         case types.REVIEWS_REQUEST_SUCCESS: {
+            const reviews = action.reviews;
+            const error = reviews.length === 0 ? "No data" : "";
             return {
                 ...state,
                 isFetching: false,
-                reviews: action.reviews,
+                error,
+                reviews: reviews,
             };
         }
 
@@ -244,6 +247,7 @@ export const businessesReducer = (state = initialState, action) => {
         case types.RESET_REVIEWS:
             return {
                 ...state,
+                error: "",
                 reviews: [],
             };
 
