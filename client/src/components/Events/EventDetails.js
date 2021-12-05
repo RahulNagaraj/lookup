@@ -159,6 +159,7 @@ const EventDetails = () => {
                                                 places={constructEventsPlacesObject(
                                                     [event]
                                                 )}
+                                                isEvent
                                                 showCurrentLocation={false}
                                                 zoom={15}
                                                 containerStyles={{
