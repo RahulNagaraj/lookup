@@ -201,7 +201,7 @@ const Analytics = (props) => {
         ) {
             dispatch(noOfRequestsPerYearRequest(2021));
         }
-    }, [analyticsState, chartSelected, setChartSelected]);
+    }, [analyticsState, chartSelected, setChartSelected, dispatch]);
 
     const handleDrawerButtonClick = (name) => {
         setChartSelected(name);

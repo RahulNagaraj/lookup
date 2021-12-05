@@ -34,7 +34,7 @@ const Events = () => {
         ) {
             dispatch(eventsRequest(userState.userDetails.id));
         }
-    }, [eventsState]);
+    }, [eventsState, dispatch]);
 
     const handleEventFilter = (type, value) => {
         dispatch(setFilterType(type, value));

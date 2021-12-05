@@ -61,7 +61,7 @@ export default function StickyHeadTable() {
                 dispatch(viewOrdersByUserIdRequest(userId));
             }
         }
-    }, [viewOrderState]);
+    }, [viewOrderState, dispatch, userId]);
 
     let COLUMNS = [];
 

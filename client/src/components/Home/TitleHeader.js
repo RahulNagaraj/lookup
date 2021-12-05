@@ -50,7 +50,7 @@ const TitleHeader = (props) => {
         ) {
             dispatch(businessesRequest());
         }
-    }, [businessState]);
+    }, [businessState, dispatch]);
 
     const handleOnInputChange = (business) => {
         if (userState.isLoggedIn) {

@@ -84,7 +84,7 @@ export default function SignIn() {
         ) {
             history.push("/");
         }
-    }, [userState]);
+    }, [userState, history]);
 
     return (
         <ThemeProvider theme={theme}>

@@ -344,7 +344,7 @@ const BusinessDetails = () => {
         ) {
             dispatch(reviewsRequest(business.id));
         }
-    }, [businessesState]);
+    }, [businessesState, dispatch]);
 
     React.useEffect(() => {
         if (
@@ -355,7 +355,7 @@ const BusinessDetails = () => {
             const city = business.location.city;
             dispatch(recommendedServicesRequest(city));
         }
-    }, [analyticsState]);
+    }, [analyticsState, dispatch]);
 
     const handleOnDeleteClick = (review) => {
         dispatch(deleteReviewRequest(review._id, review.business_id));

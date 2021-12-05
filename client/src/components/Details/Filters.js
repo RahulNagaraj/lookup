@@ -12,8 +12,6 @@ import {
     Select,
     MenuItem,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { blueGrey, red } from "@mui/material/colors";
 
 const REVIEWS_FILTER = [
     { key: "recommended", label: "50-100" },
@@ -30,27 +28,6 @@ const OPEN_NOW_FILTER = [
     { key: 1, label: "Yes" },
     { key: 0, label: "No" },
 ];
-
-const useStyles = makeStyles({
-    selected: {
-        "&:focus": {
-            background: `${red[500]} !important`,
-            color: "#000 !important",
-        },
-        "&:active": {
-            background: `${red[500]} !important`,
-            color: "#000 !important",
-        },
-        "&:hover": {
-            background: `${blueGrey[300]} !important`,
-            color: "#000 !important",
-        },
-    },
-    filled: {
-        background: `${red[500]} !important`,
-        color: "#000 !important",
-    },
-});
 
 const Filters = (props) => {
     return (

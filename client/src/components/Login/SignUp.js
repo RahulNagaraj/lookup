@@ -111,7 +111,7 @@ export default function SignUp() {
         ) {
             history.push("/");
         }
-    }, [userState]);
+    }, [userState, history]);
 
     return (
         <ThemeProvider theme={theme}>

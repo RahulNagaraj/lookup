@@ -9,30 +9,7 @@ import {
     Chip,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 import DoneIcon from "@mui/icons-material/Done";
-import { blueGrey, red } from "@mui/material/colors";
-
-const useStyles = makeStyles({
-    selected: {
-        "&:focus": {
-            background: `${red[500]} !important`,
-            color: "#000 !important",
-        },
-        "&:active": {
-            background: `${red[500]} !important`,
-            color: "#000 !important",
-        },
-        "&:hover": {
-            background: `${blueGrey[300]} !important`,
-            color: "#000 !important",
-        },
-    },
-    filled: {
-        background: `${red[500]} !important`,
-        color: "#000 !important",
-    },
-});
 
 const CATEGORIES = [
     { key: "music", value: "Music" },

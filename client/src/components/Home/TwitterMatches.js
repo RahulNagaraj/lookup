@@ -5,8 +5,6 @@ import {
     Typography,
     Grid,
     Card,
-    CardActionArea,
-    CardMedia,
     CardContent,
     CardActions,
     Button,

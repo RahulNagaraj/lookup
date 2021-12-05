@@ -19,15 +19,14 @@ export const filterBusinessesByCityOrZipcode = async ({ city, zipcode }) => {
 };
 
 export const setSearchLogCityEntry = async ({ userId, searchCity }) => {
-    console.log(userId, searchCity);
-    const result = await client.mutate({
+    await client.mutate({
         mutation: SearchLogQuery.ADD_SEARCH_LOG_CITY_ENTRY,
         variables: { searchLog: { userId, searchCity } },
     });
 };
 
 export const setSearchLogZipcodeEntry = async ({ userId, searchZipcode }) => {
-    const result = await client.mutate({
+    await client.mutate({
         mutation: SearchLogQuery.ADD_SEARCH_LOG_ZIPCODE_ENTRY,
         variables: { searchLog: { userId, searchZipcode } },
     });
@@ -37,7 +36,7 @@ export const setSearchLogBusinessCityEntry = async ({
     userId,
     businessCity,
 }) => {
-    const result = await client.mutate({
+    await client.mutate({
         mutation: SearchLogQuery.ADD_SEARCH_LOG_BUSINESS_CITY_ENTRY,
         variables: { searchLog: { userId, businessCity } },
     });
@@ -47,7 +46,7 @@ export const setSearchLogBusinessZipcodeEntry = async ({
     userId,
     businessZipcode,
 }) => {
-    const result = await client.mutate({
+    await client.mutate({
         mutation: SearchLogQuery.ADD_SEARCH_LOG_BUSINESS_ZIPCODE_ENTRY,
         variables: { searchLog: { userId, businessZipcode } },
     });

@@ -60,7 +60,7 @@ const Trending = () => {
         ) {
             dispatch(topRatedServicesRequest());
         }
-    }, [analyticsState]);
+    }, [analyticsState, dispatch]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
