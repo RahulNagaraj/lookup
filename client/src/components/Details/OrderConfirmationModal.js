@@ -41,6 +41,10 @@ const OrderConfirmationModal = (props) => {
                         {`Your service is scheduled for ${formatedDate} 
                         from ${props.orderDetails.address}`}
                     </Typography>
+                    <Typography variant="body1">
+                        Your invoice will be generated once the job has been
+                        completed.
+                    </Typography>
                 </Box>
             </DialogContent>
         </BootstrapDialog>

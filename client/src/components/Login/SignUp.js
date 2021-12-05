@@ -44,6 +44,7 @@ export default function SignUp() {
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const [role, setRole] = React.useState("USER");
     const userState = useSelector((state) => state.user);
     const [fieldsState, setFieldsState] = React.useState({
         firstNameHelperText: "",
@@ -59,6 +60,7 @@ export default function SignUp() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        console.log(data);
         if (data.get("firstName") === "") {
             setFieldsState({
                 ...fieldsState,
@@ -192,8 +194,9 @@ export default function SignUp() {
                                     select
                                     label="Role"
                                     name="role"
+                                    onChange={(e) => setRole(e.target.value)}
+                                    value={role}
                                     fullWidth
-                                    value="USER"
                                 >
                                     {ROLES.map((option) => (
                                         <MenuItem
